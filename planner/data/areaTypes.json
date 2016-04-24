@@ -1,0 +1,49 @@
+{
+    "tiles": [{
+        "name": "none",
+        "index": 0
+    }, {
+        "name": "grass",
+        "index": 1
+    }, {
+        "name": "forest",
+        "index": 2
+    }, {
+        "name": "water",
+        "index": 3
+    }, {
+        "name": "sand",
+        "index": 4
+    }, {
+        "name": "mountain",
+        "index": 5
+    }],
+    "positions": [{
+        "id": "CX",
+        "typesRequired": 1
+    }, {
+        "id": "NX",
+        "typesRequired": 2
+    }, {
+        "id": "EX",
+        "typesRequired": 2
+    }, {
+        "id": "SX",
+        "typesRequired": 2
+    }, {
+        "id": "WX",
+        "typesRequired": 2
+    }, {
+        "id": "NWX",
+        "typesRequired": 3
+    }, {
+        "id": "NEX",
+        "typesRequired": 3
+    }, {
+        "id": "SEX",
+        "typesRequired": 3
+    }, {
+        "id": "SWX",
+        "typesRequired": 3
+    }]
+}
