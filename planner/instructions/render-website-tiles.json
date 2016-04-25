@@ -10,4 +10,16 @@
             "$ref": "/data/areaTypes.json"
         }
     }
+},{
+    "asset": "website/positions.html",
+    "template": "/website/positions.html",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {
+        "title": "Ascension Positions",
+        "areaTypes": {
+            "$ref": "/data/areaTypes.json"
+        }
+    }
 }]

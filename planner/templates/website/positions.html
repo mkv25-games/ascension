@@ -1,0 +1,41 @@
+<html>
+
+<head>
+    <title>{{title}}</title>
+    <style>
+        html, body {
+            background: #EEE;
+            color: #333;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        .spot {
+            font-family: monospace;
+        }
+
+        .spot:after {
+            content: ',';
+        }
+
+        .spot:last-of-type:after {
+            content:''
+        }
+    </style>
+</head>
+
+<body>
+    <h1>{{title}}</h1>
+    <div class="positions">
+    {{#each areaTypes.positions}}
+        <h3>{{name}}</h3>
+        <p>ID: <b>{{id}}</b></p>
+        <p>Types Required: <b>{{typesRequired}}</b></p>
+
+        <h4>Spots</h4>
+        <p>{{#each spots}}<b class="spot">{{this}}</b> {{/each}}</p>
+    {{/each}}
+    </div>
+</body>
+
+</html>
