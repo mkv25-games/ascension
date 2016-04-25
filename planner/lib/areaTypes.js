@@ -16,7 +16,9 @@ function enhance(position, tiles) {
         spots = combine(spots, tiles);
     }
 
-    return spots;
+    position.spots = spots;
+
+    return position;
 }
 
 function combine(spots, tiles) {
