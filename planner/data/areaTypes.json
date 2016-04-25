@@ -1,22 +1,19 @@
 {
     "tiles": [{
-        "name": "none",
-        "index": 0
-    }, {
         "name": "grass",
-        "index": 1
+        "id": 1
     }, {
         "name": "forest",
-        "index": 2
+        "id": 2
     }, {
         "name": "water",
-        "index": 3
+        "id": 3
     }, {
         "name": "sand",
-        "index": 4
+        "id": 4
     }, {
         "name": "mountain",
-        "index": 5
+        "id": 5
     }],
     "positions": [{
         "id": "CX",
