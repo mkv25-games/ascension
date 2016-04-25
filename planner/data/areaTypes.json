@@ -43,6 +43,7 @@
   ],
   "positions": [
     {
+      "name": "Central",
       "id": "CX",
       "typesRequired": 1,
       "spots": [
@@ -54,6 +55,7 @@
       ]
     },
     {
+      "name": "North",
       "id": "NX",
       "typesRequired": 2,
       "spots": [
@@ -85,6 +87,7 @@
       ]
     },
     {
+      "name": "East",
       "id": "EX",
       "typesRequired": 2,
       "spots": [
@@ -116,6 +119,7 @@
       ]
     },
     {
+      "name": "South",
       "id": "SX",
       "typesRequired": 2,
       "spots": [
@@ -147,6 +151,7 @@
       ]
     },
     {
+      "name": "West",
       "id": "WX",
       "typesRequired": 2,
       "spots": [
@@ -178,6 +183,7 @@
       ]
     },
     {
+      "name": "North West",
       "id": "NWX",
       "typesRequired": 3,
       "spots": [
@@ -309,6 +315,7 @@
       ]
     },
     {
+      "name": "North East",
       "id": "NEX",
       "typesRequired": 3,
       "spots": [
@@ -440,6 +447,7 @@
       ]
     },
     {
+      "name": "South East",
       "id": "SEX",
       "typesRequired": 3,
       "spots": [
@@ -571,6 +579,7 @@
       ]
     },
     {
+      "name": "South West",
       "id": "SWX",
       "typesRequired": 3,
       "spots": [
