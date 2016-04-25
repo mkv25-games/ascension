@@ -21,7 +21,15 @@
         .spot:last-of-type:after {
             content:'';
         }
+
+        .part {
+            background: white;
+            display: inline-block;
+            padding: 1px 5px;
+            text-align: center;
+        }
     </style>
+    <link href="tiles.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -34,7 +42,7 @@
 
         <h4>Spots</h4>
         <p>{{#each spots}}
-            <b class="spot">{{#each this}}<span class="part">{{this}}</span>{{/each}}</b>
+            <b class="spot">{{#each this}}<span class="part tile-{{this}} primary">{{this}}</span>{{/each}}</b>
         {{/each}}</p>
     {{/each}}
     </div>

@@ -1,0 +1,8 @@
+{{#each areaTypes.tiles}}
+    .tile-{{name}}.primary, .tile-{{id}}.primary {
+        background: {{palette.primary}}
+    }
+    .tile-{{name}}.primary, .tile-{{id}}.primary {
+        background: {{palette.secondary}}
+    }
+{{/each}}
