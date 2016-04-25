@@ -19,7 +19,7 @@
         }
 
         .spot:last-of-type:after {
-            content:''
+            content:'';
         }
     </style>
 </head>
@@ -33,7 +33,9 @@
         <p>Types Required: <b>{{typesRequired}}</b></p>
 
         <h4>Spots</h4>
-        <p>{{#each spots}}<b class="spot">{{this}}</b> {{/each}}</p>
+        <p>{{#each spots}}
+            <b class="spot">{{#each this}}<span class="part">{{this}}</span>{{/each}}</b>
+        {{/each}}</p>
     {{/each}}
     </div>
 </body>

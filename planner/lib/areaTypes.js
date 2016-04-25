@@ -2,7 +2,7 @@ function add(areaTypes) {
     var tiles = areaTypes.tiles.map((tile) => {
         return tile.id;
     });
-    
+
     var positions = areaTypes.positions;
 
     positions.map((position) => {
@@ -13,9 +13,11 @@ function add(areaTypes) {
 }
 
 function enhance(position, tiles) {
-    var spots = [position.id];
+    var spots = [
+        [position.id]
+    ];
 
-    for(var i=0; i<position.typesRequired; i++) {
+    for (var i = 0; i < position.typesRequired; i++) {
         spots = combine(spots, tiles);
     }
 
@@ -26,9 +28,9 @@ function enhance(position, tiles) {
 
 function combine(spots, tiles) {
     var result = [];
-    spots.forEach((id) => {
+    spots.forEach((spot) => {
         tiles.forEach((tile) => {
-            result.push(id + tile);
+            result.push(spot.concat(tile));
         });
     });
 
