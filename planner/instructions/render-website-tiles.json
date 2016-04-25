@@ -1,0 +1,13 @@
+[{
+    "asset": "website/tiles.html",
+    "template": "/website/tiles.html",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {
+        "title": "Ascension Tiles",
+        "areaTypes": {
+            "$ref": "/data/areaTypes.json"
+        }
+    }
+}]
