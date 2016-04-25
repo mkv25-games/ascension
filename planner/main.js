@@ -3,7 +3,7 @@ var areaTypes = require('./lib/areaTypes');
 
 read('data/areaTypes.json', 'utf8')
     .then(JSON.parse)
-    .then(areaTypes.list)
+    .then(areaTypes.add)
     .then((results) => {
         return JSON.stringify(results, null, 2);
     })

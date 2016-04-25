@@ -1,12 +1,15 @@
-function list(areaTypes) {
+function add(areaTypes) {
     var tiles = areaTypes.tiles.map((tile) => {
         return tile.id;
     });
+    
     var positions = areaTypes.positions;
 
-    return positions.map((position) => {
+    positions.map((position) => {
         return enhance(position, tiles);
     });
+
+    return areaTypes;
 }
 
 function enhance(position, tiles) {
@@ -33,5 +36,5 @@ function combine(spots, tiles) {
 }
 
 module.exports = {
-    list
+    add
 };
