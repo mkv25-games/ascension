@@ -1,4 +1,16 @@
 [{
+    "asset": "website/area.html",
+    "template": "/website/area.html",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {
+        "title": "Area Viewer",
+        "areaTypes": {
+            "$ref": "/data/areaTypes.json"
+        }
+    }
+}, {
     "asset": "website/tiles.html",
     "template": "/website/tiles.html",
     "renderer": {

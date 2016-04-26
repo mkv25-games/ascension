@@ -1,8 +1,34 @@
 {{#each areaTypes.tiles}}
-    .tile-{{name}}.primary, .tile-{{id}}.primary {
-        background: {{palette.primary}}
-    }
-    .tile-{{name}}.primary, .tile-{{id}}.primary {
-        background: {{palette.secondary}}
-    }
+.tile-{{name}}.primary, .tile-{{id}}.primary {
+    background: {{palette.primary}}
+}
+.tile-{{name}}.primary, .tile-{{id}}.primary {
+    background: {{palette.secondary}}
+}
 {{/each}}
+
+.tile.box.outer {
+    display: block;
+    width: 80px;
+    height: 80px;
+    padding: 20px;
+}
+
+.tile.box.inner {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.tile.grid {
+    background: #ccc;
+    border-spacing: 2px;
+}
+
+.tile.grid td {
+    background: #eee;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    vertical-align: middle;
+}
