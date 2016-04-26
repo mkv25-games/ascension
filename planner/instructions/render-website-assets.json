@@ -8,7 +8,12 @@
         "title": "Area Viewer",
         "areaTypes": {
             "$ref": "/data/areaTypes.json"
-        }
+        },
+        "N": 1,
+        "W": 2,
+        "C": 3,
+        "E": 4,
+        "S": 5
     }
 }, {
     "asset": "website/tiles.html",
