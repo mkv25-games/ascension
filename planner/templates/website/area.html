@@ -11,6 +11,7 @@
         }
     </style>
     <link href="tiles.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -41,123 +42,39 @@
                 <td>
                     <table class="tile grid">
                         <tbody>
+                            {{#each areaViewer.layouts.NW.tiles}}
                             <tr>
-                                <td class="tile-{{N}} primary">1</td>
-                                <td class="tile-{{N}} primary">2</td>
-                                <td class="tile-{{N}} primary">3</td>
-                                <td class="tile-{{N}} primary">4</td>
-                                <td class="tile-{{N}} primary">5</td>
+                                {{#each this}}
+                                    <td class="tile-{{this}} primary">NW</td>
+                                {{/each}}
                             </tr>
-                            <tr>
-                                <td class="tile-{{W}} primary">6</td>
-                                <td class="tile-{{C}} primary">7</td>
-                                <td class="tile-{{C}} primary">8</td>
-                                <td class="tile-{{C}} primary">9</td>
-                                <td class="tile-{{C}} primary">10</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{W}} primary">11</td>
-                                <td class="tile-{{C}} primary">12</td>
-                                <td class="tile-{{C}} primary">13</td>
-                                <td class="tile-{{C}} primary">14</td>
-                                <td class="tile-{{C}} primary">15</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{W}} primary">16</td>
-                                <td class="tile-{{C}} primary">17</td>
-                                <td class="tile-{{C}} primary">18</td>
-                                <td class="tile-{{C}} primary">19</td>
-                                <td class="tile-{{C}} primary">20</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{W}} primary">21</td>
-                                <td class="tile-{{C}} primary">22</td>
-                                <td class="tile-{{C}} primary">23</td>
-                                <td class="tile-{{C}} primary">24</td>
-                                <td class="tile-{{C}} primary">25</td>
-                            </tr>
+                            {{/each}}
                         </tbody>
                     </table>
                 </td>
                 <td>
                     <table class="tile grid">
                         <tbody>
+                            {{#each areaViewer.layouts.NX.tiles}}
                             <tr>
-                                <td class="tile-{{N}} primary">1</td>
-                                <td class="tile-{{N}} primary">2</td>
-                                <td class="tile-{{N}} primary">3</td>
-                                <td class="tile-{{N}} primary">4</td>
-                                <td class="tile-{{N}} primary">5</td>
+                                {{#each this}}
+                                    <td class="tile-{{this}} primary">NX</td>
+                                {{/each}}
                             </tr>
-                            <tr>
-                                <td class="tile-{{N}} primary">6</td>
-                                <td class="tile-{{N}} primary">7</td>
-                                <td class="tile-{{N}} primary">8</td>
-                                <td class="tile-{{N}} primary">9</td>
-                                <td class="tile-{{N}} primary">10</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{N}} primary">11</td>
-                                <td class="tile-{{N}} primary">12</td>
-                                <td class="tile-{{N}} primary">13</td>
-                                <td class="tile-{{N}} primary">14</td>
-                                <td class="tile-{{N}} primary">15</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{N}} primary">16</td>
-                                <td class="tile-{{N}} primary">17</td>
-                                <td class="tile-{{N}} primary">18</td>
-                                <td class="tile-{{N}} primary">19</td>
-                                <td class="tile-{{N}} primary">20</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{N}} primary">21</td>
-                                <td class="tile-{{N}} primary">22</td>
-                                <td class="tile-{{N}} primary">23</td>
-                                <td class="tile-{{N}} primary">24</td>
-                                <td class="tile-{{N}} primary">25</td>
-                            </tr>
+                            {{/each}}
                         </tbody>
                     </table>
                 </td>
                 <td>
                     <table class="tile grid">
                         <tbody>
+                            {{#each areaViewer.layouts.NE.tiles}}
                             <tr>
-                                <td class="tile-{{N}} primary">1</td>
-                                <td class="tile-{{N}} primary">2</td>
-                                <td class="tile-{{N}} primary">3</td>
-                                <td class="tile-{{N}} primary">4</td>
-                                <td class="tile-{{N}} primary">5</td>
+                                {{#each this}}
+                                    <td class="tile-{{this}} primary">NE</td>
+                                {{/each}}
                             </tr>
-                            <tr>
-                                <td class="tile-{{C}} primary">6</td>
-                                <td class="tile-{{C}} primary">7</td>
-                                <td class="tile-{{C}} primary">8</td>
-                                <td class="tile-{{C}} primary">9</td>
-                                <td class="tile-{{E}} primary">10</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{C}} primary">11</td>
-                                <td class="tile-{{C}} primary">12</td>
-                                <td class="tile-{{C}} primary">13</td>
-                                <td class="tile-{{C}} primary">14</td>
-                                <td class="tile-{{E}} primary">15</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{C}} primary">16</td>
-                                <td class="tile-{{C}} primary">17</td>
-                                <td class="tile-{{C}} primary">18</td>
-                                <td class="tile-{{C}} primary">19</td>
-                                <td class="tile-{{E}} primary">20</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{C}} primary">21</td>
-                                <td class="tile-{{C}} primary">22</td>
-                                <td class="tile-{{C}} primary">23</td>
-                                <td class="tile-{{C}} primary">24</td>
-                                <td class="tile-{{E}} primary">25</td>
-                            </tr>
+                            {{/each}}
                         </tbody>
                     </table>
                 </td>
@@ -166,123 +83,39 @@
                 <td>
                     <table class="tile grid">
                         <tbody>
+                            {{#each areaViewer.layouts.WX.tiles}}
                             <tr>
-                                <td class="tile-{{W}} primary">1</td>
-                                <td class="tile-{{W}} primary">2</td>
-                                <td class="tile-{{W}} primary">3</td>
-                                <td class="tile-{{W}} primary">4</td>
-                                <td class="tile-{{W}} primary">5</td>
+                                {{#each this}}
+                                    <td class="tile-{{this}} primary">WX</td>
+                                {{/each}}
                             </tr>
-                            <tr>
-                                <td class="tile-{{W}} primary">6</td>
-                                <td class="tile-{{W}} primary">7</td>
-                                <td class="tile-{{W}} primary">8</td>
-                                <td class="tile-{{W}} primary">9</td>
-                                <td class="tile-{{W}} primary">10</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{W}} primary">11</td>
-                                <td class="tile-{{W}} primary">12</td>
-                                <td class="tile-{{W}} primary">13</td>
-                                <td class="tile-{{W}} primary">14</td>
-                                <td class="tile-{{W}} primary">15</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{W}} primary">16</td>
-                                <td class="tile-{{W}} primary">17</td>
-                                <td class="tile-{{W}} primary">18</td>
-                                <td class="tile-{{W}} primary">19</td>
-                                <td class="tile-{{W}} primary">20</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{W}} primary">21</td>
-                                <td class="tile-{{W}} primary">22</td>
-                                <td class="tile-{{W}} primary">23</td>
-                                <td class="tile-{{W}} primary">24</td>
-                                <td class="tile-{{W}} primary">25</td>
-                            </tr>
+                            {{/each}}
                         </tbody>
                     </table>
                 </td>
                 <td>
                     <table class="tile grid">
                         <tbody>
+                            {{#each areaViewer.layouts.CX.tiles}}
                             <tr>
-                                <td class="tile-{{C}} primary">1</td>
-                                <td class="tile-{{C}} primary">2</td>
-                                <td class="tile-{{C}} primary">3</td>
-                                <td class="tile-{{C}} primary">4</td>
-                                <td class="tile-{{C}} primary">5</td>
+                                {{#each this}}
+                                    <td class="tile-{{this}} primary">CX</td>
+                                {{/each}}
                             </tr>
-                            <tr>
-                                <td class="tile-{{C}} primary">6</td>
-                                <td class="tile-{{C}} primary">7</td>
-                                <td class="tile-{{C}} primary">8</td>
-                                <td class="tile-{{C}} primary">9</td>
-                                <td class="tile-{{C}} primary">10</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{C}} primary">11</td>
-                                <td class="tile-{{C}} primary">12</td>
-                                <td class="tile-{{C}} primary">13</td>
-                                <td class="tile-{{C}} primary">14</td>
-                                <td class="tile-{{C}} primary">15</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{C}} primary">16</td>
-                                <td class="tile-{{C}} primary">17</td>
-                                <td class="tile-{{C}} primary">18</td>
-                                <td class="tile-{{C}} primary">19</td>
-                                <td class="tile-{{C}} primary">20</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{C}} primary">21</td>
-                                <td class="tile-{{C}} primary">22</td>
-                                <td class="tile-{{C}} primary">23</td>
-                                <td class="tile-{{C}} primary">24</td>
-                                <td class="tile-{{C}} primary">25</td>
-                            </tr>
+                            {{/each}}
                         </tbody>
                     </table>
                 </td>
                 <td>
                     <table class="tile grid">
                         <tbody>
+                            {{#each areaViewer.layouts.EX.tiles}}
                             <tr>
-                                <td class="tile-{{E}} primary">1</td>
-                                <td class="tile-{{E}} primary">2</td>
-                                <td class="tile-{{E}} primary">3</td>
-                                <td class="tile-{{E}} primary">4</td>
-                                <td class="tile-{{E}} primary">5</td>
+                                {{#each this}}
+                                    <td class="tile-{{this}} primary">EX</td>
+                                {{/each}}
                             </tr>
-                            <tr>
-                                <td class="tile-{{E}} primary">6</td>
-                                <td class="tile-{{E}} primary">7</td>
-                                <td class="tile-{{E}} primary">8</td>
-                                <td class="tile-{{E}} primary">9</td>
-                                <td class="tile-{{E}} primary">10</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{E}} primary">11</td>
-                                <td class="tile-{{E}} primary">12</td>
-                                <td class="tile-{{E}} primary">13</td>
-                                <td class="tile-{{E}} primary">14</td>
-                                <td class="tile-{{E}} primary">15</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{E}} primary">16</td>
-                                <td class="tile-{{E}} primary">17</td>
-                                <td class="tile-{{E}} primary">18</td>
-                                <td class="tile-{{E}} primary">19</td>
-                                <td class="tile-{{E}} primary">20</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{E}} primary">21</td>
-                                <td class="tile-{{E}} primary">22</td>
-                                <td class="tile-{{E}} primary">23</td>
-                                <td class="tile-{{E}} primary">24</td>
-                                <td class="tile-{{E}} primary">25</td>
-                            </tr>
+                            {{/each}}
                         </tbody>
                     </table>
                 </td>
@@ -291,129 +124,63 @@
                 <td>
                     <table class="tile grid">
                         <tbody>
+                            {{#each areaViewer.layouts.SW.tiles}}
                             <tr>
-                                <td class="tile-{{W}} primary">1</td>
-                                <td class="tile-{{C}} primary">2</td>
-                                <td class="tile-{{C}} primary">3</td>
-                                <td class="tile-{{C}} primary">4</td>
-                                <td class="tile-{{C}} primary">5</td>
+                                {{#each this}}
+                                    <td class="tile-{{this}} primary">SW</td>
+                                {{/each}}
                             </tr>
-                            <tr>
-                                <td class="tile-{{W}} primary">6</td>
-                                <td class="tile-{{C}} primary">7</td>
-                                <td class="tile-{{C}} primary">8</td>
-                                <td class="tile-{{C}} primary">9</td>
-                                <td class="tile-{{C}} primary">10</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{W}} primary">11</td>
-                                <td class="tile-{{C}} primary">12</td>
-                                <td class="tile-{{C}} primary">13</td>
-                                <td class="tile-{{C}} primary">14</td>
-                                <td class="tile-{{C}} primary">15</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{W}} primary">16</td>
-                                <td class="tile-{{C}} primary">17</td>
-                                <td class="tile-{{C}} primary">18</td>
-                                <td class="tile-{{C}} primary">19</td>
-                                <td class="tile-{{C}} primary">20</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{S}} primary">21</td>
-                                <td class="tile-{{S}} primary">22</td>
-                                <td class="tile-{{S}} primary">23</td>
-                                <td class="tile-{{S}} primary">24</td>
-                                <td class="tile-{{S}} primary">25</td>
-                            </tr>
+                            {{/each}}
                         </tbody>
                     </table>
                 </td>
                 <td>
                     <table class="tile grid">
                         <tbody>
+                            {{#each areaViewer.layouts.SX.tiles}}
                             <tr>
-                                <td class="tile-{{S}} primary">1</td>
-                                <td class="tile-{{S}} primary">2</td>
-                                <td class="tile-{{S}} primary">3</td>
-                                <td class="tile-{{S}} primary">4</td>
-                                <td class="tile-{{S}} primary">5</td>
+                                {{#each this}}
+                                    <td class="tile-{{this}} primary">SX</td>
+                                {{/each}}
                             </tr>
-                            <tr>
-                                <td class="tile-{{S}} primary">6</td>
-                                <td class="tile-{{S}} primary">7</td>
-                                <td class="tile-{{S}} primary">8</td>
-                                <td class="tile-{{S}} primary">9</td>
-                                <td class="tile-{{S}} primary">10</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{S}} primary">11</td>
-                                <td class="tile-{{S}} primary">12</td>
-                                <td class="tile-{{S}} primary">13</td>
-                                <td class="tile-{{S}} primary">14</td>
-                                <td class="tile-{{S}} primary">15</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{S}} primary">16</td>
-                                <td class="tile-{{S}} primary">17</td>
-                                <td class="tile-{{S}} primary">18</td>
-                                <td class="tile-{{S}} primary">19</td>
-                                <td class="tile-{{S}} primary">20</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{S}} primary">21</td>
-                                <td class="tile-{{S}} primary">22</td>
-                                <td class="tile-{{S}} primary">23</td>
-                                <td class="tile-{{S}} primary">24</td>
-                                <td class="tile-{{S}} primary">25</td>
-                            </tr>
+                            {{/each}}
                         </tbody>
                     </table>
                 </td>
                 <td>
-                    <table class="tile grid">
-                        <tbody>
-                            <tr>
-                                <td class="tile-{{C}} primary">1</td>
-                                <td class="tile-{{C}} primary">2</td>
-                                <td class="tile-{{C}} primary">3</td>
-                                <td class="tile-{{C}} primary">4</td>
-                                <td class="tile-{{E}} primary">5</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{C}} primary">6</td>
-                                <td class="tile-{{C}} primary">7</td>
-                                <td class="tile-{{C}} primary">8</td>
-                                <td class="tile-{{C}} primary">9</td>
-                                <td class="tile-{{E}} primary">10</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{C}} primary">11</td>
-                                <td class="tile-{{C}} primary">12</td>
-                                <td class="tile-{{C}} primary">13</td>
-                                <td class="tile-{{C}} primary">14</td>
-                                <td class="tile-{{E}} primary">15</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{C}} primary">16</td>
-                                <td class="tile-{{C}} primary">17</td>
-                                <td class="tile-{{C}} primary">18</td>
-                                <td class="tile-{{C}} primary">19</td>
-                                <td class="tile-{{E}} primary">20</td>
-                            </tr>
-                            <tr>
-                                <td class="tile-{{S}} primary">21</td>
-                                <td class="tile-{{S}} primary">22</td>
-                                <td class="tile-{{S}} primary">23</td>
-                                <td class="tile-{{S}} primary">24</td>
-                                <td class="tile-{{S}} primary">25</td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                        <table class="tile grid">
+                            <tbody>
+                                {{#each areaViewer.layouts.SE.tiles}}
+                                <tr>
+                                    {{#each this}}
+                                        <td class="tile-{{this}} primary">SE</td>
+                                    {{/each}}
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
                 </td>
             </tr>
         </tbody>
     </table>
+
+    <script>
+    $(function() {
+        var tileMaps = {
+            N: {{N}},
+            S: {{S}},
+            E: {{E}},
+            W: {{W}},
+            C: {{C}}
+        };
+
+        for(var k in tileMaps) {
+            console.log(k, tileMaps);
+            $('.tile-' + k).addClass('tile-' + tileMaps[k]);
+        }
+    });
+    </script>
 </body>
 
 </html>

@@ -6,8 +6,8 @@
     },
     "data": {
         "title": "Area Viewer",
-        "areaTypes": {
-            "$ref": "/data/areaTypes.json"
+        "areaViewer": {
+            "$ref": "/data/areaLayout.json"
         },
         "N": 1,
         "W": 2,
