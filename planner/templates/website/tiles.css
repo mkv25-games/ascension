@@ -23,7 +23,7 @@
 .tile.grid {
     background: none;
     border-collapse: collapse;
-    margin: 16px;
+    margin: 0 -1px -1px -1px;
 }
 
 .tile.grid td {
@@ -32,7 +32,35 @@
     text-align: center;
     vertical-align: middle;
 }
+
+.tile.grid.preview {
+    display: inline-block;
+    margin: 32px;
+    vertical-align: top;
+}
+
 .tile.grid .bordered {
     outline: 2px solid #999;
     outline-offset: 15px;
+}
+
+.tile.grid.area {
+    margin: 32px;
+}
+
+.area.viewer {
+    display: inline-block;
+    border-collapse: collapse;
+    outline: 2px solid #999;
+    outline-offset: 15px;
+    margin: 32px;
+    vertical-align: top;
+}
+
+.area.viewer td {
+    padding: 0;
+}
+
+.area.viewer .tile.grid td {
+    border: 1px solid #999;
 }
