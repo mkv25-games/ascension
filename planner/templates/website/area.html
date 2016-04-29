@@ -20,17 +20,17 @@
         <tbody>
             <tr>
                 <td></td>
-                <td class="bordered tile-{{N}} primary">N</td>
+                <td class="bordered guide tile-N tile-{{N}} primary">N</td>
                 <td></td>
             </tr>
             <tr>
-                <td class="bordered tile-{{W}} primary">W</td>
-                <td class="bordered tile-{{C}} primary">X</td>
-                <td class="bordered tile-{{E}} primary">E</td>
+                <td class="bordered guide tile-W tile-{{W}} primary">W</td>
+                <td class="bordered guide tile-C tile-{{C}} primary">C</td>
+                <td class="bordered guide tile-E tile-{{E}} primary">E</td>
             </tr>
             <tr>
                 <td></td>
-                <td class="bordered tile-{{S}} primary">S</td>
+                <td class="bordered guide tile-S tile-{{S}} primary">S</td>
                 <td></td>
             </tr>
         </tbody>
@@ -166,20 +166,43 @@
     </table>
 
     <script>
-    $(function() {
-        var tileMaps = {
-            N: {{N}},
-            S: {{S}},
-            E: {{E}},
-            W: {{W}},
-            C: {{C}}
-        };
 
-        for(var k in tileMaps) {
-            console.log(k, tileMaps);
-            $('.tile-' + k).addClass('tile-' + tileMaps[k]);
-        }
+    var tileMap = {
+        N: {{N}},
+        S: {{S}},
+        E: {{E}},
+        W: {{W}},
+        C: {{C}}
+    };
+
+    function setup() {
+        ['N', 'S', 'E', 'W', 'C'].forEach(function(k) {
+            console.log('Setting up ' + k);
+            $('.guide.tile-' + k).on('click', function() {
+                tileMap[k] = (tileMap[k] % 5) + 1;
+                removeColours();
+                colourTiles();
+            });
+        });
+    }
+
+    function removeColours() {
+        [1,2,3,4,5].forEach(function(i) {
+            $('.tile-' + i).removeClass('tile-' + i);
+        })
+    }
+
+    function colourTiles() {
+        ['N', 'S', 'E', 'W', 'C'].forEach(function(k) {
+            $('.tile-' + k).addClass('tile-' + tileMap[k]);
+        });
+    }
+
+    $(function() {
+        setup();
+        colourTiles();
     });
+
     </script>
 </body>
 
