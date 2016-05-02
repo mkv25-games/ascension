@@ -19,9 +19,9 @@
     <table class="tile grid preview">
         <tbody>
             <tr>
-                <td></td>
+                <td class="bordered guide tile-NW tile-{{NW}} primary">NW</td>
                 <td class="bordered guide tile-N tile-{{N}} primary">N</td>
-                <td></td>
+                <td class="bordered guide tile-NE tile-{{NE}} primary">NE</td>
             </tr>
             <tr>
                 <td class="bordered guide tile-W tile-{{W}} primary">W</td>
@@ -29,9 +29,9 @@
                 <td class="bordered guide tile-E tile-{{E}} primary">E</td>
             </tr>
             <tr>
-                <td></td>
+                <td class="bordered guide tile-SW tile-{{SW}} primary">SW</td>
                 <td class="bordered guide tile-S tile-{{S}} primary">S</td>
-                <td></td>
+                <td class="bordered guide tile-SE tile-{{SE}} primary">SE</td>
             </tr>
         </tbody>
     </table>
@@ -45,7 +45,7 @@
                             {{#each areaViewer.layouts.NW.tiles}}
                             <tr>
                                 {{#each this}}
-                                    <td class="tile-{{this}} primary">NW</td>
+                                    <td class="display tile-{{this}} primary">{{this}}</td>
                                 {{/each}}
                             </tr>
                             {{/each}}
@@ -55,10 +55,10 @@
                 <td>
                     <table class="tile grid">
                         <tbody>
-                            {{#each areaViewer.layouts.NX.tiles}}
+                            {{#each areaViewer.layouts.NC.tiles}}
                             <tr>
                                 {{#each this}}
-                                    <td class="tile-{{this}} primary">NX</td>
+                                    <td class="display tile-{{this}} primary">{{this}}</td>
                                 {{/each}}
                             </tr>
                             {{/each}}
@@ -71,7 +71,7 @@
                             {{#each areaViewer.layouts.NE.tiles}}
                             <tr>
                                 {{#each this}}
-                                    <td class="tile-{{this}} primary">NE</td>
+                                    <td class="display tile-{{this}} primary">{{this}}</td>
                                 {{/each}}
                             </tr>
                             {{/each}}
@@ -83,10 +83,10 @@
                 <td>
                     <table class="tile grid">
                         <tbody>
-                            {{#each areaViewer.layouts.WX.tiles}}
+                            {{#each areaViewer.layouts.WC.tiles}}
                             <tr>
                                 {{#each this}}
-                                    <td class="tile-{{this}} primary">WX</td>
+                                    <td class="display tile-{{this}} primary">{{this}}</td>
                                 {{/each}}
                             </tr>
                             {{/each}}
@@ -96,10 +96,10 @@
                 <td>
                     <table class="tile grid">
                         <tbody>
-                            {{#each areaViewer.layouts.CX.tiles}}
+                            {{#each areaViewer.layouts.CC.tiles}}
                             <tr>
                                 {{#each this}}
-                                    <td class="tile-{{this}} primary">CX</td>
+                                    <td class="display tile-{{this}} primary">{{this}}</td>
                                 {{/each}}
                             </tr>
                             {{/each}}
@@ -109,10 +109,10 @@
                 <td>
                     <table class="tile grid">
                         <tbody>
-                            {{#each areaViewer.layouts.EX.tiles}}
+                            {{#each areaViewer.layouts.EC.tiles}}
                             <tr>
                                 {{#each this}}
-                                    <td class="tile-{{this}} primary">EX</td>
+                                    <td class="display tile-{{this}} primary">{{this}}</td>
                                 {{/each}}
                             </tr>
                             {{/each}}
@@ -127,7 +127,7 @@
                             {{#each areaViewer.layouts.SW.tiles}}
                             <tr>
                                 {{#each this}}
-                                    <td class="tile-{{this}} primary">SW</td>
+                                    <td class="display tile-{{this}} primary">{{this}}</td>
                                 {{/each}}
                             </tr>
                             {{/each}}
@@ -137,10 +137,10 @@
                 <td>
                     <table class="tile grid">
                         <tbody>
-                            {{#each areaViewer.layouts.SX.tiles}}
+                            {{#each areaViewer.layouts.SC.tiles}}
                             <tr>
                                 {{#each this}}
-                                    <td class="tile-{{this}} primary">SX</td>
+                                    <td class="display tile-{{this}} primary">{{this}}</td>
                                 {{/each}}
                             </tr>
                             {{/each}}
@@ -148,18 +148,17 @@
                     </table>
                 </td>
                 <td>
-
-                        <table class="tile grid">
-                            <tbody>
-                                {{#each areaViewer.layouts.SE.tiles}}
-                                <tr>
-                                    {{#each this}}
-                                        <td class="tile-{{this}} primary">SE</td>
-                                    {{/each}}
-                                </tr>
+                    <table class="tile grid">
+                        <tbody>
+                            {{#each areaViewer.layouts.SE.tiles}}
+                            <tr>
+                                {{#each this}}
+                                    <td class="display tile-{{this}} primary">{{this}}</td>
                                 {{/each}}
-                            </tbody>
-                        </table>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
                 </td>
             </tr>
         </tbody>
@@ -172,28 +171,58 @@
         S: {{S}},
         E: {{E}},
         W: {{W}},
-        C: {{C}}
+        C: {{C}},
+        NW: {{NW}},
+        NE: {{NE}},
+        SW: {{SW}},
+        SE: {{SE}}
     };
 
+    var tileTypes = [1,2,3,4,5];
+    var tileCompass = ['N', 'S', 'E', 'W', 'C', 'NW', 'NE', 'SW', 'SE'];
+
+    var paintValue = tileCompass[0];
+
     function setup() {
-        ['N', 'S', 'E', 'W', 'C'].forEach(function(k) {
-            console.log('Setting up ' + k);
+        tileCompass.forEach(function(k) {
+            console.log('Setting up guide tile ' + k);
             $('.guide.tile-' + k).on('click', function() {
-                tileMap[k] = (tileMap[k] % 5) + 1;
+                tileMap[k] = (tileMap[k] % tileTypes.length) + 1;
                 removeColours();
                 colourTiles();
+                paintValue = k;
+            });
+        });
+
+        tileCompass.forEach(function(k) {
+            console.log('Setting up display tile ' + k);
+            $('.display.tile-' + k).on('click', function() {
+                var $tile = $(this);
+
+                var compassPosition = $tile.text();
+                $tile.removeClass('tile-' + tileMap[compassPosition]);
+                $tile.removeClass('tile-' + compassPosition);
+
+                var newIndex = (tileCompass.indexOf(compassPosition) + 1) % tileCompass.length;
+                var newPosition = paintValue; // tileCompass[newIndex];
+
+                console.log('Change', compassPosition, 'at', newIndex, 'to', newPosition);
+
+                $tile.addClass('tile-' + tileMap[newPosition]);
+                $tile.addClass('tile-' + newPosition);
+                $tile.text(newPosition);
             });
         });
     }
 
     function removeColours() {
-        [1,2,3,4,5].forEach(function(i) {
+        tileTypes.forEach(function(i) {
             $('.tile-' + i).removeClass('tile-' + i);
         })
     }
 
     function colourTiles() {
-        ['N', 'S', 'E', 'W', 'C'].forEach(function(k) {
+        tileCompass.forEach(function(k) {
             $('.tile-' + k).addClass('tile-' + tileMap[k]);
         });
     }
