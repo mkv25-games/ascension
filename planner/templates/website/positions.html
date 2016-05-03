@@ -10,42 +10,78 @@
             padding: 20px;
         }
 
-        .spot {
-            font-family: monospace;
+        terrain {
+            display: inline-block;
+            margin: 2px 0;
         }
 
-        .spot:after {
-            content: ',';
-        }
-
-        .spot:last-of-type:after {
-            content:'';
-        }
-
-        .part {
+        cell {
             background: white;
             display: inline-block;
             padding: 1px 5px;
             text-align: center;
+            font-family: monospace;
         }
+
+        .compass-N {
+            display: block;
+            margin: 0 33.3%;
+        }
+
+        .compass-W {
+            display: inline-block;
+        }
+
+        .compass-C {
+            display: inline-block;
+        }
+
+        .compass-E {
+            display: inline-block;
+        }
+
+        .compass-S {
+            display: block;
+            margin: 0 33.3%;
+        }
+
     </style>
     <link href="tiles.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
 </head>
 
 <body>
     <h1>{{title}}</h1>
-    <div class="positions">
+    <div class="terrains">
     {{#each areaTypes.positions}}
         <h3>{{name}}</h3>
-        <p>ID: <b>{{id}}</b></p>
-        <p>Types Required: <b>{{typesRequired}}</b></p>
 
-        <h4>Spots</h4>
-        <p>{{#each spots}}
-            <b class="spot">{{#each this}}<span class="part tile-{{this}} primary">{{this}}</span>{{/each}}</b>
+        <h4>Combinations</h4>
+        <p>Number of combinations: <b>{{count}}</b></p>
+        <p>{{#each combinations}}
+            <terrain><cell>{{this}}</cell></terrain>
         {{/each}}</p>
     {{/each}}
     </div>
+
+    <script>
+
+    function setup() {
+        var compass = 'NWCES'.split('');
+        $('terrain').each(function() {
+            $terrain = $(this);
+            var cells = $terrain.text().split('');
+            var cellElements = '';
+            cells.forEach(function(cell, index, array) {
+                cellElements += '<cell class="tile-' + cell + ' primary compass-' + compass[index] + '">' + cell + '</cell>';
+            });
+            $terrain.html(cellElements);
+        });
+    }
+
+    $(setup);
+
+    </script>
 </body>
 
 </html>

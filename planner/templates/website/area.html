@@ -19,9 +19,9 @@
     <table class="tile grid preview">
         <tbody>
             <tr>
-                <td class="bordered guide tile-NW tile-{{NW}} primary">NW</td>
+                <td></td>
                 <td class="bordered guide tile-N tile-{{N}} primary">N</td>
-                <td class="bordered guide tile-NE tile-{{NE}} primary">NE</td>
+                <td></td>
             </tr>
             <tr>
                 <td class="bordered guide tile-W tile-{{W}} primary">W</td>
@@ -29,9 +29,9 @@
                 <td class="bordered guide tile-E tile-{{E}} primary">E</td>
             </tr>
             <tr>
-                <td class="bordered guide tile-SW tile-{{SW}} primary">SW</td>
+                <td></td>
                 <td class="bordered guide tile-S tile-{{S}} primary">S</td>
-                <td class="bordered guide tile-SE tile-{{SE}} primary">SE</td>
+                <td></td>
             </tr>
         </tbody>
     </table>
@@ -39,127 +39,7 @@
     <table class="tile area viewer">
         <tbody>
             <tr>
-                <td>
-                    <table class="tile grid">
-                        <tbody>
-                            {{#each areaViewer.layouts.NW.tiles}}
-                            <tr>
-                                {{#each this}}
-                                    <td class="display tile-{{this}} primary">{{this}}</td>
-                                {{/each}}
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </td>
-                <td>
-                    <table class="tile grid">
-                        <tbody>
-                            {{#each areaViewer.layouts.NC.tiles}}
-                            <tr>
-                                {{#each this}}
-                                    <td class="display tile-{{this}} primary">{{this}}</td>
-                                {{/each}}
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </td>
-                <td>
-                    <table class="tile grid">
-                        <tbody>
-                            {{#each areaViewer.layouts.NE.tiles}}
-                            <tr>
-                                {{#each this}}
-                                    <td class="display tile-{{this}} primary">{{this}}</td>
-                                {{/each}}
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <table class="tile grid">
-                        <tbody>
-                            {{#each areaViewer.layouts.WC.tiles}}
-                            <tr>
-                                {{#each this}}
-                                    <td class="display tile-{{this}} primary">{{this}}</td>
-                                {{/each}}
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </td>
-                <td>
-                    <table class="tile grid">
-                        <tbody>
-                            {{#each areaViewer.layouts.CC.tiles}}
-                            <tr>
-                                {{#each this}}
-                                    <td class="display tile-{{this}} primary">{{this}}</td>
-                                {{/each}}
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </td>
-                <td>
-                    <table class="tile grid">
-                        <tbody>
-                            {{#each areaViewer.layouts.EC.tiles}}
-                            <tr>
-                                {{#each this}}
-                                    <td class="display tile-{{this}} primary">{{this}}</td>
-                                {{/each}}
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <table class="tile grid">
-                        <tbody>
-                            {{#each areaViewer.layouts.SW.tiles}}
-                            <tr>
-                                {{#each this}}
-                                    <td class="display tile-{{this}} primary">{{this}}</td>
-                                {{/each}}
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </td>
-                <td>
-                    <table class="tile grid">
-                        <tbody>
-                            {{#each areaViewer.layouts.SC.tiles}}
-                            <tr>
-                                {{#each this}}
-                                    <td class="display tile-{{this}} primary">{{this}}</td>
-                                {{/each}}
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </td>
-                <td>
-                    <table class="tile grid">
-                        <tbody>
-                            {{#each areaViewer.layouts.SE.tiles}}
-                            <tr>
-                                {{#each this}}
-                                    <td class="display tile-{{this}} primary">{{this}}</td>
-                                {{/each}}
-                            </tr>
-                            {{/each}}
-                        </tbody>
-                    </table>
-                </td>
+                <td class="area contents"></td>
             </tr>
         </tbody>
     </table>
@@ -171,19 +51,32 @@
         S: {{S}},
         E: {{E}},
         W: {{W}},
-        C: {{C}},
-        NW: {{NW}},
-        NE: {{NE}},
-        SW: {{SW}},
-        SE: {{SE}}
+        C: {{C}}
+    };
+
+    var dimensions = {
+        width: {{areaViewer.dimensions.width}},
+        height: {{areaViewer.dimensions.height}}
     };
 
     var tileTypes = [1,2,3,4,5];
-    var tileCompass = ['N', 'S', 'E', 'W', 'C', 'NW', 'NE', 'SW', 'SE'];
+    var tileCompass = ['N', 'S', 'E', 'W', 'C'];
 
     var paintValue = tileCompass[0];
 
     function setup() {
+
+        $table = $('td.area.contents');
+        var cellTemplate = '<cell class="display tile-C primary">C</cell>';
+        for(var j=0; j<dimensions.height; j++) {
+            $row = $('<row></row>');
+            for(var i=0; i<dimensions.width; i++) {
+                $cell = $(cellTemplate);
+                $row.append($cell);
+            }
+            $table.append($row);
+        }
+
         tileCompass.forEach(function(k) {
             console.log('Setting up guide tile ' + k);
             $('.guide.tile-' + k).on('click', function() {

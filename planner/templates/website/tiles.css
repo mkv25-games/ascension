@@ -1,8 +1,8 @@
 {{#each areaTypes.tiles}}
-.tile-{{name}}.primary, .tile-{{id}}.primary {
+.tile-{{name}}.primary, .tile-{{id}}.primary, .tile-{{symbol}}.primary {
     background: {{palette.primary}}
 }
-.tile-{{name}}.primary, .tile-{{id}}.primary {
+.tile-{{name}}.secondary, .tile-{{id}}.secondary, .tile-{{symbol}}.secondary {
     background: {{palette.secondary}}
 }
 {{/each}}
@@ -63,4 +63,19 @@
 
 .area.viewer .tile.grid td {
     border: 1px solid #999;
+}
+
+row {
+    display: table;
+    white-space: nowrap;
+}
+
+cell {
+    background: white;
+    display: table-cell;
+    vertical-align: middle;
+    width: 48px;
+    height: 48px;
+    text-align: center;
+    font-family: monospace;
 }

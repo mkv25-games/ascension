@@ -1,6 +1,6 @@
 function add(areaTypes) {
     var tiles = areaTypes.tiles.map((tile) => {
-        return tile.id;
+        return tile.symbol;
     });
 
     var positions = areaTypes.positions;
@@ -14,14 +14,18 @@ function add(areaTypes) {
 
 function enhance(position, tiles) {
     var spots = [
-        [position.id]
+        []
     ];
 
-    for (var i = 0; i < position.typesRequired; i++) {
+    for (var i = 0; i < position.comnbinationLength; i++) {
         spots = combine(spots, tiles);
     }
 
-    position.spots = spots;
+    position.spots = spots.map((spot) => {
+        return spot.join('');
+    });
+
+    position.count = position.spots.length;
 
     return position;
 }

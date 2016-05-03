@@ -1,90 +1,23 @@
 {
-    "layout": [
-        ["NW", "NC", "NE"],
-        ["WC", "CC", "EC"],
-        ["SW", "SC", "SE"]
-    ],
+    "dimensions": {
+        "width": 24,
+        "height": 24
+    },
     "layouts": {
-        "NW": {
-            "tiles": [
-                ["NW", "NW", "NW", "NW", "NW"],
-                ["NW", "NW", "NW", "NW", "NW"],
-                ["NW", "NW", "NW", "NW", "NW"],
-                ["NW", "NW", "NW", "NW", "NW"],
-                ["NW", "NW", "NW", "NW", "NW"]
-            ]
+        "FFGFF": {
+            "tiles": []
         },
-        "NC": {
-            "tiles": [
-                ["N", "N", "N", "N", "N"],
-                ["N", "N", "N", "N", "N"],
-                ["N", "N", "N", "N", "N"],
-                ["N", "N", "N", "N", "N"],
-                ["N", "N", "N", "N", "N"]
-            ]
+        "FRRGR": {
+            "tiles": []
         },
-        "NE": {
-            "tiles": [
-                ["NE", "NE", "NE", "NE", "NE"],
-                ["NE", "NE", "NE", "NE", "NE"],
-                ["NE", "NE", "NE", "NE", "NE"],
-                ["NE", "NE", "NE", "NE", "NE"],
-                ["NE", "NE", "NE", "NE", "NE"]
-            ]
+        "RRGRR": {
+            "tiles": []
         },
-        "WC": {
-            "tiles": [
-                ["W", "W", "W", "W", "W"],
-                ["W", "W", "W", "W", "W"],
-                ["W", "W", "W", "W", "W"],
-                ["W", "W", "W", "W", "W"],
-                ["W", "W", "W", "W", "W"]
-            ]
+        "MWWWM": {
+            "tiles": []
         },
-        "CC": {
-            "tiles": [
-                ["C", "C", "C", "C", "C"],
-                ["C", "C", "C", "C", "C"],
-                ["C", "C", "C", "C", "C"],
-                ["C", "C", "C", "C", "C"],
-                ["C", "C", "C", "C", "C"]
-            ]
-        },
-        "EC": {
-            "tiles": [
-                ["E", "E", "E", "E", "E"],
-                ["E", "E", "E", "E", "E"],
-                ["E", "E", "E", "E", "E"],
-                ["E", "E", "E", "E", "E"],
-                ["E", "E", "E", "E", "E"]
-            ]
-        },
-        "SW": {
-            "tiles": [
-                ["SW", "SW", "SW", "SW", "SW"],
-                ["SW", "SW", "SW", "SW", "SW"],
-                ["SW", "SW", "SW", "SW", "SW"],
-                ["SW", "SW", "SW", "SW", "SW"],
-                ["SW", "SW", "SW", "SW", "SW"]
-            ]
-        },
-        "SC": {
-            "tiles": [
-                ["S", "S", "S", "S", "S"],
-                ["S", "S", "S", "S", "S"],
-                ["S", "S", "S", "S", "S"],
-                ["S", "S", "S", "S", "S"],
-                ["S", "S", "S", "S", "S"]
-            ]
-        },
-        "SE": {
-            "tiles": [
-                ["SE", "SE", "SE", "SE", "SE"],
-                ["SE", "SE", "SE", "SE", "SE"],
-                ["SE", "SE", "SE", "SE", "SE"],
-                ["SE", "SE", "SE", "SE", "SE"],
-                ["SE", "SE", "SE", "SE", "SE"]
-            ]
+        "RMGMW": {
+            "tiles": []
         }
     }
 }
