@@ -15,12 +15,9 @@
             margin: 2px 0;
         }
 
-        cell {
-            background: white;
-            display: inline-block;
-            padding: 1px 5px;
-            text-align: center;
-            font-family: monospace;
+        terrain cell {
+            width: 20px;
+            height: 20px;
         }
 
         .compass-N {
@@ -59,7 +56,7 @@
         <h4>Combinations</h4>
         <p>Number of combinations: <b>{{count}}</b></p>
         <p>{{#each combinations}}
-            <terrain><cell>{{this}}</cell></terrain>
+            <terrain><row><cell>{{this}}</cell></row></terrain>
         {{/each}}</p>
     {{/each}}
     </div>
