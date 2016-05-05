@@ -19,19 +19,12 @@
     <table class="tile grid preview">
         <tbody>
             <tr>
-                <td></td>
-                <td class="bordered guide tile-N tile-{{N}} primary">N</td>
-                <td></td>
+                <td class="bordered guide tile-NW tile-{{NW}} primary">NW</td>
+                <td class="bordered guide tile-NE tile-{{NE}} primary">NE</td>
             </tr>
             <tr>
-                <td class="bordered guide tile-W tile-{{W}} primary">W</td>
-                <td class="bordered guide tile-C tile-{{C}} primary">C</td>
-                <td class="bordered guide tile-E tile-{{E}} primary">E</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td class="bordered guide tile-S tile-{{S}} primary">S</td>
-                <td></td>
+                <td class="bordered guide tile-SW tile-{{SW}} primary">SW</td>
+                <td class="bordered guide tile-SE tile-{{SE}} primary">SE</td>
             </tr>
         </tbody>
     </table>
@@ -47,11 +40,10 @@
     <script>
 
     var tileMap = {
-        N: {{N}},
-        S: {{S}},
-        E: {{E}},
-        W: {{W}},
-        C: {{C}}
+        NW: {{NW}},
+        NE: {{NE}},
+        SW: {{SW}},
+        SE: {{SE}}
     };
 
     var dimensions = {
@@ -60,14 +52,14 @@
     };
 
     var tileTypes = [1,2,3,4,5];
-    var tileCompass = ['N', 'S', 'E', 'W', 'C'];
+    var tileCompass = ['NW', 'NE', 'SW', 'SE'];
 
     var paintValue = tileCompass[0];
 
     function setup() {
 
         $table = $('td.area.contents');
-        var cellTemplate = '<cell class="display tile-C primary">C</cell>';
+        var cellTemplate = '<cell class="display tile-NW primary">NW</cell>';
         for(var j=0; j<dimensions.height; j++) {
             $row = $('<row></row>');
             for(var i=0; i<dimensions.width; i++) {

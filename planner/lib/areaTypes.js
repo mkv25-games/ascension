@@ -13,28 +13,30 @@ function add(areaTypes) {
 }
 
 function enhance(position, tiles) {
-    var spots = [
+    var combinations = [
         []
     ];
 
     for (var i = 0; i < position.comnbinationLength; i++) {
-        spots = combine(spots, tiles);
+        combinations = combine(combinations, tiles);
     }
 
-    position.spots = spots.map((spot) => {
-        return spot.join('');
+    position.combinations = combinations.map((combination) => {
+        return combination.join('');
     });
 
-    position.count = position.spots.length;
+    position.count = position.combinations.length;
+
+    delete position.spots;
 
     return position;
 }
 
-function combine(spots, tiles) {
+function combine(combinations, tiles) {
     var result = [];
-    spots.forEach((spot) => {
+    combinations.forEach((combination) => {
         tiles.forEach((tile) => {
-            result.push(spot.concat(tile));
+            result.push(combination.concat(tile));
         });
     });
 

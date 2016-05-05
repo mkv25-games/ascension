@@ -11,37 +11,16 @@
         }
 
         terrain {
-            display: inline-block;
+            width: 40px;
             margin: 2px 0;
+            display: inline-block;
         }
 
         terrain cell {
             width: 20px;
             height: 20px;
-        }
-
-        .compass-N {
-            display: block;
-            margin: 0 33.3%;
-        }
-
-        .compass-W {
             display: inline-block;
         }
-
-        .compass-C {
-            display: inline-block;
-        }
-
-        .compass-E {
-            display: inline-block;
-        }
-
-        .compass-S {
-            display: block;
-            margin: 0 33.3%;
-        }
-
     </style>
     <link href="tiles.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
@@ -64,7 +43,7 @@
     <script>
 
     function setup() {
-        var compass = 'NWCES'.split('');
+        var compass = ['NW', 'NE', 'SW', 'SE'];
         $('terrain').each(function() {
             $terrain = $(this);
             var cells = $terrain.text().split('');

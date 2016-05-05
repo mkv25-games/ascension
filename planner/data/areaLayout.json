@@ -1,22 +1,13 @@
 {
     "dimensions": {
-        "width": 24,
-        "height": 24
+        "width": 48,
+        "height": 48
     },
+    "compass": [
+        "NW", "NE", "SW", "SE"
+    ],
     "layouts": {
-        "FFGFF": {
-            "tiles": []
-        },
-        "FRRGR": {
-            "tiles": []
-        },
-        "RRGRR": {
-            "tiles": []
-        },
-        "MWWWM": {
-            "tiles": []
-        },
-        "RMGMW": {
+        "FFGF": {
             "tiles": []
         }
     }
