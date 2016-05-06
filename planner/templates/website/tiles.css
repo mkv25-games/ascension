@@ -80,3 +80,13 @@ cell {
     text-align: center;
     font-family: monospace;
 }
+
+.micro cell {
+    display: inline-block;
+    vertical-align: top;
+    width: 1px;
+    height: 1px;
+    text-align: center;
+    font-family: monospace;
+    font-size: 0;
+}

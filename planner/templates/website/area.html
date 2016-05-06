@@ -3,7 +3,8 @@
 <head>
     <title>{{title}}</title>
     <style>
-        html, body {
+        html,
+        body {
             background: #EEE;
             color: #333;
             font-family: sans-serif;
@@ -43,114 +44,134 @@
     <p>Copy this data into the source.</p>
 
     <script>
+        var tileMap = {
+            NW: "{{NW}}",
+            NE: "{{NE}}",
+            SW: "{{SW}}",
+            SE: "{{SE}}"
+        };
 
-    var tileMap = {
-        NW: {{NW}},
-        NE: {{NE}},
-        SW: {{SW}},
-        SE: {{SE}}
-    };
+        var dimensions = {
+            width: Number.parseInt("{{areaViewer.dimensions.width}}"),
+            height: Number.parseInt("{{areaViewer.dimensions.height}}")
+        };
 
-    var dimensions = {
-        width: {{areaViewer.dimensions.width}},
-        height: {{areaViewer.dimensions.height}}
-    };
+        var tileTypes = [1, 2, 3, 4, 5];
+        var tileCompass = ['NW', 'NE', 'SW', 'SE'];
+        var tiles = decodeTiles({{json areaViewer.layouts.default.tiles}});
 
-    var tileTypes = [1,2,3,4,5];
-    var tileCompass = ['NW', 'NE', 'SW', 'SE'];
-    var tiles = decodeTiles({{json areaViewer.layouts.default.tiles}});
+        var isMouseDown = false;
+        var paintValue = tileCompass[0];
 
-    var paintValue = tileCompass[0];
+        function setup() {
 
-    function setup() {
-
-        $table = $('td.area.contents');
-        var cellTemplate = '<cell class="display tile-X primary">X</cell>';
-        for(var j=0; j<dimensions.height; j++) {
-            $row = $('<row></row>');
-            tiles[j] = tiles[j] || [];
-            for(var i=0; i<dimensions.width; i++) {
-                var fill = tiles[j][i];
-                $cell = $(cellTemplate.replace(/X/g, fill));
-                $cell.on('click', cellClick(j, i));
-                $row.append($cell);
-            }
-            $table.append($row);
-        }
-
-        tileCompass.forEach(function(k) {
-            console.log('Setting up guide tile ' + k);
-            $('.guide.tile-' + k).on('click', function() {
-                tileMap[k] = (tileMap[k] % tileTypes.length) + 1;
-                removeColours();
-                colourTiles();
-                paintValue = k;
+            $('body').mousedown(function() {
+                isMouseDown = true;
+            }).mouseup(function() {
+                isMouseDown = false;
             });
-        });
 
-        displayRawTileData();
-    }
+            $table = $('td.area.contents');
+            var cellTemplate = '<cell class="display tile-X primary">X</cell>';
+            for (var j = 0; j < dimensions.height; j++) {
+                $row = $('<row></row>');
+                tiles[j] = tiles[j] || [];
+                for (var i = 0; i < dimensions.width; i++) {
+                    var fill = tiles[j][i];
+                    $cell = $(cellTemplate.replace(/X/g, fill));
+                    $cell.on('mouseover', paintCell(j, i));
+                    $row.append($cell);
+                }
+                $table.append($row);
+            }
 
-    function cellClick(row, column) {
-        return function() {
-            var $tile = $(this);
+            tileCompass.forEach(function(k) {
+                console.log('Setting up guide tile ' + k);
+                $('.guide.tile-' + k).on('click', function() {
+                    tileMap[k] = (tileMap[k] % tileTypes.length) + 1;
+                    removeColours();
+                    colourTiles();
+                    paintValue = k;
+                });
+            });
 
-            var compassPosition = $tile.text();
-            $tile.removeClass('tile-' + tileMap[compassPosition]);
-            $tile.removeClass('tile-' + compassPosition);
-
-            var newIndex = (tileCompass.indexOf(compassPosition) + 1) % tileCompass.length;
-            var newPosition = paintValue;
-
-            console.log('Change', compassPosition, 'at', newIndex, 'to', newPosition);
-
-            $tile.addClass('tile-' + tileMap[newPosition]);
-            $tile.addClass('tile-' + newPosition);
-            $tile.text(newPosition);
-
-            tiles[row][column] = newPosition;
-
+            $('body').disableSelection();
             displayRawTileData();
         }
-    }
 
-    function encodeTiles(tiles) {
-        return tiles.map(function(row) {
-            return row.join(':');
+        function paintCell(row, column) {
+            return function(mouseEvent) {
+                if (!isMouseDown) {
+                    return false;
+                }
+                var $tile = $(this);
+
+                var compassPosition = $tile.text();
+                $tile.removeClass('tile-' + tileMap[compassPosition]);
+                $tile.removeClass('tile-' + compassPosition);
+
+                var newIndex = (tileCompass.indexOf(compassPosition) + 1) % tileCompass.length;
+                var newPosition = paintValue;
+
+                console.log('Change', compassPosition, 'at', newIndex, 'to', newPosition);
+
+                $tile.addClass('tile-' + tileMap[newPosition]);
+                $tile.addClass('tile-' + newPosition);
+                $tile.text(newPosition);
+
+                tiles[row][column] = newPosition;
+
+                displayRawTileData();
+
+                return false;
+            }
+        }
+
+        function encodeTiles(tiles) {
+            return tiles.map(function(row) {
+                return row.join(':');
+            });
+        }
+
+        function decodeTiles(tiles) {
+            return tiles.map(function(row) {
+                return row.split(':');
+            });
+        }
+
+        function displayRawTileData() {
+            var tileData = tiles.map(function(row) {
+                return row.join(':');
+            });
+            var json = JSON.stringify(tileData, null, 2);
+            $('#tile-data').text(json);
+        }
+
+        function removeColours() {
+            tileTypes.forEach(function(i) {
+                $('.tile-' + i).removeClass('tile-' + i);
+            })
+        }
+
+        function colourTiles() {
+            tileCompass.forEach(function(k) {
+                $('.tile-' + k).addClass('tile-' + tileMap[k]);
+            });
+        }
+
+        (function($) {
+            $.fn.disableSelection = function() {
+                return this
+                    .attr('unselectable', 'on')
+                    .css('user-select', 'none')
+                    .on('selectstart', false);
+            };
+        })(jQuery);
+
+        $(function() {
+            setup();
+            colourTiles();
         });
-    }
-
-    function decodeTiles(tiles) {
-        return tiles.map(function(row) {
-            return row.split(':');
-        });
-    }
-
-    function displayRawTileData() {
-        var tileData = tiles.map(function(row) {
-            return row.join(':');
-        });
-        var json = JSON.stringify(tileData, null, 2);
-        $('#tile-data').text(json);
-    }
-
-    function removeColours() {
-        tileTypes.forEach(function(i) {
-            $('.tile-' + i).removeClass('tile-' + i);
-        })
-    }
-
-    function colourTiles() {
-        tileCompass.forEach(function(k) {
-            $('.tile-' + k).addClass('tile-' + tileMap[k]);
-        });
-    }
-
-    $(function() {
-        setup();
-        colourTiles();
-    });
-
     </script>
 </body>
 
