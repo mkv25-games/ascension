@@ -16,15 +16,15 @@
 
 <body>
     <h1>{{title}}</h1>
-    <table class="tile grid preview">
+    <table class="tile grid preview bordered">
         <tbody>
             <tr>
-                <td class="bordered guide tile-NW tile-{{NW}} primary">NW</td>
-                <td class="bordered guide tile-NE tile-{{NE}} primary">NE</td>
+                <td class="guide tile-NW tile-{{NW}} primary">NW</td>
+                <td class="guide tile-NE tile-{{NE}} primary">NE</td>
             </tr>
             <tr>
-                <td class="bordered guide tile-SW tile-{{SW}} primary">SW</td>
-                <td class="bordered guide tile-SE tile-{{SE}} primary">SE</td>
+                <td class="guide tile-SW tile-{{SW}} primary">SW</td>
+                <td class="guide tile-SE tile-{{SE}} primary">SE</td>
             </tr>
         </tbody>
     </table>
@@ -36,6 +36,11 @@
             </tr>
         </tbody>
     </table>
+
+    <h2>Tile Data</h2>
+    <pre id="tile-data" class="bordered"></pre>
+
+    <p>Copy this data into the source.</p>
 
     <script>
 
@@ -53,17 +58,21 @@
 
     var tileTypes = [1,2,3,4,5];
     var tileCompass = ['NW', 'NE', 'SW', 'SE'];
+    var tiles = decodeTiles({{json areaViewer.layouts.default.tiles}});
 
     var paintValue = tileCompass[0];
 
     function setup() {
 
         $table = $('td.area.contents');
-        var cellTemplate = '<cell class="display tile-NW primary">NW</cell>';
+        var cellTemplate = '<cell class="display tile-X primary">X</cell>';
         for(var j=0; j<dimensions.height; j++) {
             $row = $('<row></row>');
+            tiles[j] = tiles[j] || [];
             for(var i=0; i<dimensions.width; i++) {
-                $cell = $(cellTemplate);
+                var fill = tiles[j][i];
+                $cell = $(cellTemplate.replace(/X/g, fill));
+                $cell.on('click', cellClick(j, i));
                 $row.append($cell);
             }
             $table.append($row);
@@ -79,25 +88,50 @@
             });
         });
 
-        tileCompass.forEach(function(k) {
-            console.log('Setting up display tile ' + k);
-            $('.display.tile-' + k).on('click', function() {
-                var $tile = $(this);
+        displayRawTileData();
+    }
 
-                var compassPosition = $tile.text();
-                $tile.removeClass('tile-' + tileMap[compassPosition]);
-                $tile.removeClass('tile-' + compassPosition);
+    function cellClick(row, column) {
+        return function() {
+            var $tile = $(this);
 
-                var newIndex = (tileCompass.indexOf(compassPosition) + 1) % tileCompass.length;
-                var newPosition = paintValue; // tileCompass[newIndex];
+            var compassPosition = $tile.text();
+            $tile.removeClass('tile-' + tileMap[compassPosition]);
+            $tile.removeClass('tile-' + compassPosition);
 
-                console.log('Change', compassPosition, 'at', newIndex, 'to', newPosition);
+            var newIndex = (tileCompass.indexOf(compassPosition) + 1) % tileCompass.length;
+            var newPosition = paintValue;
 
-                $tile.addClass('tile-' + tileMap[newPosition]);
-                $tile.addClass('tile-' + newPosition);
-                $tile.text(newPosition);
-            });
+            console.log('Change', compassPosition, 'at', newIndex, 'to', newPosition);
+
+            $tile.addClass('tile-' + tileMap[newPosition]);
+            $tile.addClass('tile-' + newPosition);
+            $tile.text(newPosition);
+
+            tiles[row][column] = newPosition;
+
+            displayRawTileData();
+        }
+    }
+
+    function encodeTiles(tiles) {
+        return tiles.map(function(row) {
+            return row.join(':');
         });
+    }
+
+    function decodeTiles(tiles) {
+        return tiles.map(function(row) {
+            return row.split(':');
+        });
+    }
+
+    function displayRawTileData() {
+        var tileData = tiles.map(function(row) {
+            return row.join(':');
+        });
+        var json = JSON.stringify(tileData, null, 2);
+        $('#tile-data').text(json);
     }
 
     function removeColours() {

@@ -39,9 +39,10 @@
     vertical-align: top;
 }
 
-.tile.grid .bordered {
+.bordered {
     outline: 2px solid #999;
     outline-offset: 15px;
+    margin: 32px;
 }
 
 .tile.grid.area {
