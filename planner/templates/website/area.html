@@ -21,12 +21,12 @@
     <table class="tile grid preview bordered inline">
         <tbody>
             <tr>
-                <td class="guide tile-NW tile-{{NW}} primary">NW</td>
-                <td class="guide tile-NE tile-{{NE}} primary">NE</td>
+                <td class="guide tile tile-NW tile-{{NW}} primary">NW</td>
+                <td class="guide tile tile-NE tile-{{NE}} primary">NE</td>
             </tr>
             <tr>
-                <td class="guide tile-SW tile-{{SW}} primary">SW</td>
-                <td class="guide tile-SE tile-{{SE}} primary">SE</td>
+                <td class="guide tile tile-SW tile-{{SW}} primary">SW</td>
+                <td class="guide tile tile-SE tile-{{SE}} primary">SE</td>
             </tr>
         </tbody>
     </table>
@@ -77,13 +77,32 @@
 
         function setup() {
 
+            setupTileGuide();
             setupAreaViewer();
             setupMouseInput();
-            setupTileGuide();
             setupViewButtons();
             setupLayoutSelection();
 
             displayRawTileData();
+        }
+
+        function setupTileGuide() {
+            tileCompass.forEach(function(compassKey) {
+                console.log('Setting up guide tile ' + compassKey);
+                $('.tile.guide.tile-' + compassKey).on('click', function() {
+                    $('.tile.guide').removeClass('selected');
+                    $(this).addClass('selected');
+                    //var newValue = (compassMap[compassKey] % tileTypes.length) + 1;
+                    //changeCompassType(compassKey, newValue
+                    paintValue = compassKey;
+                });
+            });
+        }
+
+        function changeCompassType(compassKey, value) {
+            compassMap[compassKey] = value;
+            removeColours();
+            colourTiles();
         }
 
         function setupAreaViewer() {
@@ -110,18 +129,7 @@
                 isMouseDown = true;
             }).mouseup(function() {
                 isMouseDown = false;
-            });
-        }
-
-        function setupTileGuide() {
-            tileCompass.forEach(function(k) {
-                console.log('Setting up guide tile ' + k);
-                $('.guide.tile-' + k).on('click', function() {
-                    compassMap[k] = (compassMap[k] % tileTypes.length) + 1;
-                    removeColours();
-                    colourTiles();
-                    paintValue = k;
-                });
+                displayRawTileData();
             });
         }
 
@@ -174,8 +182,6 @@
 
                 areaTiles[row][column] = paintValue;
                 colourCell($cell, paintValue);
-
-                displayRawTileData();
             }
         }
 

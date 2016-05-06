@@ -7,6 +7,15 @@
 }
 {{/each}}
 
+.tile.guide {
+
+}
+
+.tile.guide.selected {
+    outline: 3px solid white;
+    outline-offset: -5px;
+}
+
 .tile.box.outer {
     display: block;
     width: 80px;
