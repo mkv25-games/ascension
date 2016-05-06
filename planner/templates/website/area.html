@@ -77,13 +77,17 @@
 
         function setup() {
 
-            $('body').mousedown(function() {
-                isMouseDown = true;
-            }).mouseup(function() {
-                isMouseDown = false;
-            });
+            setupAreaViewer();
+            setupMouseInput();
+            setupTileGuide();
+            setupViewButtons();
+            setupLayoutSelection();
 
-            $table = $('td.area.contents');
+            displayRawTileData();
+        }
+
+        function setupAreaViewer() {
+            $table = $('table td.area.contents');
             var cellTemplate = '<cell class="display tile-X primary">X</cell>';
             for (var j = 0; j < dimensions.height; j++) {
                 $row = $('<row></row>');
@@ -98,7 +102,18 @@
                 }
                 $table.append($row);
             }
+            $($table).disableSelection();
+        }
 
+        function setupMouseInput() {
+            $('body').mousedown(function() {
+                isMouseDown = true;
+            }).mouseup(function() {
+                isMouseDown = false;
+            });
+        }
+
+        function setupTileGuide() {
             tileCompass.forEach(function(k) {
                 console.log('Setting up guide tile ' + k);
                 $('.guide.tile-' + k).on('click', function() {
@@ -108,19 +123,25 @@
                     paintValue = k;
                 });
             });
+        }
+
+        function setupViewButtons() {
+            var $tileAreaViewer = $('table.tile.area.viewer');
 
             $('button#macro-view').on('click', function() {
-                $('table.tile.area.viewer').removeClass('micro').removeClass('mini');
+                $tileAreaViewer.removeClass('micro').removeClass('mini');
             });
 
             $('button#mini-view').on('click', function() {
-                $('table.tile.area.viewer').addClass('mini').removeClass('micro');
+                $tileAreaViewer.addClass('mini').removeClass('micro');
             });
 
             $('button#micro-view').on('click', function() {
-                $('table.tile.area.viewer').addClass('micro').removeClass('mini');
+                $tileAreaViewer.addClass('micro').removeClass('mini');
             });
+        }
 
+        function setupLayoutSelection() {
             $layoutSelection = $('select#layout-selection');
             Object.keys(layouts).forEach(function(key) {
                 var layout = layouts[key];
@@ -132,9 +153,6 @@
                 console.log('Change', key);
                 showTileData(layouts[key].tiles);
             });
-
-            $('body').disableSelection();
-            displayRawTileData();
         }
 
         function showTileData(tileData) {
