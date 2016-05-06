@@ -17,7 +17,7 @@
 
 <body>
     <h1>{{title}}</h1>
-    <table class="tile grid preview bordered">
+    <table class="tile grid preview bordered inline">
         <tbody>
             <tr>
                 <td class="guide tile-NW tile-{{NW}} primary">NW</td>
@@ -30,7 +30,13 @@
         </tbody>
     </table>
 
-    <table class="tile area viewer">
+    <div class="options bordered inline">
+        <button id="micro-view">Micro View</button>
+        <button id="mini-view">Mini View</button>
+        <button id="macro-view">Macro View</button>
+    </div>
+
+    <table class="tile area viewer inline">
         <tbody>
             <tr>
                 <td class="area contents"></td>
@@ -93,6 +99,18 @@
                     colourTiles();
                     paintValue = k;
                 });
+            });
+
+            $('button#macro-view').on('click', function() {
+                $('table.tile.area.viewer').removeClass('micro').removeClass('mini');
+            });
+
+            $('button#mini-view').on('click', function() {
+                $('table.tile.area.viewer').addClass('mini').removeClass('micro');
+            });
+
+            $('button#micro-view').on('click', function() {
+                $('table.tile.area.viewer').addClass('micro').removeClass('mini');
             });
 
             $('body').disableSelection();

@@ -39,6 +39,10 @@
     vertical-align: top;
 }
 
+.inline {
+    display: inline-block;
+}
+
 .bordered {
     outline: 2px solid #999;
     outline-offset: 15px;
@@ -90,3 +94,13 @@ cell {
     font-family: monospace;
     font-size: 0;
 }
+.mini cell {
+    display: inline-block;
+    vertical-align: top;
+    width: 8px;
+    height: 8px;
+    text-align: center;
+    font-family: monospace;
+    font-size: 0;
+}
+
