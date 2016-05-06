@@ -104,3 +104,6 @@ cell {
     font-size: 0;
 }
 
+pre {
+    overflow-x: scroll;
+}

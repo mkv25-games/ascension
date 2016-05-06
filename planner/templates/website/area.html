@@ -13,6 +13,7 @@
     </style>
     <link href="tiles.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <script src="layouts.js"></script>
 </head>
 
 <body>
@@ -36,7 +37,11 @@
         <button id="macro-view">Macro View</button>
     </div>
 
-    <table class="tile area viewer inline">
+    <div class="options bordered inline">
+        <select id="layout-selection"></select>
+    </div>
+
+    <table class="tile area viewer inline mini">
         <tbody>
             <tr>
                 <td class="area contents"></td>
@@ -50,7 +55,7 @@
     <p>Copy this data into the source.</p>
 
     <script>
-        var tileMap = {
+        var compassMap = {
             NW: "{{NW}}",
             NE: "{{NE}}",
             SW: "{{SW}}",
@@ -64,7 +69,8 @@
 
         var tileTypes = [1, 2, 3, 4, 5];
         var tileCompass = ['NW', 'NE', 'SW', 'SE'];
-        var tiles = decodeTiles({{json areaViewer.layouts.default.tiles}});
+        var areaTiles = decodeTiles(layouts.default.tiles);
+        var $cells = [];
 
         var isMouseDown = false;
         var paintValue = tileCompass[0];
@@ -81,12 +87,14 @@
             var cellTemplate = '<cell class="display tile-X primary">X</cell>';
             for (var j = 0; j < dimensions.height; j++) {
                 $row = $('<row></row>');
-                tiles[j] = tiles[j] || [];
+                areaTiles[j] = areaTiles[j] || [];
                 for (var i = 0; i < dimensions.width; i++) {
-                    var fill = tiles[j][i];
+                    var fill = areaTiles[j][i];
                     $cell = $(cellTemplate.replace(/X/g, fill));
-                    $cell.on('mouseover', paintCell(j, i));
+                    $cell.on('mouseover', paintCell($cell, j, i));
+                    $cell.update = updateCell($cell, j, i);
                     $row.append($cell);
+                    $cells.push($cell);
                 }
                 $table.append($row);
             }
@@ -94,7 +102,7 @@
             tileCompass.forEach(function(k) {
                 console.log('Setting up guide tile ' + k);
                 $('.guide.tile-' + k).on('click', function() {
-                    tileMap[k] = (tileMap[k] % tileTypes.length) + 1;
+                    compassMap[k] = (compassMap[k] % tileTypes.length) + 1;
                     removeColours();
                     colourTiles();
                     paintValue = k;
@@ -113,52 +121,77 @@
                 $('table.tile.area.viewer').addClass('micro').removeClass('mini');
             });
 
+            $layoutSelection = $('select#layout-selection');
+            Object.keys(layouts).forEach(function(key) {
+                var layout = layouts[key];
+                $option = $(`<option id="layout-${key}" value="${key}">${key}</option>`);
+                $layoutSelection.append($option);
+            });
+            $layoutSelection.on('change', function() {
+                var key = $layoutSelection.val();
+                console.log('Change', key);
+                showTileData(layouts[key].tiles);
+            });
+
             $('body').disableSelection();
             displayRawTileData();
         }
 
-        function paintCell(row, column) {
+        function showTileData(tileData) {
+            areaTiles = decodeTiles(tileData);
+            removeColours();
+
+            $cells.forEach(function($cell) {
+                $cell.update();
+            });
+
+            colourTiles();
+        }
+
+        function paintCell($cell, row, column) {
             return function(mouseEvent) {
                 if (!isMouseDown) {
                     return false;
                 }
-                var $tile = $(this);
 
-                var compassPosition = $tile.text();
-                $tile.removeClass('tile-' + tileMap[compassPosition]);
-                $tile.removeClass('tile-' + compassPosition);
-
-                var newIndex = (tileCompass.indexOf(compassPosition) + 1) % tileCompass.length;
-                var newPosition = paintValue;
-
-                console.log('Change', compassPosition, 'at', newIndex, 'to', newPosition);
-
-                $tile.addClass('tile-' + tileMap[newPosition]);
-                $tile.addClass('tile-' + newPosition);
-                $tile.text(newPosition);
-
-                tiles[row][column] = newPosition;
+                areaTiles[row][column] = paintValue;
+                colourCell($cell, paintValue);
 
                 displayRawTileData();
-
-                return false;
             }
         }
 
-        function encodeTiles(tiles) {
-            return tiles.map(function(row) {
+        function colourCell($cell, value) {
+            var currentValue = $cell.text();
+            $cell.removeClass('tile-' + compassMap[currentValue]);
+            $cell.removeClass('tile-' + currentValue);
+
+            $cell.addClass('tile-' + compassMap[value]);
+            $cell.addClass('tile-' + value);
+            $cell.text(value);
+        }
+
+        function updateCell($cell, row, column) {
+            return function() {
+                var value = areaTiles[row][column];
+                colourCell($cell, value);
+            };
+        }
+
+        function encodeTiles(areaTiles) {
+            return areaTiles.map(function(row) {
                 return row.join(':');
             });
         }
 
-        function decodeTiles(tiles) {
-            return tiles.map(function(row) {
+        function decodeTiles(areaTiles) {
+            return areaTiles.map(function(row) {
                 return row.split(':');
             });
         }
 
         function displayRawTileData() {
-            var tileData = tiles.map(function(row) {
+            var tileData = areaTiles.map(function(row) {
                 return row.join(':');
             });
             var json = JSON.stringify(tileData, null, 2);
@@ -173,7 +206,7 @@
 
         function colourTiles() {
             tileCompass.forEach(function(k) {
-                $('.tile-' + k).addClass('tile-' + tileMap[k]);
+                $('.tile-' + k).addClass('tile-' + compassMap[k]);
             });
         }
 
