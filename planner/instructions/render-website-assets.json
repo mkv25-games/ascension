@@ -1,4 +1,13 @@
 [{
+    "asset": "website/layouts.js",
+    "template": "/website/layouts.js",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {
+        "$ref": "/data/areaLayout.json"
+    }
+}, {
     "asset": "website/area.html",
     "template": "/website/area.html",
     "renderer": {
