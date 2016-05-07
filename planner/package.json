@@ -1,15 +1,19 @@
 {
   "name": "ascension-planner",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Ascension Tile Planner",
   "main": "main.js",
   "scripts": {
     "start": "node main.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "upload:text": "cd build/website && node ../../scripts/upload-text.js && cd ../../",
+    "upload:all": "cd build/website && node ../../scripts/upload-all.js && cd ../../"
   },
   "author": "Markavian",
   "license": "ISC",
   "dependencies": {
     "promise-path": "^1.2.2"
+  },
+  "devDependencies": {
+    "ftp-client": "^0.2.2"
   }
 }
