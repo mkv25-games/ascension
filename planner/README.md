@@ -14,3 +14,4 @@ This will generate missing data required for combinations.
 - Run `npm install -g node-hag`
 - Run `hag generate`
 
+This should generate files in a build directory for the website.
