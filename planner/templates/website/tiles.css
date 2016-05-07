@@ -7,11 +7,11 @@
 }
 {{/each}}
 
-.tile.guide {
+.compass.tile {
 
 }
 
-.tile.guide.selected {
+.tile.selected {
     outline: 3px solid white;
     outline-offset: -5px;
 }
@@ -50,6 +50,7 @@
 
 .inline {
     display: inline-block;
+    vertical-align: top;
 }
 
 .bordered {
@@ -86,8 +87,9 @@ row {
 
 cell {
     background: white;
-    display: table-cell;
+    display: inline-block;
     vertical-align: middle;
+    line-height: 48px;
     width: 48px;
     height: 48px;
     text-align: center;
@@ -95,22 +97,22 @@ cell {
 }
 
 .micro cell {
-    display: inline-block;
     vertical-align: top;
     width: 1px;
     height: 1px;
     text-align: center;
     font-family: monospace;
     font-size: 0;
+    line-height: 0;
 }
 .mini cell {
-    display: inline-block;
     vertical-align: top;
     width: 8px;
     height: 8px;
     text-align: center;
     font-family: monospace;
     font-size: 0;
+    line-height: 0;
 }
 
 pre {

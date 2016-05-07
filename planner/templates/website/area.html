@@ -13,6 +13,7 @@
     </style>
     <link href="tiles.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <script src="tiles.js"></script>
     <script src="layouts.js"></script>
 </head>
 
@@ -21,12 +22,12 @@
     <table class="tile grid preview bordered inline">
         <tbody>
             <tr>
-                <td class="guide tile tile-NW tile-{{NW}} primary">NW</td>
-                <td class="guide tile tile-NE tile-{{NE}} primary">NE</td>
+                <td class="compass display tile tile-NW tile-{{NW}} primary">NW</td>
+                <td class="compass display tile tile-NE tile-{{NE}} primary">NE</td>
             </tr>
             <tr>
-                <td class="guide tile tile-SW tile-{{SW}} primary">SW</td>
-                <td class="guide tile tile-SE tile-{{SE}} primary">SE</td>
+                <td class="compass display tile tile-SW tile-{{SW}} primary">SW</td>
+                <td class="compass display tile tile-SE tile-{{SE}} primary">SE</td>
             </tr>
         </tbody>
     </table>
@@ -41,13 +42,9 @@
         <select id="layout-selection"></select>
     </div>
 
-    <table class="tile area viewer inline mini">
-        <tbody>
-            <tr>
-                <td class="area contents"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="options bordered inline" id="tile-selector"></div>
+
+    <div class="tile area viewer inline mini area contents"></div>
 
     <h2>Tile Data</h2>
     <pre id="tile-data" class="bordered"></pre>
@@ -77,7 +74,8 @@
 
         function setup() {
 
-            setupTileGuide();
+            setupTileCompass();
+            setupTileSelector();
             setupAreaViewer();
             setupMouseInput();
             setupViewButtons();
@@ -86,16 +84,42 @@
             displayRawTileData();
         }
 
-        function setupTileGuide() {
+        function setupTileCompass() {
+            $('.compass.tile').on('click', function() {
+                var $compassTile = $(this);
+                var compassKey = $compassTile.text();
+                var newValue = (compassMap[compassKey] % tileTypes.length) + 1;
+                changeCompassType(compassKey, newValue);
+                $($compassTile).disableSelection();
+            });
+        }
+
+        function setupTileSelector() {
+
+            $tileSelector = $('#tile-selector');
+
             tileCompass.forEach(function(compassKey) {
-                console.log('Setting up guide tile ' + compassKey);
-                $('.tile.guide.tile-' + compassKey).on('click', function() {
-                    $('.tile.guide').removeClass('selected');
-                    $(this).addClass('selected');
-                    //var newValue = (compassMap[compassKey] % tileTypes.length) + 1;
-                    //changeCompassType(compassKey, newValue
-                    paintValue = compassKey;
+                $tile = $(`<cell class="display tile selector tile-${compassKey} secondary">${compassKey}</cell>`);
+                $tile.on('click', function() {
+                    $tile = $(this);
+                    $('.tile.selector').removeClass('selected').removeClass('primary').addClass('secondary');
+                    $tile.addClass('selected').removeClass('secondary').addClass('primary');
+                    var tileKey = $tile.text();
+                    paintValue = tileKey;
                 });
+                $tileSelector.append($tile);
+            });
+
+            tiles.forEach(function(tile) {
+                $tile = $(`<cell class="tile selector tile-${tile.id} secondary">${tile.symbol}</cell>`);
+                $tile.on('click', function() {
+                    $tile = $(this);
+                    $('.tile.selector').removeClass('selected').removeClass('primary').addClass('secondary');
+                    $tile.addClass('selected').removeClass('secondary').addClass('primary');
+                    var tileKey = $tile.text();
+                    paintValue = tileKey;
+                });
+                $tileSelector.append($tile);
             });
         }
 
@@ -106,14 +130,13 @@
         }
 
         function setupAreaViewer() {
-            $table = $('table td.area.contents');
-            var cellTemplate = '<cell class="display tile-X primary">X</cell>';
+            $table = $('div.area.contents');
             for (var j = 0; j < dimensions.height; j++) {
                 $row = $('<row></row>');
                 areaTiles[j] = areaTiles[j] || [];
                 for (var i = 0; i < dimensions.width; i++) {
                     var fill = areaTiles[j][i];
-                    $cell = $(cellTemplate.replace(/X/g, fill));
+                    $cell = $(`<cell class="display tile-${fill} primary">${fill}</cell>`);
                     $cell.on('mouseover', paintCell($cell, j, i));
                     $cell.update = updateCell($cell, j, i);
                     $row.append($cell);
@@ -134,7 +157,7 @@
         }
 
         function setupViewButtons() {
-            var $tileAreaViewer = $('table.tile.area.viewer');
+            var $tileAreaViewer = $('.tile.area.viewer');
 
             $('button#macro-view').on('click', function() {
                 $tileAreaViewer.removeClass('micro').removeClass('mini');
@@ -224,13 +247,13 @@
 
         function removeColours() {
             tileTypes.forEach(function(i) {
-                $('.tile-' + i).removeClass('tile-' + i);
+                $('.display.tile-' + i).removeClass('tile-' + i);
             })
         }
 
         function colourTiles() {
             tileCompass.forEach(function(k) {
-                $('.tile-' + k).addClass('tile-' + compassMap[k]);
+                $('.display.tile-' + k).addClass('tile-' + compassMap[k]);
             });
         }
 

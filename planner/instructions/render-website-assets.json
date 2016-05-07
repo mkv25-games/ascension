@@ -8,6 +8,15 @@
         "$ref": "/data/areaLayout.json"
     }
 }, {
+    "asset": "website/tiles.js",
+    "template": "/website/tiles.js",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {
+        "$ref": "/data/areaTypes.json"
+    }
+}, {
     "asset": "website/area.html",
     "template": "/website/area.html",
     "renderer": {
