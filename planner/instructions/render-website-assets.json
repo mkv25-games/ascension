@@ -17,13 +17,13 @@
         "$ref": "/data/tileTypes.json"
     }
 }, {
-    "asset": "website/area.html",
-    "template": "/website/area.html",
+    "asset": "website/editor.html",
+    "template": "/website/editor.html",
     "renderer": {
         "type": "text"
     },
     "data": {
-        "title": "Ascension - Area Viewer",
+        "title": "Ascension - Area Editor",
         "areaViewer": {
             "$ref": "/data/areaLayouts.json"
         },
