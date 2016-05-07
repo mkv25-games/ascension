@@ -1,5 +1,5 @@
 [{
-    "asset": "tiles/layout-default-spread.png",
+    "asset": "layouts/layout-default-spread.png",
     "template": "/tiles/viewer.html",
     "renderer": {
         "$ref": "/data/renderers/mini-384x.json"
@@ -16,7 +16,7 @@
         "layout": "beach spread"
     }
 }, {
-    "asset": "tiles/layout-beach-spread.png",
+    "asset": "layouts/layout-beach-spread.png",
     "template": "/tiles/viewer.html",
     "renderer": {
         "$ref": "/data/renderers/mini-384x.json"
@@ -33,7 +33,7 @@
         "layout": "beach spread"
     }
 }, {
-    "asset": "tiles/layout-beached.png",
+    "asset": "layouts/layout-beached.png",
     "template": "/tiles/viewer.html",
     "renderer": {
         "$ref": "/data/renderers/mini-384x.json"
@@ -50,7 +50,7 @@
         "layout": "beached"
     }
 }, {
-    "asset": "tiles/layout-tear.png",
+    "asset": "layouts/layout-tear.png",
     "template": "/tiles/viewer.html",
     "renderer": {
         "$ref": "/data/renderers/mini-384x.json"
@@ -67,7 +67,7 @@
         "layout": "tear"
     }
 }, {
-    "asset": "tiles/layout-road-bridge.png",
+    "asset": "layouts/layout-road-bridge.png",
     "template": "/tiles/viewer.html",
     "renderer": {
         "$ref": "/data/renderers/mini-384x.json"
