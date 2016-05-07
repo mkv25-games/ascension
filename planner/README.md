@@ -7,4 +7,10 @@ Planning tool for map tiles.
 - Run `npm install`
 - Run `npm start`
 
-This should create an output listing area spots based on `data/areaTypes.json`.
+This will generate missing data required for combinations.
+
+## Render set up
+
+- Run `npm install -g node-hag`
+- Run `hag generate`
+
