@@ -44,6 +44,21 @@
         var tileCompass = ['NW', 'NE', 'SW', 'SE'];
         var areaTiles = decodeTiles(layout.tiles);
         var $cells = [];
+        var tileMap = createTileMapForArea();
+
+        function createTileMapForArea() {
+            var tileMap = {};
+
+            tiles.forEach(function(tile) {
+                tileMap[tile.symbol] = tile.id;
+            });
+
+            tileCompass.forEach(function(compassPosition) {
+                tileMap[compassPosition] = compassMap[compassPosition];
+            });
+
+            return tileMap;
+        }
 
         var isMouseDown = false;
         var paintValue = tileCompass[0];
@@ -59,7 +74,7 @@
                 areaTiles[j] = areaTiles[j] || [];
                 for (var i = 0; i < dimensions.width; i++) {
                     var fill = areaTiles[j][i];
-                    var tile = compassMap[fill];
+                    var tile = tileMap[fill];
                     $cell = $('<cell class="display tile-' + tile + ' primary">' + fill + '</cell>');
                     $cell.update = updateCell($cell, j, i);
                     $row.append($cell);
