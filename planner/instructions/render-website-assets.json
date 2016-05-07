@@ -5,7 +5,7 @@
         "type": "text"
     },
     "data": {
-        "$ref": "/data/areaLayout.json"
+        "$ref": "/data/areaLayouts.json"
     }
 }, {
     "asset": "website/lib/tiles.js",
@@ -14,7 +14,7 @@
         "type": "text"
     },
     "data": {
-        "$ref": "/data/areaTypes.json"
+        "$ref": "/data/tileTypes.json"
     }
 }, {
     "asset": "website/area.html",
@@ -23,9 +23,9 @@
         "type": "text"
     },
     "data": {
-        "title": "Area Viewer",
+        "title": "Ascension - Area Viewer",
         "areaViewer": {
-            "$ref": "/data/areaLayout.json"
+            "$ref": "/data/areaLayouts.json"
         },
         "NW": 1,
         "NE": 2,
@@ -39,21 +39,21 @@
         "type": "text"
     },
     "data": {
-        "title": "Ascension Tiles",
+        "title": "Ascension - Tiles",
         "areaTypes": {
-            "$ref": "/data/areaTypes.json"
+            "$ref": "/data/tileTypes.json"
         }
     }
 }, {
-    "asset": "website/positions.html",
-    "template": "/website/positions.html",
+    "asset": "website/combinations.html",
+    "template": "/website/combinations.html",
     "renderer": {
         "type": "text"
     },
     "data": {
-        "title": "Ascension Positions",
-        "areaTypes": {
-            "$ref": "/data/areaTypes.json"
+        "title": "Ascension - Area Combinations",
+        "areaCombinations": {
+            "$ref": "/data/areaCombinations.json"
         }
     }
 }, {
@@ -63,8 +63,6 @@
         "type": "text"
     },
     "data": {
-        "areaTypes": {
-            "$ref": "/data/areaTypes.json"
-        }
+        "$ref": "/data/tileTypes.json"
     }
 }]

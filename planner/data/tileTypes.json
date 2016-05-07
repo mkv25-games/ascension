@@ -1,0 +1,43 @@
+{
+    "tiles": [{
+        "name": "grass",
+        "id": 1,
+        "palette": {
+            "primary": "#cde02c",
+            "secondary": "#a9bb11"
+        },
+        "symbol": "G"
+    }, {
+        "name": "forest",
+        "id": 2,
+        "palette": {
+            "primary": "#8e9e07",
+            "secondary": "#6a7701"
+        },
+        "symbol": "F"
+    }, {
+        "name": "water",
+        "id": 3,
+        "palette": {
+            "primary": "#7cc3c9",
+            "secondary": "#68a9af"
+        },
+        "symbol": "W"
+    }, {
+        "name": "sand",
+        "id": 4,
+        "palette": {
+            "primary": "#e7d16e",
+            "secondary": "#e6bb6d"
+        },
+        "symbol": "S"
+    }, {
+        "name": "mountain",
+        "id": 5,
+        "palette": {
+            "primary": "#62676d",
+            "secondary": "#474b4e"
+        },
+        "symbol": "M"
+    }]
+}

@@ -9,18 +9,6 @@
             font-family: sans-serif;
             padding: 20px;
         }
-
-        terrain {
-            width: 40px;
-            margin: 2px 0;
-            display: inline-block;
-        }
-
-        terrain cell {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
-        }
     </style>
     <link href="tiles.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
@@ -28,16 +16,14 @@
 
 <body>
     <h1>{{title}}</h1>
-    <div class="terrains">
-    {{#each areaTypes.positions}}
-        <h3>{{name}}</h3>
-
-        <h4>Combinations</h4>
-        <p>Number of combinations: <b>{{count}}</b></p>
-        <p>{{#each combinations}}
-            <terrain><row><cell>{{this}}</cell></row></terrain>
+    <div class="combinations">
+        <h3>Information</h3>
+        <p>Variants: <b>{{#each areaCombinations.variants}}<terrain><cell>{{this}}</cell></terrain> {{/each}}</b></p>
+        <p>Combination length: <b>{{areaCombinations.length}}</b></p>
+        <p>Number of combinations: <b>{{areaCombinations.count}}</b></p>
+        <p>{{#each areaCombinations.combinations}}
+            <terrain class="square"><cell>{{this}}</cell></terrain>
         {{/each}}</p>
-    {{/each}}
     </div>
 
     <script>
