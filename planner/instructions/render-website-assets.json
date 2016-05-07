@@ -1,6 +1,6 @@
 [{
-    "asset": "website/layouts.js",
-    "template": "/website/layouts.js",
+    "asset": "website/lib/layouts.js",
+    "template": "/website/lib/layouts.js",
     "renderer": {
         "type": "text"
     },
@@ -8,8 +8,8 @@
         "$ref": "/data/areaLayout.json"
     }
 }, {
-    "asset": "website/tiles.js",
-    "template": "/website/tiles.js",
+    "asset": "website/lib/tiles.js",
+    "template": "/website/lib/tiles.js",
     "renderer": {
         "type": "text"
     },
