@@ -50,4 +50,17 @@
             "$ref": "/data/areaCombinations.json"
         }
     }
+}, {
+    "asset": "website/map-viewer.html",
+    "template": "/website/map-viewer.html",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {
+        "title": "Ascension - Map Viewer",
+        "dimensions": {
+            "width": 12,
+            "height": 12
+        }
+    }
 }]

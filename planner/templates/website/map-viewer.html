@@ -1,0 +1,128 @@
+<html>
+
+<head>
+    <title>{{title}}</title>
+    <style>
+        html,
+        body {
+            background: #EEE;
+            color: #333;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        .map.viewer cell {
+            width: 96px;
+            height: 96px;
+            line-height: 30%;
+        }
+
+        terrain {
+            display: inline-block;
+            width: 48px;
+            height: 48px;
+            background-size: contain;
+        }
+    </style>
+    <link href="tiles.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h1>{{title}}</h1>
+
+    <div id="map-viewer" class="map viewer"></div>
+
+    <script>
+        var $mapViewer;
+        var $mapCells;
+        var mapData;
+
+        var dimensions = {
+            width: parseInt("{{dimensions.width}}"),
+            height: parseInt("{{dimensions.height}}")
+        };
+
+        var tilesTypes = ['G', 'F', 'W', 'S', 'M'];
+
+        function setup() {
+            createMapCells();
+        }
+
+        function createMap(columns, rows) {
+            var map = [];
+
+            // first pass
+            for (var j = 0; j < rows; j++) {
+                map[j] = map[j] || [];
+                for (var i = 0; i < columns; i++) {
+                    map[j][i] = map[j][i] || {
+                        symbol: pickRandomTile(),
+                        x: i,
+                        y: j
+                    }
+                }
+            }
+
+            function f(tile, xOffset, yOffset) {
+                var row = map[tile.y + yOffset];
+                if(row) {
+                    return row[tile.x + xOffset] || tile;
+                }
+                else {
+                    return tile;
+                }
+            }
+
+            function interpolate(tiles) {
+                return tiles.map(function(tile) {
+                    return tile.symbol;
+                }).join('');
+            }
+
+            // second pass
+            map.forEach(function(row) {
+                row.forEach(function(tile) {
+                    tile.compass = {
+                        NW: interpolate([f(tile, -1, -1), f(tile, 0, -1), f(tile, -1, 0), f(tile, 0, 0)]),
+                        NE: interpolate([f(tile, 0, -1), f(tile, 1, -1), f(tile, 0, 0), f(tile, 1, 0)]),
+                        SW: interpolate([f(tile, -1, 0), f(tile, 0, 0), f(tile, -1, 1), f(tile, 0, 1)]),
+                        SE: interpolate([f(tile, 0, 0), f(tile, 1, 0), f(tile, 0, 1), f(tile, 1, 1)])
+                    };
+                });
+            });
+
+            return map;
+        }
+
+        function pickRandomTile() {
+            var r = Math.floor(Math.random() * tilesTypes.length);
+            return tilesTypes[r];
+        }
+
+        function createMapCells() {
+            $mapViewer = $('#map-viewer');
+            mapData = createMap(dimensions.width, dimensions.height);
+
+            $mapCells = [];
+            mapData.forEach(function(row) {
+                $row = $('<row></row>');
+                row.forEach(function(tile) {
+                    $cell = $('<cell class="tile tile-' + tile.symbol + ' primary"></cell>');
+                    $cell.append('<p>' + tile.symbol + ' : ' + tile.x + ', ' + tile.y + '</p>')
+                    $cell.append('<p>' + tile.compass.NW + '</p>');
+                    $cell.append('<p>' + tile.compass.NE + '</p>');
+                    $cell.append('<p>' + tile.compass.SW + '</p>');
+                    $cell.append('<p>' + tile.compass.SE + '</p>');
+                    $row.append($cell);
+                    $mapCells.push($cell);
+                });
+                $mapViewer.append($row);
+            });
+        }
+
+        $(setup);
+    </script>
+</body>
+
+</html>
