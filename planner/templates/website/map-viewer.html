@@ -57,10 +57,12 @@
             outline: 2px solid #333;
             outline-offset: -3px;
         }
+
         .map.viewer.outline-areas.mini cell {
             outline: 1px solid #444;
             outline-offset: -1px;
         }
+
         .map.viewer.outline-areas.micro cell {
             outline: 1px solid #555;
             outline-offset: -1px;
@@ -120,7 +122,7 @@
                 }
             }
 
-            function findTile(tile, xOffset, yOffset) {
+            map.findTile = function(tile, xOffset, yOffset) {
                 var row = map[tile.y + yOffset];
                 if (row) {
                     return row[tile.x + xOffset] || row[tile.x] || tile;
@@ -129,14 +131,15 @@
                 }
             }
 
-            // second pass
+            return map;
+        }
+
+        function interpolateMap(map, interpolationMethod) {
             map.forEach(function(row) {
                 row.forEach(function(tile) {
-                    tile.compass = interpolationMethod(tile, findTile);
+                    tile.compass = interpolationMethod(tile, map.findTile);
                 });
             });
-
-            return map;
         }
 
         function collapse(tiles) {
@@ -180,7 +183,9 @@
         function createMapCells(interpolationMethod) {
             $mapViewer = $('#map-viewer');
             $mapViewer.html('');
-            mapData = createMap(dimensions.width, dimensions.height, interpolationMethod);
+
+            mapData = mapData || createMap(dimensions.width, dimensions.height);
+            interpolateMap(mapData, interpolationMethod);
 
             $mapCells = [];
             mapData.forEach(function(row) {
