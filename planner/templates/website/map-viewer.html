@@ -12,19 +12,58 @@
         }
 
         .map.viewer cell {
-            width: 96px;
-            height: 96px;
             overflow: hidden;
             white-space: normal;
         }
 
         .map.viewer terrain {
             display: inline-block;
-            width: 48px;
-            height: 48px;
             line-height: normal;
             background-size: contain;
             margin: 0;
+        }
+
+        .map.viewer.macro cell {
+            width: 192px;
+            height: 192px;
+        }
+
+        .map.viewer.mini cell {
+            width: 96px;
+            height: 96px;
+        }
+
+        .map.viewer.micro cell {
+            width: 24px;
+            height: 24px;
+        }
+
+        .map.viewer.macro terrain {
+            width: 96px;
+            height: 96px;
+        }
+
+        .map.viewer.mini terrain {
+            width: 48px;
+            height: 48px;
+        }
+
+        .map.viewer.micro terrain {
+            width: 12px;
+            height: 12px;
+        }
+
+        .map.viewer.outline-areas.macro cell {
+            outline: 2px solid #333;
+            outline-offset: -3px;
+        }
+        .map.viewer.outline-areas.mini cell {
+            outline: 1px solid #444;
+            outline-offset: -1px;
+        }
+        .map.viewer.outline-areas.micro cell {
+            outline: 1px solid #555;
+            outline-offset: -1px;
         }
     </style>
     <link href="tiles.css" rel="stylesheet" />
@@ -34,7 +73,19 @@
 <body>
     <h1>{{title}}</h1>
 
-    <div id="map-viewer" class="map viewer inline bordered"></div>
+    <div class="options bordered inline">
+        <button id="interpolate-basic">Basic Interpolation</button>
+        <button id="interpolate-advanced">Advanced Interpolation</button>
+        <button id="interpolate-super">Super Interpolation</button>
+    </div>
+
+    <div class="options bordered inline">
+        <button id="micro-view">Micro View</button>
+        <button id="mini-view">Mini View</button>
+        <button id="macro-view">Macro View</button>
+    </div>
+
+    <div id="map-viewer" class="map viewer inline bordered outline-areas macro"></div>
 
     <script>
         var $mapViewer;
@@ -49,10 +100,12 @@
         var tilesTypes = ['G', 'F', 'W', 'S', 'M'];
 
         function setup() {
-            createMapCells();
+            createMapCells(superInterpolation);
+            setupInterpolationButtons();
+            setupViewButtons();
         }
 
-        function createMap(columns, rows) {
+        function createMap(columns, rows, interpolationMethod) {
             var map = [];
 
             // first pass
@@ -79,7 +132,7 @@
             // second pass
             map.forEach(function(row) {
                 row.forEach(function(tile) {
-                    tile.compass = superInterpolation(tile, findTile);
+                    tile.compass = interpolationMethod(tile, findTile);
                 });
             });
 
@@ -124,9 +177,10 @@
             return tilesTypes[r];
         }
 
-        function createMapCells() {
+        function createMapCells(interpolationMethod) {
             $mapViewer = $('#map-viewer');
-            mapData = createMap(dimensions.width, dimensions.height);
+            $mapViewer.html('');
+            mapData = createMap(dimensions.width, dimensions.height, interpolationMethod);
 
             $mapCells = [];
             mapData.forEach(function(row) {
@@ -149,6 +203,36 @@
                 var compass = $terrain.text();
                 $terrain.css("background-image", "url('areas/area-" + compass + ".png')");
                 $terrain.html(compass.substr(0, 2) + '<br/>' + compass.substr(2, 4))
+            });
+        }
+
+        function setupInterpolationButtons() {
+            $('button#interpolate-basic').on('click', function() {
+                createMapCells(basicInterpolation);
+            });
+
+            $('button#interpolate-advanced').on('click', function() {
+                createMapCells(advancedInterpolation);
+            });
+
+            $('button#interpolate-super').on('click', function() {
+                createMapCells(superInterpolation);
+            });
+        }
+
+        function setupViewButtons() {
+            var $mapViewer = $('#map-viewer');
+
+            $('button#macro-view').on('click', function() {
+                $mapViewer.addClass('macro').removeClass('micro').removeClass('mini');
+            });
+
+            $('button#mini-view').on('click', function() {
+                $mapViewer.addClass('mini').removeClass('micro').removeClass('macro');
+            });
+
+            $('button#micro-view').on('click', function() {
+                $mapViewer.addClass('micro').removeClass('mini').removeClass('macro');
             });
         }
 
