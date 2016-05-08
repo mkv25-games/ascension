@@ -79,7 +79,7 @@
             // second pass
             map.forEach(function(row) {
                 row.forEach(function(tile) {
-                    tile.compass = basicInterpolation(tile, findTile);
+                    tile.compass = advancedInterpolation(tile, findTile);
                 });
             });
 
@@ -90,6 +90,15 @@
             return tiles.map(function(tile) {
                 return tile.symbol;
             }).join('');
+        }
+
+        function advancedInterpolation(tile, f) {
+            return {
+                NW: collapse([f(tile, -1, -1), f(tile, 0, -1), f(tile, -1, 0), f(tile, -1, -1)]),
+                NE: collapse([f(tile, 0, -1), f(tile, 0, -1), f(tile, -1, -1), f(tile, 0, 0)]),
+                SW: collapse([f(tile, -1, 0), f(tile, -1, -1), f(tile, -1, 0), f(tile, 0, 0)]),
+                SE: collapse([f(tile, -1, -1), f(tile, 0, 0), f(tile, 0, 0), f(tile, 0, 0)])
+            };
         }
 
         function basicInterpolation(tile, f) {
