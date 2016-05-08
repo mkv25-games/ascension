@@ -23,6 +23,10 @@
             margin: 0;
         }
 
+        .map.viewer.hide-terrain terrain {
+            display: none;
+        }
+
         .map.viewer.macro cell {
             width: 192px;
             height: 192px;
@@ -87,7 +91,12 @@
         <button id="macro-view">Macro View</button>
     </div>
 
-    <div id="map-viewer" class="map viewer inline bordered outline-areas macro"></div>
+    <div class="options bordered inline">
+        <button id="hide-terrain">Hide Terrain</button>
+        <button id="show-terrain">Show Terrain</button>
+    </div>
+
+    <div id="map-viewer" class="map viewer inline bordered outline-areas macro show-terrain"></div>
 
     <script>
         var $mapViewer;
@@ -105,6 +114,7 @@
             createMapCells(superInterpolation);
             setupInterpolationButtons();
             setupViewButtons();
+            setupTerrainButtons();
         }
 
         function createMap(columns, rows, interpolationMethod) {
@@ -238,6 +248,18 @@
 
             $('button#micro-view').on('click', function() {
                 $mapViewer.addClass('micro').removeClass('mini').removeClass('macro');
+            });
+        }
+
+        function setupTerrainButtons() {
+            var $mapViewer = $('#map-viewer');
+
+            $('button#show-terrain').on('click', function() {
+                $mapViewer.addClass('show-terrain').removeClass('hide-terrain');
+            });
+
+            $('button#hide-terrain').on('click', function() {
+                $mapViewer.addClass('hide-terrain').removeClass('show-terrain');
             });
         }
 
