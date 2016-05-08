@@ -59,8 +59,8 @@
     "data": {
         "title": "Ascension - Map Viewer",
         "dimensions": {
-            "width": 12,
-            "height": 12
+            "width": 100,
+            "height": 100
         }
     }
 }]
