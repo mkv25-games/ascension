@@ -28,11 +28,14 @@ function writeAreaCombinations() {
         tileSymbolMap[tile.symbol] = tile;
     });
 
+    var areaLayouts = Object.keys(require('./data/areaLayouts.json').layouts);
+    var n = 0;
     var renderAreaInstructions = combinations.combinations.map((combination) => {
         var compass = combination.split('').map((tileSymbol) => {
             return tileSymbolMap[tileSymbol].id;
         });
-        return {
+
+        var instruction = {
             "asset": `website/areas/area-${combination}.png`,
             "template": "/tiles/viewer.html",
             "renderer": {
@@ -47,9 +50,13 @@ function writeAreaCombinations() {
                 "SW": compass[2],
                 "SE": compass[3],
                 "zoom": "mini",
-                "layout": "default"
+                "layout": "beached"
             }
         };
+
+        n++;
+
+        return instruction;
     });
 
     var n = 0;
@@ -61,7 +68,8 @@ function writeAreaCombinations() {
             }
         }
         n++;
-        write(`instructions-generated/03-render-areas-slice-${n}.json`, JSON.stringify(slice, null, 2), 'utf8').catch(handleError);
+        var suffix = ((n < 10) ? '0' : '') + n
+        write(`instructions-generated/03-render-areas-slice-${suffix}.json`, JSON.stringify(slice, null, 2), 'utf8').catch(handleError);
     }
 }
 
