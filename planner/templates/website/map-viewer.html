@@ -67,35 +67,38 @@
                 }
             }
 
-            function f(tile, xOffset, yOffset) {
+            function findTile(tile, xOffset, yOffset) {
                 var row = map[tile.y + yOffset];
-                if(row) {
+                if (row) {
                     return row[tile.x + xOffset] || row[tile.x] || tile;
-                }
-                else {
+                } else {
                     return map[tile.y][tile.x + xOffset] || tile;
                 }
-            }
-
-            function interpolate(tiles) {
-                return tiles.map(function(tile) {
-                    return tile.symbol;
-                }).join('');
             }
 
             // second pass
             map.forEach(function(row) {
                 row.forEach(function(tile) {
-                    tile.compass = {
-                        NW: interpolate([f(tile, -1, -1), f(tile, 0, -1), f(tile, -1, 0), f(tile, 0, 0)]),
-                        NE: interpolate([f(tile, 0, -1), f(tile, 0, -1), f(tile, 0, 0), f(tile, 0, 0)]),
-                        SW: interpolate([f(tile, -1, 0), f(tile, 0, 0), f(tile, -1, 0), f(tile, 0, 0)]),
-                        SE: interpolate([f(tile, 0, 0), f(tile, 0, 0), f(tile, 0, 0), f(tile, 0, 0)])
-                    };
+                    tile.compass = basicInterpolation(tile, findTile);
                 });
             });
 
             return map;
+        }
+
+        function collapse(tiles) {
+            return tiles.map(function(tile) {
+                return tile.symbol;
+            }).join('');
+        }
+
+        function basicInterpolation(tile, f) {
+            return {
+                NW: collapse([f(tile, -1, -1), f(tile, 0, -1), f(tile, -1, 0), f(tile, 0, 0)]),
+                NE: collapse([f(tile, 0, -1), f(tile, 0, -1), f(tile, 0, 0), f(tile, 0, 0)]),
+                SW: collapse([f(tile, -1, 0), f(tile, 0, 0), f(tile, -1, 0), f(tile, 0, 0)]),
+                SE: collapse([f(tile, 0, 0), f(tile, 0, 0), f(tile, 0, 0), f(tile, 0, 0)])
+            };
         }
 
         function pickRandomTile() {
