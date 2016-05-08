@@ -1,5 +1,6 @@
 var generateRenderAreaInstructions = require('./lib/generateRenderAreaInstructions');
 var createAreaCombinations = require('./lib/createAreaCombinations');
+var convertBitmapToJSON = require('./lib/convertBitmapToJSON');
 var write = require('promise-path').write;
 var handleError = (error) => {
     console.log(error, error.stack);
@@ -33,3 +34,7 @@ function writeRenderInstructions(combinations) {
 var areaCombinations = writeAreaCombinations();
 
 writeRenderInstructions(areaCombinations.combinations);
+
+convertBitmapToJSON('./data/sample-map-100x100.png', function(histogram) {
+    write('data/sample-map.json', JSON.stringify(histogram, null, 2), 'utf8').catch(handleError);
+});

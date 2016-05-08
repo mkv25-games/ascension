@@ -16,6 +16,7 @@
     "promise-path": "^1.2.2"
   },
   "devDependencies": {
-    "ftp-client": "^0.2.2"
+    "ftp-client": "^0.2.2",
+    "get-pixels": "^3.3.0"
   }
 }

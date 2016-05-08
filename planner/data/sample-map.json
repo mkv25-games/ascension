@@ -1,0 +1,27 @@
+{
+  "histogram": {
+    "pixelCount": 10000,
+    "width": 100,
+    "height": 100,
+    "124,195,201": {
+      "count": 3620,
+      "percentage": 0.362
+    },
+    "205,224,44": {
+      "count": 2594,
+      "percentage": 0.2594
+    },
+    "98,103,109": {
+      "count": 2271,
+      "percentage": 0.2271
+    },
+    "142,158,7": {
+      "count": 980,
+      "percentage": 0.098
+    },
+    "231,209,110": {
+      "count": 535,
+      "percentage": 0.0535
+    }
+  }
+}
