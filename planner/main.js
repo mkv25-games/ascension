@@ -33,7 +33,7 @@ function writeAreaCombinations() {
             return tileSymbolMap[tileSymbol].id;
         });
         return {
-            "asset": `areas/area-${combination}.png`,
+            "asset": `website/areas/area-${combination}.png`,
             "template": "/tiles/viewer.html",
             "renderer": {
                 "$ref": "/data/renderers/mini-384x.json"

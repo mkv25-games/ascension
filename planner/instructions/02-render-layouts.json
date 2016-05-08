@@ -1,5 +1,22 @@
 [{
-    "asset": "layouts/layout-default-spread.png",
+    "asset": "website/layouts/layout-default-spread.png",
+    "template": "/tiles/viewer.html",
+    "renderer": {
+        "$ref": "/data/renderers/mini-384x.json"
+    },
+    "data": {
+        "areaViewer": {
+            "$ref": "/data/areaLayouts.json"
+        },
+        "NW": 1,
+        "NE": 2,
+        "SW": 3,
+        "SE": 4,
+        "zoom": "mini",
+        "layout": "default"
+    }
+}, {
+    "asset": "website/layouts/layout-beach-spread.png",
     "template": "/tiles/viewer.html",
     "renderer": {
         "$ref": "/data/renderers/mini-384x.json"
@@ -16,24 +33,7 @@
         "layout": "beach spread"
     }
 }, {
-    "asset": "layouts/layout-beach-spread.png",
-    "template": "/tiles/viewer.html",
-    "renderer": {
-        "$ref": "/data/renderers/mini-384x.json"
-    },
-    "data": {
-        "areaViewer": {
-            "$ref": "/data/areaLayouts.json"
-        },
-        "NW": 1,
-        "NE": 2,
-        "SW": 3,
-        "SE": 4,
-        "zoom": "mini",
-        "layout": "beach spread"
-    }
-}, {
-    "asset": "layouts/layout-beached.png",
+    "asset": "website/layouts/layout-beached.png",
     "template": "/tiles/viewer.html",
     "renderer": {
         "$ref": "/data/renderers/mini-384x.json"
@@ -50,7 +50,7 @@
         "layout": "beached"
     }
 }, {
-    "asset": "layouts/layout-tear.png",
+    "asset": "website/layouts/layout-tear.png",
     "template": "/tiles/viewer.html",
     "renderer": {
         "$ref": "/data/renderers/mini-384x.json"
@@ -67,7 +67,7 @@
         "layout": "tear"
     }
 }, {
-    "asset": "layouts/layout-road-bridge.png",
+    "asset": "website/layouts/layout-road-bridge.png",
     "template": "/tiles/viewer.html",
     "renderer": {
         "$ref": "/data/renderers/mini-384x.json"
