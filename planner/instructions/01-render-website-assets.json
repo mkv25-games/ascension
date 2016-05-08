@@ -57,6 +57,18 @@
         }
     }
 }, {
+    "asset": "website/areas.html",
+    "template": "/website/areas.html",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {
+        "title": "Ascension - Area Layouts",
+        "areaCombinations": {
+            "$ref": "/data/areaCombinations.json"
+        }
+    }
+}, {
     "asset": "website/tiles.css",
     "template": "/website/tiles.css",
     "renderer": {
