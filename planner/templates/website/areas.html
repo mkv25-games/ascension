@@ -1,0 +1,36 @@
+<html>
+
+<head>
+    <title>{{title}}</title>
+    <style>
+        html, body {
+            background: #EEE;
+            color: #333;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+        terrain {
+            display: inline-block;
+            width: 48px;
+            height: 48px;
+            background-size: contain;
+        }
+    </style>
+    <link href="tiles.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <h1>{{title}}</h1>
+    <div class="combinations">
+        <h3>Information</h3>
+        <p>Variants: <b>{{#each areaCombinations.variants}}<cell>{{this}}</cell> {{/each}}</b></p>
+        <p>Combination length: <b>{{areaCombinations.length}}</b></p>
+        <p>Number of combinations: <b>{{areaCombinations.count}}</b></p>
+        <p>{{#each areaCombinations.combinations}}
+            <terrain style="background-image: url('areas/area-{{this}}.png');" alt="Area {{this}}"></terrain>
+        {{/each}}</p>
+    </div>
+</body>
+
+</html>
