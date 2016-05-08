@@ -14,14 +14,17 @@
         .map.viewer cell {
             width: 96px;
             height: 96px;
-            line-height: 30%;
+            overflow: hidden;
+            white-space: normal;
         }
 
-        terrain {
+        .map.viewer terrain {
             display: inline-block;
             width: 48px;
             height: 48px;
+            line-height: normal;
             background-size: contain;
+            margin: 0;
         }
     </style>
     <link href="tiles.css" rel="stylesheet" />
@@ -67,10 +70,10 @@
             function f(tile, xOffset, yOffset) {
                 var row = map[tile.y + yOffset];
                 if(row) {
-                    return row[tile.x + xOffset] || tile;
+                    return row[tile.x + xOffset] || row[tile.x] || tile;
                 }
                 else {
-                    return tile;
+                    return map[tile.y][tile.x + xOffset] || tile;
                 }
             }
 
@@ -85,9 +88,9 @@
                 row.forEach(function(tile) {
                     tile.compass = {
                         NW: interpolate([f(tile, -1, -1), f(tile, 0, -1), f(tile, -1, 0), f(tile, 0, 0)]),
-                        NE: interpolate([f(tile, 0, -1), f(tile, 1, -1), f(tile, 0, 0), f(tile, 1, 0)]),
-                        SW: interpolate([f(tile, -1, 0), f(tile, 0, 0), f(tile, -1, 1), f(tile, 0, 1)]),
-                        SE: interpolate([f(tile, 0, 0), f(tile, 1, 0), f(tile, 0, 1), f(tile, 1, 1)])
+                        NE: interpolate([f(tile, 0, -1), f(tile, 0, -1), f(tile, 0, 0), f(tile, 0, 0)]),
+                        SW: interpolate([f(tile, -1, 0), f(tile, 0, 0), f(tile, -1, 0), f(tile, 0, 0)]),
+                        SE: interpolate([f(tile, 0, 0), f(tile, 0, 0), f(tile, 0, 0), f(tile, 0, 0)])
                     };
                 });
             });
@@ -109,15 +112,22 @@
                 $row = $('<row></row>');
                 row.forEach(function(tile) {
                     $cell = $('<cell class="tile tile-' + tile.symbol + ' primary"></cell>');
-                    $cell.append('<p>' + tile.symbol + ' : ' + tile.x + ', ' + tile.y + '</p>')
-                    $cell.append('<p>' + tile.compass.NW + '</p>');
-                    $cell.append('<p>' + tile.compass.NE + '</p>');
-                    $cell.append('<p>' + tile.compass.SW + '</p>');
-                    $cell.append('<p>' + tile.compass.SE + '</p>');
+                    //$cell.append('<p>' + tile.symbol + ' : ' + tile.x + ', ' + tile.y + '</p>')
+                    $cell.append('<terrain>' + tile.compass.NW + '</terrain>');
+                    $cell.append('<terrain>' + tile.compass.NE + '</terrain>');
+                    $cell.append('<terrain>' + tile.compass.SW + '</terrain>');
+                    $cell.append('<terrain>' + tile.compass.SE + '</terrain>');
                     $row.append($cell);
                     $mapCells.push($cell);
                 });
                 $mapViewer.append($row);
+            });
+
+            $('terrain').each(function() {
+                $terrain = $(this);
+                var compass = $terrain.text();
+                $terrain.css("background-image", "url('areas/area-" + compass + ".png')");
+                $terrain.html(compass.substr(0, 2) + '<br/>' + compass.substr(2, 4))
             });
         }
 
