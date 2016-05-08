@@ -35,7 +35,7 @@ function convertBitmapToJSON(bitmapPath, callback) {
             var row = [];
             for (var i = 0; i < height; i++) {
                 pixel = pixels.getPixel(i, j);
-                row[i] = tilePixelMap[pixel.rgb].symbol;
+                row[i] = (tilePixelMap[pixel.rgb] || {}).symbol || '#';
             }
             map[j] = row.join(':');
         }
