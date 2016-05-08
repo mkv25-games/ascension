@@ -1,0 +1,28 @@
+[{
+    "asset": "website/lib/layouts.js",
+    "template": "/website/lib/layouts.js",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {
+        "$ref": "/data/areaLayouts.json"
+    }
+}, {
+    "asset": "website/lib/tiles.js",
+    "template": "/website/lib/tiles.js",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {
+        "$ref": "/data/tileTypes.json"
+    }
+},{
+    "asset": "website/tiles.css",
+    "template": "/website/tiles.css",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {
+        "$ref": "/data/tileTypes.json"
+    }
+}]
