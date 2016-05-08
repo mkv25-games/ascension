@@ -4,24 +4,24 @@
     "width": 100,
     "height": 100,
     "124,195,201": {
-      "count": 3620,
-      "percentage": 0.362
+      "count": 3541,
+      "percentage": 0.3541
     },
     "205,224,44": {
-      "count": 2594,
-      "percentage": 0.2594
+      "count": 2598,
+      "percentage": 0.2598
     },
     "98,103,109": {
-      "count": 2271,
-      "percentage": 0.2271
-    },
-    "142,158,7": {
-      "count": 980,
-      "percentage": 0.098
+      "count": 2266,
+      "percentage": 0.2266
     },
     "231,209,110": {
-      "count": 535,
-      "percentage": 0.0535
+      "count": 610,
+      "percentage": 0.061
+    },
+    "142,158,7": {
+      "count": 985,
+      "percentage": 0.0985
     }
   }
 }
