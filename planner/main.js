@@ -17,17 +17,24 @@ function writeAreaCombinations() {
 function writeRenderInstructions(combinations) {
     var renderAreaInstructions = generateRenderAreaInstructions(combinations);
 
-    var n = 0;
+    var page = 0;
+    var itemsPerPage = 10;
+    var totalItems = renderAreaInstructions.length;
     while (renderAreaInstructions.length > 0) {
         var slice = [];
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < itemsPerPage; i++) {
             if (renderAreaInstructions.length > 0) {
                 slice.push(renderAreaInstructions.pop());
             }
         }
-        n++;
-        var suffix = ((n < 10) ? '0' : '') + n
-        write(`instructions-generated/03-render-areas-slice-${suffix}.json`, JSON.stringify(slice, null, 2), 'utf8').catch(handleError);
+
+        var rangeStart = page * itemsPerPage;
+        var rangeEnd = Math.min(rangeStart + itemsPerPage - 1, totalItems);
+        page++;
+
+        var prefix = ((page < itemsPerPage) ? '0' : '') + page;
+        var suffix = `${rangeStart}-${rangeEnd}`;
+        write(`instructions-generated/${prefix}-render-areas-slice-${suffix}.json`, JSON.stringify(slice, null, 2), 'utf8').catch(handleError);
     }
 }
 
