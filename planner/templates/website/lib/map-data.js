@@ -1,0 +1,1 @@
+var mapData = {{json mapData}};

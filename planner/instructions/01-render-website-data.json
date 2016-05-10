@@ -17,6 +17,15 @@
         "$ref": "/data/tileTypes.json"
     }
 }, {
+    "asset": "website/lib/map-data.js",
+    "template": "/website/lib/map-data.js",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {
+        "$ref": "/data/sample-map.json"
+    }
+}, {
     "asset": "website/lib/navigation.js",
     "template": "/website/lib/navigation.js",
     "renderer": {
