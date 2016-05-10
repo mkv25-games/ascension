@@ -16,7 +16,31 @@
     "data": {
         "$ref": "/data/tileTypes.json"
     }
-},{
+}, {
+    "asset": "website/lib/navigation.js",
+    "template": "/website/lib/navigation.js",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {
+        "navigationItems": [{
+            "href": "areas.html",
+            "text": "Areas"
+        }, {
+            "href": "combinations.html",
+            "text": "Combinations"
+        }, {
+            "href": "editor.html",
+            "text": "Area Editor"
+        }, {
+            "href": "map-viewer.html",
+            "text": "Map Viewer"
+        }, {
+            "href": "tiles.html",
+            "text": "Tiles"
+        }]
+    }
+}, {
     "asset": "website/tiles.css",
     "template": "/website/tiles.css",
     "renderer": {
@@ -25,4 +49,11 @@
     "data": {
         "$ref": "/data/tileTypes.json"
     }
+}, {
+    "asset": "website/css/navigation.css",
+    "template": "/website/css/navigation.css",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {}
 }]

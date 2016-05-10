@@ -1,0 +1,14 @@
+navigation a {
+    display: inline-block;
+    padding: 4px 8px;
+    margin: 3px;
+    color: #333;
+    background: #F4F4F4;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+navigation a:hover {
+    color: #555;
+    background: #FEFEFE;
+}
