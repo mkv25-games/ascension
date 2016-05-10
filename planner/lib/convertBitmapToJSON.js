@@ -42,7 +42,7 @@ function convertBitmapToJSON(bitmapPath, callback) {
 
         var histogram = createHistogram(pixels);
 
-        console.log("Histogram", JSON.stringify(histogram, null, 2));
+        // console.log("Histogram", JSON.stringify(histogram, null, 2));
 
         (callback) ? callback({
             histogram,

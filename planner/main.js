@@ -5,11 +5,18 @@ var write = require('promise-path').write;
 var handleError = (error) => {
     console.log(error, error.stack);
 };
+var report = function(message) {
+    return (data) => {
+        console.log(message, data || '');
+    };
+};
 
 function writeAreaCombinations() {
     var combinations = createAreaCombinations();
 
-    write('data/areaCombinations.json', JSON.stringify(combinations, null, 2), 'utf8').catch(handleError);
+    write('data/areaCombinations.json', JSON.stringify(combinations, null, 2), 'utf8')
+        .then(report('Write Area Combinations'))
+        .catch(handleError);
 
     return combinations;
 }
@@ -34,7 +41,9 @@ function writeRenderInstructions(combinations) {
 
         var prefix = ((page < itemsPerPage) ? '0' : '') + page;
         var suffix = `${rangeStart}-${rangeEnd}`;
-        write(`instructions-generated/${prefix}-render-areas-slice-${suffix}.json`, JSON.stringify(slice, null, 2), 'utf8').catch(handleError);
+        write(`instructions-generated/${prefix}-render-areas-slice-${suffix}.json`, JSON.stringify(slice, null, 2), 'utf8')
+            .then(report(`Write Area Slice ${prefix} for items ${suffix}`))
+            .catch(handleError);
     }
 }
 
@@ -43,5 +52,7 @@ var areaCombinations = writeAreaCombinations();
 writeRenderInstructions(areaCombinations.combinations);
 
 convertBitmapToJSON('./data/sample-map-100x100.png', function(histogram) {
-    write('data/sample-map.json', JSON.stringify(histogram, null, 2), 'utf8').catch(handleError);
+    write('data/sample-map.json', JSON.stringify(histogram, null, 2), 'utf8')
+        .then(report(`Create sample map from bitmap`))
+        .catch(handleError);
 });
