@@ -41,8 +41,8 @@
         }]
     }
 }, {
-    "asset": "website/tiles.css",
-    "template": "/website/tiles.css",
+    "asset": "website/css/tiles.css",
+    "template": "/website/css/tiles.css",
     "renderer": {
         "type": "text"
     },
