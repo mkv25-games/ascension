@@ -80,50 +80,84 @@ row {
     white-space: nowrap;
 }
 
-cell {
-    background: white;
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 48px;
-    width: 48px;
-    height: 48px;
-    text-align: center;
-    font-family: monospace;
-}
-
-terrain {
+p > cell {
     margin: 2px 0;
+}
+
+cell {
     display: inline-block;
-}
+    background: white;
+    background-size: contain;
 
-terrain.square {
-    width: 40px;
-}
-
-terrain cell {
     width: 20px;
     height: 20px;
     line-height: 20px;
-    display: inline-block;
+
+    text-align: center;
+    font-family: monospace;
+    vertical-align: middle;
+}
+
+cell.square {
+    width: 40px;
 }
 
 .micro cell {
-    vertical-align: top;
-    width: 1px;
-    height: 1px;
-    text-align: center;
-    font-family: monospace;
+    width: 8px;
+    height: 8px;
     font-size: 0;
     line-height: 0;
 }
+
 .mini cell {
-    vertical-align: top;
-    width: 8px;
-    height: 8px;
-    text-align: center;
-    font-family: monospace;
+    width: 24px;
+    height: 24px;
     font-size: 0;
     line-height: 0;
+}
+
+.normal cell {
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
+}
+
+.macro cell {
+    width: 96px;
+    height: 96px;
+}
+
+terrain {
+    display: inline-block;
+    background-size: contain;
+
+    text-align: center;
+    font-family: monospace;
+    vertical-align: middle;
+}
+
+.micro terrain {
+    width: 4px;
+    height: 4px;
+    line-height: 4px;
+}
+
+.mini terrain {
+    width: 12px;
+    height: 12px;
+    line-height: 12px;
+}
+
+.normal terrain {
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+}
+
+.macro terrain {
+    width: 48px;
+    height: 48px;
+    line-height: 48px;
 }
 
 pre {

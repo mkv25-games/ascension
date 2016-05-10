@@ -35,7 +35,7 @@
     <div class="options bordered inline">
         <button id="micro-view">Micro View</button>
         <button id="mini-view">Mini View</button>
-        <button id="macro-view">Macro View</button>
+        <button id="normal-view">Normal View</button>
     </div>
 
     <div class="options bordered inline">
@@ -44,7 +44,7 @@
 
     <div class="options bordered inline" id="tile-selector"></div>
 
-    <div class="tile area viewer bordered inline mini area contents"></div>
+    <div id="area-viewer" class="tile area viewer bordered inline mini area contents"></div>
 
     <h2>Tile Data</h2>
     <pre id="tile-data" class="bordered"></pre>
@@ -157,19 +157,22 @@
         }
 
         function setupViewButtons() {
-            var $tileAreaViewer = $('.tile.area.viewer');
+            var variants = ['micro', 'mini', 'normal', 'macro'];
+            var $target = $('#area-viewer');
 
-            $('button#macro-view').on('click', function() {
-                $tileAreaViewer.removeClass('micro').removeClass('mini');
-            });
+            function changeClass($el, type, variants) {
+                return function() {
+                    variants.forEach(function(variant) {
+                        $el.removeClass(variant);
+                    });
+                    $el.addClass(type);
+                }
+            }
 
-            $('button#mini-view').on('click', function() {
-                $tileAreaViewer.addClass('mini').removeClass('micro');
-            });
-
-            $('button#micro-view').on('click', function() {
-                $tileAreaViewer.addClass('micro').removeClass('mini');
-            });
+            $('button#micro-view').on('click', changeClass($target, 'micro', variants));
+            $('button#mini-view').on('click', changeClass($target, 'mini', variants));
+            $('button#normal-view').on('click', changeClass($target, 'normal', variants));
+            $('button#macro-view').on('click', changeClass($target, 'macro', variants));
         }
 
         function setupLayoutSelection() {

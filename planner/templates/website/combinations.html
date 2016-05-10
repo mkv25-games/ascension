@@ -16,28 +16,28 @@
 
 <body>
     <h1>{{title}}</h1>
-    <div class="combinations">
-        <h3>Information</h3>
-        <p>Variants: <b>{{#each areaCombinations.variants}}<terrain><cell>{{this}}</cell></terrain> {{/each}}</b></p>
-        <p>Combination length: <b>{{areaCombinations.length}}</b></p>
-        <p>Number of combinations: <b>{{areaCombinations.count}}</b></p>
-        <p>{{#each areaCombinations.combinations}}
-            <terrain class="square"><cell>{{this}}</cell></terrain>
-        {{/each}}</p>
-    </div>
+
+    <h3>Variants</h3>
+    <p class="inline normal">{{#each areaCombinations.variants}}<terrain class="tile-{{this}} primary">{{this}}</terrain> {{/each}}</p>
+    <p>Combination length: <b>{{areaCombinations.length}}</b></p>
+    <p>Number of combinations: <b>{{areaCombinations.count}}</b></p>
+
+    <p class="combinations inline normal">{{#each areaCombinations.combinations}}
+        <cell class="square">{{this}}</cell>
+    {{/each}}</p>
 
     <script>
 
     function setup() {
         var compass = ['NW', 'NE', 'SW', 'SE'];
-        $('terrain').each(function() {
-            $terrain = $(this);
-            var cells = $terrain.text().split('');
+        $('cell').each(function() {
+            $cell = $(this);
+            var terrainAreas = $cell.text().split('');
             var cellElements = '';
-            cells.forEach(function(cell, index, array) {
-                cellElements += '<cell class="tile-' + cell + ' primary compass-' + compass[index] + '">' + cell + '</cell>';
+            $cell.html('');
+            terrainAreas.forEach(function(areaCode, index, array) {
+                $cell.append('<terrain class="tile-' + areaCode + ' primary compass-' + compass[index] + '">' + areaCode + '</terrain>')
             });
-            $terrain.html(cellElements);
         });
     }
 

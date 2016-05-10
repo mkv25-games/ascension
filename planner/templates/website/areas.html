@@ -3,17 +3,12 @@
 <head>
     <title>{{title}}</title>
     <style>
-        html, body {
+        html,
+        body {
             background: #EEE;
             color: #333;
             font-family: sans-serif;
             padding: 20px;
-        }
-        terrain {
-            display: inline-block;
-            width: 48px;
-            height: 48px;
-            background-size: contain;
         }
     </style>
     <link href="tiles.css" rel="stylesheet" />
@@ -22,15 +17,49 @@
 
 <body>
     <h1>{{title}}</h1>
-    <div class="combinations">
+
+    <div class="options bordered inline">
+        <button id="micro-view">Micro View</button>
+        <button id="mini-view">Mini View</button>
+        <button id="normal-view">Normal View</button>
+        <button id="macro-view">Macro View</button>
+    </div>
+
+    <div id="combinations" class="combinations mini">
         <h3>Information</h3>
-        <p>Variants: <b>{{#each areaCombinations.variants}}<cell>{{this}}</cell> {{/each}}</b></p>
-        <p>Combination length: <b>{{areaCombinations.length}}</b></p>
         <p>Number of combinations: <b>{{areaCombinations.count}}</b></p>
         <p>{{#each areaCombinations.combinations}}
-            <terrain style="background-image: url('areas/area-{{this}}.png');" alt="Area {{this}}"></terrain>
-        {{/each}}</p>
+            <cell style="background-image: url('areas/area-{{this}}.png');" alt="Area {{this}}"></cell>
+            {{/each}}</p>
     </div>
+
+    <script>
+        function setup() {
+            setupViewButtons();
+        }
+
+        function setupViewButtons() {
+            var variants = ['micro', 'mini', 'normal', 'macro'];
+            var $target = $('#combinations');
+
+            function changeClass($el, type, variants) {
+                return function() {
+                    variants.forEach(function(variant) {
+                        $el.removeClass(variant);
+                    });
+                    $el.addClass(type);
+                }
+            }
+
+            $('button#micro-view').on('click', changeClass($target, 'micro', variants));
+            $('button#mini-view').on('click', changeClass($target, 'mini', variants));
+            $('button#normal-view').on('click', changeClass($target, 'normal', variants));
+            $('button#macro-view').on('click', changeClass($target, 'macro', variants));
+        }
+
+        $(setup);
+    </script>
+
 </body>
 
 </html>
