@@ -21,7 +21,7 @@
 
 <body>
     <div style="width: 384px; position: absolute;" id="debug"></div>
-    <div class="tile area viewer inline mini area contents"></div>
+    <div class="tile area viewer inline micro area contents"></div>
 
     <script>
         $('#debug').append('{{areaViewer.dimensions.width}}, {{areaViewer.dimensions.height}}, {{layout}}');
@@ -40,7 +40,7 @@
 
         var layout = layouts['{{layout}}'] || layouts['default'];
 
-        var tileTypes = [1, 2, 3, 4, 5];
+        var tileTypes = 'GFWSM'.split('');
         var tileCompass = ['NW', 'NE', 'SW', 'SE'];
         var areaTiles = decodeTiles(layout.tiles);
         var $cells = [];
