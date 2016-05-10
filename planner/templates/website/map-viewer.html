@@ -18,7 +18,6 @@
 
         .map.viewer terrain {
             display: inline-block;
-            line-height: normal;
             background-size: contain;
             margin: 0;
         }
@@ -185,9 +184,9 @@
 
             $('terrain').each(function() {
                 $terrain = $(this);
-                var compass = $terrain.text();
-                $terrain.css("background-image", "url('areas/area-" + compass + ".png')");
-                $terrain.html(compass.substr(0, 2) + '<br/>' + compass.substr(2, 4))
+                var compass = $terrain.text().split('');
+                $terrain.css("background-image", "url('areas/area-" + compass.join('') + ".png')");
+                $terrain.html('<label>' + compass[0] + ' ' + compass[1] + '<br/>' + compass[2] + ' ' + compass[3] + '</label>')
             });
         }
 

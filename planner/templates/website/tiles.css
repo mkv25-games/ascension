@@ -117,14 +117,15 @@ cell.square {
 }
 
 .normal cell {
-    width: 48px;
-    height: 48px;
-    line-height: 48px;
+    width: 64px;
+    height: 64px;
+    line-height: 64px;
 }
 
 .macro cell {
-    width: 96px;
-    height: 96px;
+    width: 128px;
+    height: 128px;
+    line-height: 128px;
 }
 
 terrain {
@@ -134,6 +135,15 @@ terrain {
     text-align: center;
     font-family: monospace;
     vertical-align: middle;
+}
+
+terrain > label {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    line-height: normal;
+    display: block;
+    opacity: 0.5;
 }
 
 .micro terrain {
@@ -149,15 +159,15 @@ terrain {
 }
 
 .normal terrain {
-    width: 24px;
-    height: 24px;
-    line-height: 24px;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
 }
 
 .macro terrain {
-    width: 48px;
-    height: 48px;
-    line-height: 48px;
+    width: 64px;
+    height: 64px;
+    line-height: 64px;
 }
 
 pre {
