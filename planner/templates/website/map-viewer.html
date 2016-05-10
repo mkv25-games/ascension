@@ -46,6 +46,8 @@
 
     <link href="css/navigation.css" rel="stylesheet" />
     <script src="lib/navigation.js"></script>
+
+    <script src="lib/map-data.js"></script>
 </head>
 
 <body>
@@ -75,14 +77,13 @@
     <script>
         var $mapViewer;
         var $mapCells;
-        var mapData;
 
         var dimensions = {
             width: parseInt("{{dimensions.width}}"),
             height: parseInt("{{dimensions.height}}")
         };
 
-        var tilesTypes = ['G', 'F', 'W', 'S', 'M'];
+        var tilesTypes = 'GFWSM'.split('');
 
         function setup() {
             createMapCells(superInterpolation);
