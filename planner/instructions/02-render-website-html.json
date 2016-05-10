@@ -1,6 +1,6 @@
 [{
-    "asset": "website/editor.html",
-    "template": "/website/editor.html",
+    "asset": "website/area-editor.html",
+    "template": "/website/area-editor.html",
     "renderer": {
         "type": "text"
     },
