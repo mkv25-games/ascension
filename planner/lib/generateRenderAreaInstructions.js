@@ -2,6 +2,7 @@ var areaLayouts = require('../data/areaLayouts.json');
 var tileTypes = require('../data/tileTypes.json');
 
 function generateRenderAreaInstructions(combinations) {
+
     var tileSymbolMap = {};
     tileTypes.tiles.forEach((tile) => {
         tileSymbolMap[tile.symbol] = tile;
