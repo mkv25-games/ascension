@@ -1,7 +1,52 @@
 {
     "tiles": [{
-        "name": "grass",
+        "name": "empty",
+        "id": 0,
+        "palette": {
+            "code": "0,0,0",
+            "primary": "#000000",
+            "secondary": "#333333"
+        },
+        "symbol": "E"
+    }, {
+        "name": "north west",
         "id": 1,
+        "palette": {
+            "code": "255,0,0",
+            "primary": "#ff0000",
+            "secondary": "#aa0000"
+        },
+        "symbol": "NW"
+    }, {
+        "name": "north east",
+        "id": 2,
+        "palette": {
+            "code": "255,255,0",
+            "primary": "#ffff00",
+            "secondary": "#aaaa00"
+        },
+        "symbol": "NE"
+    }, {
+        "name": "south west",
+        "id": 3,
+        "palette": {
+            "code": "0,255,0",
+            "primary": "#00ff00",
+            "secondary": "#00aa00"
+        },
+        "symbol": "SW"
+    }, {
+        "name": "south east",
+        "id": 4,
+        "palette": {
+            "code": "0,0,255",
+            "primary": "#0000ff",
+            "secondary": "#0000aa"
+        },
+        "symbol": "SE"
+    }, {
+        "name": "grass",
+        "id": 5,
         "palette": {
             "code": "205,224,44",
             "primary": "#cde02c",
@@ -10,7 +55,7 @@
         "symbol": "G"
     }, {
         "name": "forest",
-        "id": 2,
+        "id": 6,
         "palette": {
             "code": "142,158,7",
             "primary": "#8e9e07",
@@ -19,7 +64,7 @@
         "symbol": "F"
     }, {
         "name": "water",
-        "id": 3,
+        "id": 7,
         "palette": {
             "code": "124,195,201",
             "primary": "#7cc3c9",
@@ -28,7 +73,7 @@
         "symbol": "W"
     }, {
         "name": "sand",
-        "id": 4,
+        "id": 8,
         "palette": {
             "code": "231,209,110",
             "primary": "#e7d16e",
@@ -37,7 +82,7 @@
         "symbol": "S"
     }, {
         "name": "mountain",
-        "id": 5,
+        "id": 9,
         "palette": {
             "code": "98,103,109",
             "primary": "#62676d",

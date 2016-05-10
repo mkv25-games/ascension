@@ -49,7 +49,7 @@
         <select id="layout-selection"></select>
     </div>
 
-    <div class="options bordered inline" id="tile-selector"></div>
+    <div class="options bordered inline normal" id="tile-selector"></div>
 
     <div id="area-viewer" class="tile area viewer bordered inline mini area contents"></div>
 
@@ -71,7 +71,6 @@
             height: Number.parseInt("{{areaViewer.dimensions.height}}")
         };
 
-        var tileTypes = [1, 2, 3, 4, 5];
         var tileCompass = ['NW', 'NE', 'SW', 'SE'];
         var areaTiles = decodeTiles(layouts.default.tiles);
         var $cells = [];
@@ -81,7 +80,6 @@
 
         function setup() {
 
-            setupTileCompass();
             setupTileSelector();
             setupAreaViewer();
             setupMouseInput();
@@ -91,34 +89,12 @@
             displayRawTileData();
         }
 
-        function setupTileCompass() {
-            $('.compass.tile').on('click', function() {
-                var $compassTile = $(this);
-                var compassKey = $compassTile.text();
-                var newValue = (compassMap[compassKey] % tileTypes.length) + 1;
-                changeCompassType(compassKey, newValue);
-                $($compassTile).disableSelection();
-            });
-        }
-
         function setupTileSelector() {
 
             $tileSelector = $('#tile-selector');
 
-            tileCompass.forEach(function(compassKey) {
-                $tile = $(`<cell class="display tile selector tile-${compassKey} secondary">${compassKey}</cell>`);
-                $tile.on('click', function() {
-                    $tile = $(this);
-                    $('.tile.selector').removeClass('selected').removeClass('primary').addClass('secondary');
-                    $tile.addClass('selected').removeClass('secondary').addClass('primary');
-                    var tileKey = $tile.text();
-                    paintValue = tileKey;
-                });
-                $tileSelector.append($tile);
-            });
-
             tiles.forEach(function(tile) {
-                $tile = $(`<cell class="tile selector tile-${tile.id} secondary">${tile.symbol}</cell>`);
+                $tile = $(`<cell class="tile selector tile-${tile.symbol} secondary">${tile.symbol}</cell>`);
                 $tile.on('click', function() {
                     $tile = $(this);
                     $('.tile.selector').removeClass('selected').removeClass('primary').addClass('secondary');
@@ -128,12 +104,6 @@
                 });
                 $tileSelector.append($tile);
             });
-        }
-
-        function changeCompassType(compassKey, value) {
-            compassMap[compassKey] = value;
-            removeColours();
-            colourTiles();
         }
 
         function setupAreaViewer() {
@@ -256,8 +226,8 @@
         }
 
         function removeColours() {
-            tileTypes.forEach(function(i) {
-                $('.display.tile-' + i).removeClass('tile-' + i);
+            tiles.forEach(function(tile) {
+                $('.display.tile-' + tile.symbol).removeClass('tile-' + tile.symbol);
             })
         }
 
