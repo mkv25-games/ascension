@@ -47,8 +47,21 @@ function writeRenderInstructions(combinations) {
     }
 }
 
+function writeMissingAreaLayouts(combinations) {
+    // computer, enhance
+    var areaLayouts = require('./data/areaLayouts.json');
+    combinations.forEach(function(combination) {
+        areaLayouts.layouts[combination] = areaLayouts.layouts[combination] || areaLayouts.layouts.default;
+    });
+
+    write('data/areaLayouts.json', JSON.stringify(areaLayouts, null, 2), 'utf8')
+        .then(report('Write Area Layouts with default combinations'))
+        .catch(handleError);
+}
+
 var areaCombinations = writeAreaCombinations();
 
+writeMissingAreaLayouts(areaCombinations.combinations);
 writeRenderInstructions(areaCombinations.combinations);
 
 convertBitmapToJSON('./data/sample-map-100x100.png', function(histogram) {
