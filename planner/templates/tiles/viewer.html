@@ -24,7 +24,7 @@
     <div class="tile area viewer inline micro area contents"></div>
 
     <script>
-        $('#debug').append('{{areaViewer.dimensions.width}}, {{areaViewer.dimensions.height}}, {{layout}}');
+        $('#debug').append('48, 48, {{layout}}');
 
         var compassMap = {
             NW: "{{NW}}",
@@ -34,8 +34,8 @@
         };
 
         var dimensions = {
-            width: parseInt("{{areaViewer.dimensions.width}}"),
-            height: parseInt("{{areaViewer.dimensions.height}}")
+            width: parseInt("48"),
+            height: parseInt("48")
         };
 
         var layout = layouts['{{layout}}'] || layouts['default'];

@@ -22,9 +22,6 @@ function generateRenderAreaInstructions(combinations) {
                 "$ref": "/data/renderers/mini-384x.json"
             },
             "data": {
-                "areaViewer": {
-                    "$ref": "/data/areaLayouts.json"
-                },
                 "NW": compass[0],
                 "NE": compass[1],
                 "SW": compass[2],

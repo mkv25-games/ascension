@@ -6,9 +6,6 @@
     },
     "data": {
         "title": "Ascension - Area Editor",
-        "areaViewer": {
-            "$ref": "/data/areaLayouts.json"
-        },
         "NW": "G",
         "NE": "F",
         "SW": "M",
