@@ -4,8 +4,8 @@
   "description": "Ascension Tile Planner",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js",
-    "generate:website": "hag generate",
+    "start": "node main.js && npm run-script generate:website",
+    "generate:website": "hag generate > generate.log",
     "generate:areas": "hag generate *.json -i instructions-generated",
     "upload:text": "cd build/website && node ../../scripts/upload-text.js && cd ../../",
     "upload:all": "cd build/website && node ../../scripts/upload-all.js && cd ../../"

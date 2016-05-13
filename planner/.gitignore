@@ -1,3 +1,4 @@
 build
 auth.secret.json
 instructions-generated
+generate.log
