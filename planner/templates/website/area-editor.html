@@ -29,12 +29,12 @@
     <table class="tile grid preview bordered inline">
         <tbody>
             <tr>
-                <td class="compass display tile tile-NW tile-G primary">NW</td>
-                <td class="compass display tile tile-NE tile-F primary">NE</td>
+                <td class="compass compass-NW display tile tile-NW tile-G primary">NW</td>
+                <td class="compass compass-NE display tile tile-NE tile-F primary">NE</td>
             </tr>
             <tr>
-                <td class="compass display tile tile-SW tile-M primary">SW</td>
-                <td class="compass display tile tile-SE tile-W primary">SE</td>
+                <td class="compass compass-SW display tile tile-SW tile-M primary">SW</td>
+                <td class="compass compass-SE display tile tile-SE tile-W primary">SE</td>
             </tr>
         </tbody>
     </table>
@@ -116,6 +116,7 @@
                     $cell = $(`<cell class="display tile-${fill} primary">${fill}</cell>`);
                     $cell.on('mouseover', paintCell($cell, j, i));
                     $cell.update = updateCell($cell, j, i);
+                    $cell.update();
                     $row.append($cell);
                     $cells.push($cell);
                 }
@@ -285,7 +286,7 @@
 
         function colourTiles() {
             tileCompass.forEach(function(k) {
-                $('.display.tile-' + k).addClass('tile-' + compassMap[k]);
+                $('.compass-' + k).addClass('tile-' + compassMap[k]);
             });
         }
 
