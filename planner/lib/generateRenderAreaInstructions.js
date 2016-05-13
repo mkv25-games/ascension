@@ -27,7 +27,7 @@ function generateRenderAreaInstructions(combinations) {
                 "SW": compass[2],
                 "SE": compass[3],
                 "zoom": "mini",
-                "layout": "beached"
+                "layout": combination
             }
         };
 
