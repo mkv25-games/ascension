@@ -29,12 +29,12 @@
     <table class="tile grid preview bordered inline">
         <tbody>
             <tr>
-                <td class="compass compass-NW display tile tile-NW tile-G primary">NW</td>
-                <td class="compass compass-NE display tile tile-NE tile-F primary">NE</td>
+                <td class="compass compass-NW display tile tile-NW primary">NW</td>
+                <td class="compass compass-NE display tile tile-NE primary">NE</td>
             </tr>
             <tr>
-                <td class="compass compass-SW display tile tile-SW tile-M primary">SW</td>
-                <td class="compass compass-SE display tile tile-SE tile-W primary">SE</td>
+                <td class="compass compass-SW display tile tile-SW primary">SW</td>
+                <td class="compass compass-SE display tile tile-SE primary">SE</td>
             </tr>
         </tbody>
     </table>
@@ -72,20 +72,21 @@
         };
 
         var tileCompass = ['NW', 'NE', 'SW', 'SE'];
-        var areaTiles = decodeTiles(layouts.default, dimensions.width, dimensions.height);
+        var layoutId = getUrlParameter('layout') || 'default';
+        var areaTiles = [];
         var $cells = [];
 
         var isMouseDown = false;
         var paintValue = tileCompass[0];
 
         function setup() {
-
             setupTileSelector();
             setupAreaViewer();
             setupMouseInput();
             setupViewButtons();
             setupLayoutSelection();
 
+            showLayout(layoutId);
             displayRawTileData();
         }
 
@@ -160,11 +161,26 @@
                 $option = $(`<option id="layout-${key}" value="${key}">${key}</option>`);
                 $layoutSelection.append($option);
             });
+            $layoutSelection.val(layoutId);
             $layoutSelection.on('change', function() {
-                var key = $layoutSelection.val();
-                console.log('Change', key);
-                showTileData(layouts[key]);
+                var value = $(this).val();
+                window.location = '?layout=' + value;
             });
+        }
+
+        function showLayout(id) {
+            console.log('Show layout', id);
+
+            if (id.length === 4) {
+                compassMap = {
+                    NW: id[0],
+                    NE: id[1],
+                    SW: id[2],
+                    SE: id[3]
+                }
+            }
+
+            showTileData(layouts[id]);
         }
 
         function showTileData(tileData) {
@@ -289,6 +305,21 @@
                 $('.compass-' + k).addClass('tile-' + compassMap[k]);
             });
         }
+
+        function getUrlParameter(sParam) {
+            var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                sURLVariables = sPageURL.split('&'),
+                sParameterName,
+                i;
+
+            for (i = 0; i < sURLVariables.length; i++) {
+                sParameterName = sURLVariables[i].split('=');
+
+                if (sParameterName[0] === sParam) {
+                    return sParameterName[1] === undefined ? true : sParameterName[1];
+                }
+            }
+        };
 
         (function($) {
             $.fn.disableSelection = function() {
