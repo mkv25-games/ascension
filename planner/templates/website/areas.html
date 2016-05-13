@@ -10,6 +10,9 @@
             font-family: sans-serif;
             padding: 20px;
         }
+        cell {
+            cursor: pointer;
+        }
     </style>
     <link href="css/tiles.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
@@ -30,17 +33,25 @@
         <button id="macro-view">Macro View</button>
     </div>
 
-    <div id="combinations" class="combinations mini">
+    <div id="combinations" class="combinations macro">
         <h3>Information</h3>
         <p>Number of combinations: <b>{{areaCombinations.count}}</b></p>
         <p>{{#each areaCombinations.combinations}}
-            <cell style="background-image: url('areas/area-{{this}}.png');" alt="Area {{this}}"></cell>
+            <cell style="background-image: url('areas/area-{{this}}.png');" alt="Area {{this}}" x-href="area-editor.html?layout={{this}}"></cell>
             {{/each}}</p>
     </div>
 
     <script>
         function setup() {
+            setupCellActions();
             setupViewButtons();
+        }
+
+        function setupCellActions() {
+            $('cell').on('click', function() {
+                var href = $(this).attr('x-href');
+                window.location = href;
+            });
         }
 
         function setupViewButtons() {
