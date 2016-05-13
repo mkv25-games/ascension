@@ -8,7 +8,8 @@
     "generate:website": "hag generate > generate.log",
     "generate:areas": "hag generate *.json -i instructions-generated",
     "upload:text": "cd build/website && node ../../scripts/upload-text.js && cd ../../",
-    "upload:all": "cd build/website && node ../../scripts/upload-all.js && cd ../../"
+    "upload:all": "cd build/website && node ../../scripts/upload-all.js && cd ../../",
+    "import:area": "node scripts/add-area-layout.js"
   },
   "author": "Markavian",
   "license": "ISC",
