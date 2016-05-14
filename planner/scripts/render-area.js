@@ -1,0 +1,29 @@
+var generateInstructionForCombination = require('../lib/generateInstructionForCombination');
+var areaCombinations = require('../data/areaCombinations.json');
+var write = require('promise-path').write;
+var run = require('promise-path').run;
+var report = require('../lib/report');
+var handleError = require('../lib/handleError');
+
+var layoutId = process.argv.pop();
+var validLayoutId = /[GFWSM]{4}/;
+
+if (!validLayoutId.test(layoutId)) {
+    console.error('Invalid layout ID:', layoutId);
+    process.exit(1);
+};
+
+function writeRenderInstruction(combination) {
+    var instruction = generateInstructionForCombination(combination);
+
+    return write(__dirname + `/../instructions-generated/render-area-${combination}.json`, JSON.stringify([instruction], null, 2), 'utf8')
+        .then(report(`Write Area Instruction ${combination}`));
+}
+
+var combination = layoutId;
+writeRenderInstruction(combination)
+    .then(() => {
+        return run(`${process.env.comspec} /c hag generate *.json -i instructions-generated`);
+    })
+    .then(report(`Rendered area ${combination}`))
+    .catch(handleError);

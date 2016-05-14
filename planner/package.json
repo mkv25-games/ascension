@@ -11,7 +11,8 @@
     "generate:website": "hag generate > generate.log",
     "import:area": "node scripts/import-area.js",
     "import:map": "node scripts/import-map.js",
-    "render:areas": "rm -rf instructions-generated && node scripts/generate-area-instructions.js hag generate *.json -i instructions-generated",
+    "render:area": "rm -rf instructions-generated && node scripts/render-area.js",
+    "render:areas": "rm -rf instructions-generated && node scripts/generate-area-instructions.js && hag generate *.json -i instructions-generated",
     "upload:text": "cd build/website && node ../../scripts/upload-text.js && cd ../../",
     "upload:all": "cd build/website && node ../../scripts/upload-all.js && cd ../../"
   },
