@@ -1,4 +1,3 @@
-var areaLayouts = require('../data/areaLayouts.json');
 var tileTypes = require('../data/tileTypes.json');
 
 function generateRenderAreaInstructions(combinations) {
@@ -8,8 +7,6 @@ function generateRenderAreaInstructions(combinations) {
         tileSymbolMap[tile.symbol] = tile;
     });
 
-    var layouts = Object.keys(areaLayouts.layouts);
-    var n = 0;
     var instructions = combinations.map((combination) => {
         var compass = combination.split('').map((tileSymbol) => {
             return tileSymbolMap[tileSymbol].id;
@@ -30,8 +27,6 @@ function generateRenderAreaInstructions(combinations) {
                 "layout": combination
             }
         };
-
-        n++;
 
         return instruction;
     });
