@@ -1,71 +1,7 @@
-var generateRenderAreaInstructions = require('./lib/generateRenderAreaInstructions');
-var createAreaCombinations = require('./lib/createAreaCombinations');
-var convertBitmapToJSON = require('./lib/convertBitmapToJSON');
-var write = require('promise-path').write;
-var handleError = (error) => {
-    console.log(error, error.stack);
-};
-var report = function(message) {
-    return (data) => {
-        console.log(message, data || '');
-    };
-};
+var packageInfo = require('./package.json');
 
-function writeAreaCombinations() {
-    var combinations = createAreaCombinations();
-
-    write('data/areaCombinations.json', JSON.stringify(combinations, null, 2), 'utf8')
-        .then(report('Write Area Combinations'))
-        .catch(handleError);
-
-    return combinations;
-}
-
-function writeRenderInstructions(combinations) {
-    var renderAreaInstructions = generateRenderAreaInstructions(combinations);
-
-    var page = 0;
-    var itemsPerPage = 10;
-    var totalItems = renderAreaInstructions.length;
-    while (renderAreaInstructions.length > 0) {
-        var slice = [];
-        for (var i = 0; i < itemsPerPage; i++) {
-            if (renderAreaInstructions.length > 0) {
-                slice.push(renderAreaInstructions.pop());
-            }
-        }
-
-        var rangeStart = page * itemsPerPage;
-        var rangeEnd = Math.min(rangeStart + itemsPerPage - 1, totalItems);
-        page++;
-
-        var prefix = ((page < itemsPerPage) ? '0' : '') + page;
-        var suffix = `${rangeStart}-${rangeEnd}`;
-        write(`instructions-generated/${prefix}-render-areas-slice-${suffix}.json`, JSON.stringify(slice, null, 2), 'utf8')
-            .then(report(`Write Area Slice ${prefix} for items ${suffix}`))
-            .catch(handleError);
-    }
-}
-
-function writeMissingAreaLayouts(combinations) {
-    // computer, enhance
-    var areaLayouts = require('./data/areaLayouts.json');
-    combinations.forEach(function(combination) {
-        areaLayouts.layouts[combination] = areaLayouts.layouts[combination] || areaLayouts.layouts.default;
-    });
-
-    write('data/areaLayouts.json', JSON.stringify(areaLayouts, null, 2), 'utf8')
-        .then(report('Write Area Layouts with default combinations'))
-        .catch(handleError);
-}
-
-var areaCombinations = writeAreaCombinations();
-
-writeMissingAreaLayouts(areaCombinations.combinations);
-writeRenderInstructions(areaCombinations.combinations);
-
-convertBitmapToJSON('./data/sample-map-100x100.png', function(histogram) {
-    write('data/sample-map.json', JSON.stringify(histogram, null, 2), 'utf8')
-        .then(report(`Create sample map from bitmap`))
-        .catch(handleError);
+console.log('Available commands:')
+Object.keys(packageInfo.scripts).forEach((script) => {
+    if (script === 'start') return;
+    console.log(` - npm run-script ${script}`);
 });

@@ -4,12 +4,16 @@
   "description": "Ascension Tile Planner",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js && npm run-script generate:website",
+    "start": "node main.js",
+    "generate:area-combinations": "node scripts/generate-area-combinations.js",
+    "generate:area-instructions": "node scripts/generate-area-instructions.js",
+    "generate:missing-areas": "node scripts/generate-missing-areas.js",
     "generate:website": "hag generate > generate.log",
-    "generate:areas": "hag generate *.json -i instructions-generated",
+    "import:area": "node scripts/import-area.js",
+    "import:map": "node scripts/import-map.js",
+    "render:areas": "rm -rf instructions-generated && node scripts/generate-area-instructions.js hag generate *.json -i instructions-generated",
     "upload:text": "cd build/website && node ../../scripts/upload-text.js && cd ../../",
-    "upload:all": "cd build/website && node ../../scripts/upload-all.js && cd ../../",
-    "import:area": "node scripts/add-area-layout.js"
+    "upload:all": "cd build/website && node ../../scripts/upload-all.js && cd ../../"
   },
   "author": "Markavian",
   "license": "ISC",
