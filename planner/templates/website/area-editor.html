@@ -47,6 +47,7 @@
 
     <div class="options bordered inline">
         <select id="layout-selection"></select>
+        <button id="layout-random">Pick Random</button>
     </div>
 
     <div class="options bordered inline normal" id="tile-selector"></div>
@@ -164,6 +165,14 @@
             $layoutSelection.val(layoutId);
             $layoutSelection.on('change', function() {
                 var value = $(this).val();
+                window.location = '?layout=' + value;
+            });
+
+            $randomLayout = $('button#layout-random');
+            $randomLayout.on('click', function() {
+                var layoutKeys = Object.keys(layouts);
+                var index = Math.floor(Math.random() * layoutKeys.length);
+                var value = layoutKeys[index];
                 window.location = '?layout=' + value;
             });
         }
