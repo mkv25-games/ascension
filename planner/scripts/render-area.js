@@ -16,14 +16,25 @@ if (!validLayoutId.test(layoutId)) {
 function writeRenderInstruction(combination) {
     var instruction = generateInstructionForCombination(combination);
 
-    return write(__dirname + `/../instructions-generated/render-area-${combination}.json`, JSON.stringify([instruction], null, 2), 'utf8')
+    var instructions = [{
+        "asset": "website/lib/layouts.js",
+        "template": "/website/lib/layouts.js",
+        "renderer": {
+            "type": "text"
+        },
+        "data": {
+            "$ref": "/data/areaLayouts.json"
+        }
+    }, instruction];
+
+    return write(__dirname + `/../instructions-generated/render-area-${combination}.json`, JSON.stringify(instructions, null, 2), 'utf8')
         .then(report(`Write Area Instruction ${combination}`));
 }
 
 var combination = layoutId;
 writeRenderInstruction(combination)
     .then(() => {
-        return run(`${process.env.comspec} /c hag generate *.json -i instructions-generated`);
+        return run(`${process.env.comspec} /c hag generate *.json -i instructions-generated > generate.log`);
     })
     .then(report(`Rendered area ${combination}`))
     .catch(handleError);
