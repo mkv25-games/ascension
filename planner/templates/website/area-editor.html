@@ -301,7 +301,12 @@
             var tileData = encodeTiles(areaTiles);
             var json = JSON.stringify(tileData, null, 2);
             var NL = "\n";
-            $('#tile-data').text(['npm run import:area ' + layoutId + ' ' + json, 'npm run render:area ' + layoutId, 'git add data/areaLayouts.json', 'git commit -m "Update area ' + layoutId + '"'].join(NL));
+            $('#tile-data').text([
+                'npm run import:area ' + layoutId + ' ' + json,
+                'git add data/areaLayouts.json',
+                'git commit -m "Update area ' + layoutId + '"',
+                'npm run render:area ' + layoutId
+            ].join(NL));
         }
 
         function removeColours() {
