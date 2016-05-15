@@ -72,6 +72,11 @@
         <button id="show-terrain">Show Terrain</button>
     </div>
 
+    <div class="options bordered inline">
+        <button id="load-random-map">Random Map</button>
+        <button id="load-sample-map">Sample Map</button>
+    </div>
+
     <div id="map-viewer" class="map viewer inline bordered outline-areas normal show-terrain"></div>
 
     <script>
@@ -84,12 +89,16 @@
         };
 
         var tilesTypes = 'GFWSM'.split('');
+        var sampleMap = mapData;
+        var interpolationMethod = superInterpolation;
 
         function setup() {
+            mapData = createMap(dimensions.width, dimensions.height);
             createMapCells(superInterpolation);
             setupInterpolationButtons();
             setupViewButtons();
             setupTerrainButtons();
+            setupMapLoadButtons();
         }
 
         function createMap(columns, rows, interpolationMethod) {
@@ -169,7 +178,6 @@
             $mapViewer = $('#map-viewer');
             $mapViewer.html('');
 
-            mapData = mapData || createMap(dimensions.width, dimensions.height);
             interpolateMap(mapData, interpolationMethod);
 
             $mapCells = [];
@@ -238,6 +246,18 @@
 
             $('button#hide-terrain').on('click', function() {
                 $mapViewer.addClass('hide-terrain').removeClass('show-terrain');
+            });
+        }
+
+        function setupMapLoadButtons() {
+            $('button#load-random-map').on('click', function() {
+                mapData = createMap(dimensions.width, dimensions.height);
+                createMapCells(interpolationMethod);
+            });
+
+            $('button#load-sample-map').on('click', function() {
+                mapData = sampleMap;
+                createMapCells(interpolationMethod);
             });
         }
 
