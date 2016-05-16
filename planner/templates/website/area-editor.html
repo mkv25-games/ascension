@@ -10,6 +10,28 @@
             font-family: sans-serif;
             padding: 20px;
         }
+
+        row.row-11 cell.column-0,
+        row.row-11 cell.column-47,
+        row.row-23 cell.column-0,
+        row.row-23 cell.column-47,
+        row.row-35 cell.column-0,
+        row.row-35 cell.column-47 {
+            border-bottom: 2px solid white;
+            margin-bottom: -2px;
+            opacity: 0.99;
+        }
+
+        row.row-0 cell.column-11,
+        row.row-47 cell.column-11,
+        row.row-0 cell.column-23,
+        row.row-47 cell.column-23,
+        row.row-0 cell.column-35,
+        row.row-47 cell.column-35 {
+            border-right: 2px solid white;
+            margin-right: -2px;
+            opacity: 0.99;
+        }
     </style>
     <link href="css/tiles.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
@@ -112,10 +134,12 @@
             $table = $('div.area.contents');
             for (var j = 0; j < dimensions.height; j++) {
                 $row = $('<row></row>');
+                $row.addClass('row-' + j);
                 areaTiles[j] = areaTiles[j] || [];
                 for (var i = 0; i < dimensions.width; i++) {
                     var fill = areaTiles[j][i];
                     $cell = $(`<cell class="display tile-${fill} primary">${fill}</cell>`);
+                    $cell.addClass('column-' + i);
                     $cell.on('mouseover', paintCell($cell, j, i));
                     $cell.update = updateCell($cell, j, i);
                     $cell.update();
