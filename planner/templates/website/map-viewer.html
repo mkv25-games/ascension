@@ -22,6 +22,15 @@
             margin: 0;
         }
 
+        .map.viewer terrain > label {
+            display: none;
+        }
+
+        .map.viewer.outline-areas terrain > label {
+            display: inherit;
+        }
+
+
         .map.viewer.hide-terrain terrain {
             display: none;
         }
@@ -70,6 +79,8 @@
     <div class="options bordered inline">
         <button id="hide-terrain">Hide Terrain</button>
         <button id="show-terrain">Show Terrain</button>
+        <button id="hide-outlines">Hide Outlines</button>
+        <button id="show-outlines">Show Outlines</button>
     </div>
 
     <div class="options bordered inline">
@@ -246,6 +257,14 @@
 
             $('button#hide-terrain').on('click', function() {
                 $mapViewer.addClass('hide-terrain').removeClass('show-terrain');
+            });
+
+            $('button#show-outlines').on('click', function() {
+                $mapViewer.addClass('outline-areas');
+            });
+
+            $('button#hide-outlines').on('click', function() {
+                $mapViewer.removeClass('outline-areas');
             });
         }
 
