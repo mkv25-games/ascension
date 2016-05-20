@@ -32,9 +32,15 @@ function writeRenderInstruction(combination) {
 }
 
 var combination = layoutId;
+var isWin = /^win/.test(process.platform);
 writeRenderInstruction(combination)
     .then(() => {
-        return run(`${process.env.comspec} /c hag generate *.json -i instructions-generated > generate.log`);
+        if(isWin) {
+            return run(`${process.env.comspec} /c hag generate *.json -i instructions-generated > generate.log`);
+        }
+        else {
+            return run(`hag generate -i instructions-generated`);
+        }
     })
     .then(report(`Rendered area ${combination}`))
     .catch(handleError);
