@@ -12,7 +12,7 @@
     "import:area": "node scripts/import-area.js",
     "import:map": "node scripts/import-map.js",
     "render:area": "rm -rf instructions-generated && node scripts/render-area.js",
-    "render:areas": "rm -rf instructions-generated && node scripts/generate-area-instructions.js && hag generate *.json -i instructions-generated",
+    "render:areas": "hag generate > generate.log && rm -rf instructions-generated && node scripts/generate-area-instructions.js && hag generate -i instructions-generated",
     "upload:text": "cd build/website && node ../../scripts/upload-text.js && cd ../../",
     "upload:all": "cd build/website && node ../../scripts/upload-all.js && cd ../../"
   },
