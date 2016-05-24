@@ -72,6 +72,10 @@
         <button id="layout-random">Pick Random</button>
     </div>
 
+    <div class="options bordered inline">
+        <button id="map-rotate-90">Rotate 90&gt;</button>
+    </div>
+
     <div class="options bordered inline normal" id="tile-selector"></div>
 
     <div id="area-viewer" class="tile area viewer bordered inline mini area contents"></div>
@@ -108,6 +112,7 @@
             setupMouseInput();
             setupViewButtons();
             setupLayoutSelection();
+            setupMapRotation();
 
             showLayout(layoutId);
             displayRawTileData();
@@ -201,6 +206,32 @@
             });
         }
 
+        function setupMapRotation() {
+            $rotate90Button = $('button#map-rotate-90');
+            $rotate90Button.on('click', function() {
+                areaTiles = rotateTiles(areaTiles);
+                redrawTiles();
+            });
+        }
+
+        function rotateTiles(rows) {
+            var result = [];
+
+            var tx, ty;
+            rows.forEach(function(row, rowIndex) {
+                row.forEach(function(cell, cellIndex) {
+                    tx = rows.length - rowIndex - 1;
+                    ty = cellIndex;
+                    result[ty] = result[ty] || [];
+                    result[ty][tx] = cell;
+                });
+            });
+
+            console.log('I rotated a thing', result);
+
+            return result;
+        }
+
         function showLayout(id) {
             console.log('Show layout', id);
 
@@ -218,6 +249,10 @@
 
         function showTileData(tileData) {
             areaTiles = decodeTiles(tileData, dimensions.width, dimensions.height);
+            redrawTiles();
+        }
+
+        function redrawTiles() {
             removeColours();
 
             $cells.forEach(function($cell) {
