@@ -4,29 +4,66 @@ var handleError = require('../lib/handleError');
 var areaLayoutsFile = __dirname + '/../data/areaLayouts.json';
 var areaLayouts = require(areaLayoutsFile);
 var areaCombinations = require('../data/areaCombinations.json');
+var mapRotate = require('../lib/mapRotate');
+
+function square(combination) {
+    var cells = combination.split('');
+
+    return [
+        [cells[0], cells[1]],
+        [cells[2], cells[3]]
+    ];
+}
 
 function writeMissingAreaLayouts(combinations) {
-    // count
-    var defaultLayouts = 0;
-    var missingLayouts = 0;
+    // track
+    var defaultLayouts = {};
+    var missingLayouts = {};
+    var uniqueLayouts = {};
 
-    // computer, enhance
+    // categorise
     combinations.forEach(function(combination) {
         areaLayouts.layouts[combination] = areaLayouts.layouts[combination] || areaLayouts.layouts.default;
+        // missing layouts, set to default
         if (!areaLayouts.layouts[combination]) {
-            areaLayouts.layouts[combination] = areaLayouts.layouts.default;
-            missingLayouts++;
+            areaLayouts.layouts[combination] = missingLayouts[combination] = areaLayouts.layouts.default;
         }
+        // default layouts
         if (areaLayouts.layouts[combination] === areaLayouts.layouts.default) {
-            defaultLayouts++;
+            defaultLayouts[combination] = areaLayouts.layouts[combination];
+        }
+        // unique layouts
+        else {
+            uniqueLayouts[combination] = areaLayouts.layouts[combination];
         }
     });
 
-    var uniqueLayouts = combinations.length - defaultLayouts;
-    var uniquePercent = (uniqueLayouts / combinations.length * 100).toFixed(2) + '%';
+    // computer, enhance
+    Object.keys(uniqueLayouts).forEach(function(combination) {
+        var index = uniqueLayouts;
+        var minimap = square(combination);
+        // create list of siblings for each tile
+        var siblings = mapRotate.list().map(function(transformer) {
+            return transformer(minimap);
+        });
+
+        // apply siblings where defaults exist
+        siblings.forEach(function(sibling) {
+            if (defaultLayouts[sibling.combination]) {
+                // areaLayouts[sibling.combination] = sibling.layout;
+            }
+        });
+
+        console.log('Siblings', siblings.map((sibling) => {
+            return sibling.join(',').split(',').join('');
+        }));
+    });
+
+    // summarise
+    var uniquePercent = (Object.keys(uniqueLayouts).length / combinations.length * 100).toFixed(2) + '%';
 
     write(areaLayoutsFile, JSON.stringify(areaLayouts, null, 2), 'utf8')
-        .then(report(`Write Area Layouts with default combinations: Missing ${missingLayouts}, Default: ${defaultLayouts}, Unique: ${uniqueLayouts} (${uniquePercent})`))
+        .then(report(`Write Area Layouts with default combinations: Missing ${Object.keys(missingLayouts).length}, Default: ${Object.keys(defaultLayouts).length}, Unique: ${Object.keys(uniqueLayouts).length} (${uniquePercent})`))
         .catch(handleError);
 }
 
