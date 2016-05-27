@@ -6,9 +6,9 @@ function rotate90(map) {
     var result = [];
 
     var tx, ty;
-    rows.forEach(function(row, rowIndex) {
+    map.forEach(function(row, rowIndex) {
         row.forEach(function(cell, cellIndex) {
-            tx = rows.length - rowIndex - 1;
+            tx = map.length - rowIndex - 1;
             ty = cellIndex;
             result[ty] = result[ty] || [];
             result[ty][tx] = cell;
@@ -33,7 +33,7 @@ function rotate270(map) {
 function mirror0(map) {
     var result = [];
 
-    rows.forEach(function(row, rowIndex) {
+    map.forEach(function(row, rowIndex) {
         result[rowIndex] = [].concat(row).reverse();
     });
 
