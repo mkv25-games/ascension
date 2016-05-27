@@ -74,6 +74,7 @@
 
     <div class="options bordered inline">
         <button id="map-rotate-90">Rotate 90&gt;</button>
+        <button id="map-mirror">Mirror</button>
     </div>
 
     <div class="options bordered inline normal" id="tile-selector"></div>
@@ -212,6 +213,12 @@
                 areaTiles = rotateTiles(areaTiles);
                 redrawTiles();
             });
+
+            $mirrorButton = $('button#map-mirror');
+            $mirrorButton.on('click', function() {
+                areaTiles = mirrorTiles(areaTiles);
+                redrawTiles();
+            });
         }
 
         function rotateTiles(rows) {
@@ -228,6 +235,18 @@
             });
 
             console.log('I rotated a thing', result);
+
+            return result;
+        }
+
+        function mirrorTiles(rows) {
+            var result = [];
+
+            rows.forEach(function(row, rowIndex) {
+                result[rowIndex] = [].concat(row).reverse();
+            });
+
+            console.log('I mirrored a thing', result);
 
             return result;
         }
