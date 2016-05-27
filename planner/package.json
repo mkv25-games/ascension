@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "node main.js",
+    "decode:area": "node scripts/decode-area.js",
     "generate:area-combinations": "node scripts/generate-area-combinations.js",
     "generate:area-instructions": "node scripts/generate-area-instructions.js",
     "generate:missing-areas": "node scripts/generate-missing-areas.js",
