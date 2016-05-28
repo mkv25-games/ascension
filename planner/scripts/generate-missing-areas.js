@@ -50,8 +50,16 @@ function writeMissingAreaLayouts(combinations) {
         });
 
         // apply siblings where defaults exist
+        var c = 0;
         var report = siblings.map(function(sibling) {
-            return (defaultLayouts[sibling]) ? 'X' : '-';
+            if (defaultLayouts[sibling]) {
+                return 'X';
+            }
+            else {
+                c++;
+                return 'o';
+            }
+
         });
 
         function pad(number, padding) {
@@ -62,7 +70,7 @@ function writeMissingAreaLayouts(combinations) {
             return result;
         }
 
-        console.log(pad(n, 3), combination, 'siblings:', report.join(', '));
+        console.log(pad(n, 3), combination, 'siblings:', report.join(', '), `${c}/${siblings.length}`);
         n++;
     });
 
