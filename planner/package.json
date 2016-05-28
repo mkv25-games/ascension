@@ -21,7 +21,7 @@
   "author": "Markavian",
   "license": "ISC",
   "dependencies": {
-    "promise-path": "^1.2.2"
+    "promise-path": "^1.2.3"
   },
   "devDependencies": {
     "ftp-client": "^0.2.2",
