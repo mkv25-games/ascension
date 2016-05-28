@@ -39,24 +39,31 @@ function writeMissingAreaLayouts(combinations) {
     });
 
     // computer, enhance
+    var n = 0;
     Object.keys(uniqueLayouts).forEach(function(combination) {
         var index = uniqueLayouts;
         var minimap = square(combination);
         // create list of siblings for each tile
         var siblings = mapRotate.list().map(function(transformer) {
-            return transformer(minimap);
+            var sibling = transformer(minimap);
+            return sibling.join(',').split(',').join('');
         });
 
         // apply siblings where defaults exist
-        siblings.forEach(function(sibling) {
-            if (defaultLayouts[sibling.combination]) {
-                // areaLayouts[sibling.combination] = sibling.layout;
-            }
+        var report = siblings.map(function(sibling) {
+            return (defaultLayouts[sibling]) ? 'X' : '-';
         });
 
-        console.log('Siblings', siblings.map((sibling) => {
-            return sibling.join(',').split(',').join('');
-        }));
+        function pad(number, padding) {
+            var result = number + '';
+            while(result.length < padding) {
+                result = ' ' + result;
+            }
+            return result;
+        }
+
+        console.log(pad(n, 3), combination, 'siblings:', report.join(', '));
+        n++;
     });
 
     // summarise
