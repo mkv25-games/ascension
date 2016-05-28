@@ -19,7 +19,7 @@ function square(combination) {
 
 function pad(number, padding) {
     var result = number + '';
-    while(result.length < padding) {
+    while (result.length < padding) {
         result = ' ' + result;
     }
     return result;
@@ -54,11 +54,19 @@ function writeMissingAreaLayouts(combinations) {
     Object.keys(uniqueLayouts).forEach(function(combination) {
         var index = uniqueLayouts;
         var minimap = square(combination);
-        var map = mapDecode(uniqueLayouts[combination], areaLayouts.dimensions);
+        var layout = uniqueLayouts[combination];
+
+        // flatten directional colouring
+        layout = layout.replace(/NW/g, combination[0]);
+        layout = layout.replace(/NE/g, combination[1]);
+        layout = layout.replace(/SW/g, combination[2]);
+        layout = layout.replace(/SE/g, combination[3]);
+
+        var map = mapDecode(layout, areaLayouts.dimensions);
         // create list of siblings for each tile
         var siblings = mapRotate.list().map(function(transformer) {
             var sibling = transformer(minimap).join(',').split(',').join('');
-            if(defaultLayouts[sibling]) {
+            if (defaultLayouts[sibling]) {
                 areaLayouts.layouts[sibling] = generatedLayouts[sibling] = mapEncode(transformer(map));
                 delete defaultLayouts[sibling];
             }
@@ -69,8 +77,7 @@ function writeMissingAreaLayouts(combinations) {
         var report = siblings.map(function(sibling) {
             if (defaultLayouts[sibling]) {
                 return 'X';
-            }
-            else {
+            } else {
                 c++;
                 return 'o';
             }
