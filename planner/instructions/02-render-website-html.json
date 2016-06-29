@@ -60,4 +60,17 @@
             "height": 20
         }
     }
+}, {
+    "asset": "website/tile-editor.html",
+    "template": "/website/tile-editor.html",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {
+        "title": "Ascension - Tile Editor",
+        "dimensions": {
+            "width": 48,
+            "height": 48
+        }
+    }
 }]

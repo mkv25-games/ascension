@@ -22,14 +22,13 @@
             margin: 0;
         }
 
-        .map.viewer terrain > label {
+        .map.viewer terrain> label {
             display: none;
         }
 
-        .map.viewer.outline-areas terrain > label {
+        .map.viewer.outline-areas terrain> label {
             display: inherit;
         }
-
 
         .map.viewer.hide-terrain terrain {
             display: none;
@@ -66,8 +65,6 @@
 
     <div class="options bordered inline">
         <button id="interpolate-basic">Basic Interpolation</button>
-        <button id="interpolate-advanced">Advanced Interpolation</button>
-        <button id="interpolate-super">Super Interpolation</button>
     </div>
 
     <div class="options bordered inline">
@@ -101,11 +98,11 @@
 
         var tilesTypes = 'GFWSM'.split('');
         var sampleMap = mapData;
-        var interpolationMethod = superInterpolation;
+        var interpolationMethod = basicInterpolation;
 
         function setup() {
             mapData = createMap(dimensions.width, dimensions.height);
-            createMapCells(superInterpolation);
+            createMapCells(basicInterpolation);
             setupInterpolationButtons();
             setupViewButtons();
             setupTerrainButtons();
@@ -115,12 +112,17 @@
         function createMap(columns, rows, interpolationMethod) {
             var map = [];
 
+            // choose edging tile
+            var edgeTile = {
+                symbol: pickRandomTile()
+            };
+
             // first pass
             for (var j = 0; j < rows; j++) {
                 map[j] = map[j] || [];
                 for (var i = 0; i < columns; i++) {
                     map[j][i] = map[j][i] || {
-                        symbol: pickRandomTile(),
+                        symbol: pickRandomTile(i, j, edgeTile.symbol),
                         x: i,
                         y: j
                     }
@@ -130,9 +132,9 @@
             map.findTile = function(tile, xOffset, yOffset) {
                 var row = map[tile.y + yOffset];
                 if (row) {
-                    return row[tile.x + xOffset] || row[tile.x] || tile;
+                    return row[tile.x + xOffset] || edgeTile;
                 } else {
-                    return map[tile.y][tile.x + xOffset] || tile;
+                    return edgeTile;
                 }
             }
 
@@ -153,34 +155,14 @@
             }).join('');
         }
 
-        function superInterpolation(tile, f) {
-            return {
-                NW: collapse([f(tile, 0, -1), f(tile, 0, -1), f(tile, -1, 0), f(tile, -1, -1)]),
-                NE: collapse([f(tile, 0, -1), f(tile, 1, -1), f(tile, -1, -1), f(tile, 0, 0)]),
-                SW: collapse([f(tile, -1, 0), f(tile, -1, -1), f(tile, 0, 0), f(tile, 0, 0)]),
-                SE: collapse([f(tile, -1, -1), f(tile, 0, 0), f(tile, 0, 0), f(tile, 1, 0)])
-            };
-        }
-
-        function advancedInterpolation(tile, f) {
-            return {
-                NW: collapse([f(tile, -1, -1), f(tile, 0, -1), f(tile, -1, 0), f(tile, -1, -1)]),
-                NE: collapse([f(tile, 0, -1), f(tile, 0, -1), f(tile, -1, -1), f(tile, 0, 0)]),
-                SW: collapse([f(tile, -1, 0), f(tile, -1, -1), f(tile, -1, 0), f(tile, 0, 0)]),
-                SE: collapse([f(tile, -1, -1), f(tile, 0, 0), f(tile, 0, 0), f(tile, 0, 0)])
-            };
-        }
-
         function basicInterpolation(tile, f) {
-            return {
-                NW: collapse([f(tile, -1, -1), f(tile, 0, -1), f(tile, -1, 0), f(tile, 0, 0)]),
-                NE: collapse([f(tile, 0, -1), f(tile, 0, -1), f(tile, 0, 0), f(tile, 0, 0)]),
-                SW: collapse([f(tile, -1, 0), f(tile, 0, 0), f(tile, -1, 0), f(tile, 0, 0)]),
-                SE: collapse([f(tile, 0, 0), f(tile, 0, 0), f(tile, 0, 0), f(tile, 0, 0)])
-            };
+            return collapse([f(tile, 0, 0), f(tile, 1, 0), f(tile, 0, 1), f(tile, 1, 1)]);
         }
 
-        function pickRandomTile() {
+        function pickRandomTile(x, y, defaultSymbol) {
+            if (defaultSymbol && x === 0 || y === 0) {
+                return defaultSymbol;
+            }
             var r = Math.floor(Math.random() * tilesTypes.length);
             return tilesTypes[r];
         }
@@ -197,10 +179,7 @@
                 row.forEach(function(tile) {
                     $cell = $('<cell class="tile tile-' + tile.symbol + ' primary"></cell>');
                     //$cell.append('<p>' + tile.symbol + ' : ' + tile.x + ', ' + tile.y + '</p>')
-                    $cell.append('<terrain>' + tile.compass.NW + '</terrain>');
-                    $cell.append('<terrain>' + tile.compass.NE + '</terrain>');
-                    $cell.append('<terrain>' + tile.compass.SW + '</terrain>');
-                    $cell.append('<terrain>' + tile.compass.SE + '</terrain>');
+                    $cell.append('<terrain>' + tile.compass + '</terrain>');
                     $row.append($cell);
                     $mapCells.push($cell);
                 });
@@ -218,14 +197,6 @@
         function setupInterpolationButtons() {
             $('button#interpolate-basic').on('click', function() {
                 createMapCells(basicInterpolation);
-            });
-
-            $('button#interpolate-advanced').on('click', function() {
-                createMapCells(advancedInterpolation);
-            });
-
-            $('button#interpolate-super').on('click', function() {
-                createMapCells(superInterpolation);
             });
         }
 

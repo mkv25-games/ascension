@@ -45,6 +45,9 @@
             "href": "map-viewer.html",
             "text": "Map Viewer"
         }, {
+            "href": "tile-editor.html",
+            "text": "Tile Editor"
+        }, {
             "href": "tiles.html",
             "text": "Tiles"
         }]

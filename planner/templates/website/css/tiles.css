@@ -135,6 +135,10 @@ terrain {
     text-align: center;
     font-family: monospace;
     vertical-align: middle;
+
+    width: 100%;
+    height: 100%;
+    line-height: 100%;
 }
 
 terrain > label {
@@ -144,30 +148,6 @@ terrain > label {
     line-height: normal;
     display: block;
     opacity: 0.5;
-}
-
-.micro terrain {
-    width: 4px;
-    height: 4px;
-    line-height: 4px;
-}
-
-.mini terrain {
-    width: 12px;
-    height: 12px;
-    line-height: 12px;
-}
-
-.normal terrain {
-    width: 32px;
-    height: 32px;
-    line-height: 32px;
-}
-
-.macro terrain {
-    width: 64px;
-    height: 64px;
-    line-height: 64px;
 }
 
 pre {
