@@ -1,0 +1,16 @@
+{
+  "name": "ascension-viewer",
+  "version": "1.0.0",
+  "description": "A viewer for the ascension world",
+  "main": "start.js",
+  "scripts": {
+    "test": "node start.js"
+  },
+  "keywords": [
+    "ascension",
+    "mkv25",
+    "games"
+  ],
+  "author": "John Beech",
+  "license": "UNLICENSED"
+}
