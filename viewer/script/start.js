@@ -65,8 +65,11 @@ const Viewer = (function() {
 
         stage.addChild(tile);
 
-        tile.x = renderer.width / 2 - tile.width / 2;
-        tile.y = renderer.height / 2 - tile.height / 2;
+        tile.scale.x = tile.scale.y = 8;
+        tile.anchor.x = tile.anchor.y = 0.5;
+        tile.x = renderer.width / 2;
+        tile.y = renderer.height / 2;
+        tile.rotation = Math.PI / 4;
 
         renderer.render(stage);
     }
