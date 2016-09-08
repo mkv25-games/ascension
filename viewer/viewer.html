@@ -1,12 +1,29 @@
 <!doctype html>
-<meta charset="utf-8">
-<title>Hello World</title>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Ascension Viewer</title>
+    <script src="lib/pixi.min.js"></script>
+    <script src="script/start.js"></script>
+</head>
+
 <body>
-<script src="lib/pixi.min.js"></script>
-<script>
-
-// Test that Pixi is working
-console.log(PIXI);
-
-</script>
+    <div id="splash">SPLASHING</div>
+    <script>
+        Viewer.start()
+            .then(() => {
+                var element = document.getElementById('splash');
+                element.parentNode.removeChild(element);
+            })
+            .catch((ex) => {
+                ['Unable to make a pixi.js canvas', ex, ex.stack].forEach((line) => {
+                    var el = document.createElement('pre');
+                    el.textContent = line;
+                    document.body.appendChild(el);
+                });
+            });
+    </script>
 </body>
+
+</html>
