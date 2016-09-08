@@ -7,7 +7,7 @@ const Viewer = (function() {
     const Container = PIXI.Container;
     const ADR = PIXI.autoDetectRenderer;
 
-    var renderer, stage;
+    var renderer, stage, splash;
     const options = {
         size: {
             width: 512,
@@ -35,8 +35,20 @@ const Viewer = (function() {
     function start() {
         return prepareStage()
             .then(resize)
+            .then(registerLoader)
             .then(loadStartingTiles)
+            .then(removeSplash)
             .then(displayStartingTile)
+    }
+
+    function registerLoader() {
+        Loader.on('progress', (loader, resource) => {
+            const progress = loader.progress + '%';
+            console.log('Loading', resource.url, progress);
+            document.getElementById('loading-progress').textContent = progress;
+        });
+
+        return Promise.resolve();
     }
 
     function loadStartingTiles() {
@@ -75,21 +87,22 @@ const Viewer = (function() {
     }
 
     function resize() {
-        renderer.view.style.position = "absolute";
-        renderer.view.style.display = "block";
+        renderer.view.style.position = 'absolute';
+        renderer.view.style.display = 'block';
         renderer.autoResize = true;
         renderer.resize(window.innerWidth, window.innerHeight);
         renderer.render(stage);
     }
 
     function removeSplash() {
-        var element = document.getElementById('splash');
-        element.parentNode.removeChild(element);
-        return element;
+        splash = document.getElementById('splash');
+        splash.className = 'hidden';
+        setTimeout(() => {
+            splash.parentNode.removeChild(splash);
+        }, 2000)
     }
 
     return {
-        start,
-        removeSplash
+        start
     };
 })();
