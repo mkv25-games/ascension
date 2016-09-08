@@ -1,6 +1,7 @@
 const Viewer = (function() {
 
     const TextureCache = PIXI.utils.TextureCache;
+    const Rectangle = PIXI.Rectangle;
     const Loader = PIXI.loader;
     const Resources = Loader.resources;
     const Sprite = PIXI.Sprite;
@@ -61,7 +62,10 @@ const Viewer = (function() {
 
     function displayStartingTile() {
         var imagePath = options.images.startingTiles[0];
-        var tile = new Sprite(Resources[imagePath].texture);
+        var rectangle = new Rectangle(16, 16, 16, 16);
+        var texture = Resources[imagePath].texture;
+        texture.frame = rectangle;
+        var tile = new Sprite(texture);
 
         stage.addChild(tile);
 
