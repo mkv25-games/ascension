@@ -1,5 +1,12 @@
 const Viewer = (function() {
 
+    const TextureCache = PIXI.utils.TextureCache;
+    const Loader = PIXI.loader;
+    const Resources = Loader.resources;
+    const Sprite = PIXI.Sprite;
+    const Container = PIXI.Container;
+    const ADR = PIXI.autoDetectRenderer;
+
     var renderer, stage;
     const options = {
         size: {
@@ -34,7 +41,7 @@ const Viewer = (function() {
 
     function loadStartingTiles() {
         return new Promise((accept, reject) => {
-            PIXI.loader
+            Loader
                 .add(options.images.startingTiles)
                 .load(accept);
         });
@@ -42,21 +49,22 @@ const Viewer = (function() {
 
     function displayStartingTile() {
         var imagePath = options.images.startingTiles[0];
-        var tile = new PIXI.Sprite(
-            PIXI.loader.resources[imagePath].texture
-        );
+        var tile = new Sprite(Resources[imagePath].texture);
 
         stage.addChild(tile);
+
+        tile.x = renderer.width / 2 - tile.width / 2;
+        tile.y = renderer.height / 2 - tile.height / 2;
 
         renderer.render(stage);
     }
 
     function prepareStage() {
         try {
-            renderer = PIXI.autoDetectRenderer(options.size.width, options.size.height, options.renderer);
+            renderer = ADR(options.size.width, options.size.height, options.renderer);
             document.body.appendChild(renderer.view);
 
-            stage = new PIXI.Container();
+            stage = new Container();
             renderer.backgroundColor = options.theme.backgroundColor;
             renderer.render(stage);
         } catch (ex) {
