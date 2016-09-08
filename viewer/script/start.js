@@ -24,11 +24,7 @@ const Viewer = (function() {
         },
         images: {
             startingTiles: [
-                'images/areas/area-FFFF.png',
-                'images/areas/area-GGGG.png',
-                'images/areas/area-MMMM.png',
-                'images/areas/area-SSSS.png',
-                'images/areas/area-WWWW.png'
+                'images/textures/tiles.json'
             ]
         }
     };
@@ -61,10 +57,9 @@ const Viewer = (function() {
     }
 
     function displayStartingTile() {
-        var imagePath = options.images.startingTiles[0];
-        var rectangle = new Rectangle(16, 16, 16, 16);
-        var texture = Resources[imagePath].texture;
-        texture.frame = rectangle;
+        var imagePath = 'area-WWWW.png';
+        var tileAtlas = Resources['images/textures/tiles.json'].textures;
+        var texture = tileAtlas[imagePath];
         var tile = new Sprite(texture);
 
         stage.addChild(tile);
