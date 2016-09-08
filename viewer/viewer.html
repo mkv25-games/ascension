@@ -6,9 +6,29 @@
     <title>Ascension Viewer</title>
     <script src="lib/pixi.min.js"></script>
     <script src="script/start.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            line-height: 0;
+            font-family: Droid sans, sans-serif;
+        }
+
+        titlebox {
+            line-height: 1.2em;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            z-index: 100;
+            color: whitesmoke;
+            font-size: 2em;
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
+    <titlebox>Ascension Viewer</titlebox>
     <div id="splash">SPLASHING</div>
     <script>
         Viewer.start()
