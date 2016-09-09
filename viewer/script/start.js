@@ -81,6 +81,10 @@ const Viewer = (function() {
         shape.beginFill(0xCCFF66);
         shape.drawCircle(0, 0, 24);
 
+        shape.lineStyle(4, 0xFFFFFF, 1);
+        shape.moveTo(-25, -25);
+        shape.lineTo(25, 25);
+
         startingTile = shape;
 
         stage.addChild(startingTile);
@@ -121,8 +125,7 @@ const Viewer = (function() {
             tile.x = tile.x * 0.9;
             tile.y = tile.y * 0.9;
             tile.rotation += 0.01;
-        }
-        else {
+        } else {
             tile.rotation -= 0.02;
         }
 
