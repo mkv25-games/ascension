@@ -5,60 +5,8 @@
     <meta charset="utf-8">
     <title>Ascension Viewer</title>
     <script src="lib/pixi.min.js"></script>
-    <script src="script/keyboard.js"></script>
-    <script src="script/start.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            line-height: 0;
-            font-family: Droid sans, sans-serif;
-        }
-
-        body {
-            background: #111;
-        }
-
-        heading,
-        loading {
-            line-height: 1.2em;
-            color: whitesmoke;
-            font-size: 2em;
-            display: block;
-        }
-
-        titlebox {
-            position: absolute;
-            top: 5px;
-            left: 5px;
-            z-index: 100;
-            display: block;
-        }
-
-        splash {
-            position: absolute;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-flow: column wrap;
-            width: 100%;
-            height: 100%;
-            z-index: 90;
-            text-align: center;
-        }
-
-        .visible {
-            visibility: visible;
-            opacity: 1;
-            transition: opacity 1s linear;
-        }
-
-        .hidden {
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0s 1s, opacity 1s linear;
-        }
-    </style>
+    <script src="build/ascension-viewer.min.js"></script>
+    <link href="build/ascension-viewer.min.css" rel="stylesheet"></link>
 </head>
 
 <body>
