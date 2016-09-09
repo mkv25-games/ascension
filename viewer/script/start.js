@@ -58,6 +58,7 @@ const Viewer = (function() {
     }
 
     var startingTile;
+
     function displayStartingTile() {
         var imagePath = 'area-WWWW.png';
         var tileAtlas = Resources['images/textures/tiles.json'].textures;
@@ -93,7 +94,29 @@ const Viewer = (function() {
 
     function tileState() {
         var tile = startingTile;
-        tile.rotation += 0.01;
+
+        if (Keyboard.Left.isDown) {
+            tile.x -= 5;
+        }
+        if (Keyboard.Right.isDown) {
+            tile.x += 5;
+        }
+        if (Keyboard.Up.isDown) {
+            tile.y -= 5;
+        }
+        if (Keyboard.Down.isDown) {
+            tile.y += 5;
+        }
+
+        if (Keyboard.Any.isUp) {
+            tile.x = tile.x * 0.9;
+            tile.y = tile.y * 0.9;
+            tile.rotation += 0.01;
+        }
+        else {
+            tile.rotation -= 0.02;
+        }
+
         tile.scale.x = tile.scale.y = 6 + 2 * Math.sin(tile.rotation);
     }
 
@@ -129,7 +152,7 @@ const Viewer = (function() {
     }
 
     function registerResize() {
-        if(typeof window !== null) {
+        if (typeof window !== null) {
             window.onresize = resize;
         }
         resize();
