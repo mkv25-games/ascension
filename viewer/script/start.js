@@ -77,9 +77,8 @@ const Viewer = (function() {
         shape.lineStyle(4, 0xFF3300, 1);
         shape.beginFill(0x66CCFF);
         shape.drawRect(-32, -32, 64, 64);
+        shape.drawCircle(0, 0, 24);
         shape.endFill();
-        shape.x = 170;
-        shape.y = 170;
 
         startingTile = shape;
 
