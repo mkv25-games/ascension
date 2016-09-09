@@ -7,6 +7,7 @@ const Viewer = (function() {
     const Sprite = PIXI.Sprite;
     const Container = PIXI.Container;
     const ADR = PIXI.autoDetectRenderer;
+    const Graphics = PIXI.Graphics;
 
     var renderer, stage, camera, splash;
     const options = {
@@ -65,7 +66,6 @@ const Viewer = (function() {
         var texture = tileAtlas[imagePath];
         var tile = new Sprite(texture);
 
-        stage.addChild(tile);
 
         tile.scale.x = tile.scale.y = 8;
         tile.anchor.x = tile.anchor.y = 0.5;
@@ -73,8 +73,17 @@ const Viewer = (function() {
         tile.y = 0;
         tile.rotation = Math.PI / 4;
 
-        startingTile = tile;
+        var shape = new Graphics();
+        shape.lineStyle(4, 0xFF3300, 1);
+        shape.beginFill(0x66CCFF);
+        shape.drawRect(-32, -32, 64, 64);
+        shape.endFill();
+        shape.x = 170;
+        shape.y = 170;
 
+        startingTile = shape;
+
+        stage.addChild(startingTile);
         renderer.render(camera);
     }
 
