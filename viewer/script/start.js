@@ -79,6 +79,23 @@ const Viewer = (function() {
         shape.lineStyle(2, 0x000000, 1);
         shape.drawPolygon([10, 10, -10, 10, 10, -10, 10, 10]);
 
+        shape.interactive = true;
+        shape.mousedown = shape.touchstart = () => {
+            shape.dragged = true;
+            stage.interactive = true;
+            stage.mousemove = stage.touchmove = (event) => {
+                const global = event.data.global;
+                shape.x = (global.x - camera.x) / camera.scale.x;
+                shape.y = (global.y - camera.y) / camera.scale.y;
+            };
+        };
+
+        shape.mouseup = shape.touchend = shape.mouseupoutside = shape.touchendoutside = () => {
+            stage.interactive = false;
+            shape.dragged = false;
+            delete shape.mousemove;
+        };
+
         var message = new Text(
             "Ascend!", {
                 font: "32px sans-serif",
@@ -125,7 +142,7 @@ const Viewer = (function() {
             target.y += 5;
         }
 
-        if (Keyboard.Any.isUp) {
+        if (Keyboard.Any.isUp && !tile.dragged) {
             tile.x = tile.x * 0.9;
             tile.y = tile.y * 0.9;
             tile.rotation += 0.01;
@@ -185,13 +202,12 @@ const Viewer = (function() {
 
         camera.x = Math.round(camera.stageOffset.x + camera.userOffset.x);
         camera.y = Math.round(camera.stageOffset.y + camera.userOffset.y);
+        camera.scale.x = camera.scale.y = renderer.width > renderer.height ? 1 : 0.5;
 
         if (camera.dirty) {
             cameraInfoText.text = `Camera Position ${camera.x},${camera.y}, Scale: ${camera.scale.x}`;
             camera.dirty = false;
         }
-
-        camera.scale.x = camera.scale.y = renderer.width > renderer.height ? 1 : 0.5;
     }
 
     function registerResize() {
