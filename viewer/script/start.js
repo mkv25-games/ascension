@@ -8,7 +8,7 @@ const Viewer = (function() {
     const Container = PIXI.Container;
     const ADR = PIXI.autoDetectRenderer;
 
-    var renderer, stage, splash;
+    var renderer, stage, camera, splash;
     const options = {
         size: {
             width: 512,
@@ -31,11 +31,12 @@ const Viewer = (function() {
 
     function start() {
         return prepareStage()
-            .then(resize)
+            .then(registerResize)
             .then(registerLoader)
             .then(loadStartingTiles)
             .then(removeSplash)
             .then(displayStartingTile)
+            .then(startGameLoop)
     }
 
     function registerLoader() {
@@ -56,6 +57,7 @@ const Viewer = (function() {
         });
     }
 
+    var startingTile;
     function displayStartingTile() {
         var imagePath = 'area-WWWW.png';
         var tileAtlas = Resources['images/textures/tiles.json'].textures;
@@ -66,21 +68,47 @@ const Viewer = (function() {
 
         tile.scale.x = tile.scale.y = 8;
         tile.anchor.x = tile.anchor.y = 0.5;
-        tile.x = renderer.width / 2;
-        tile.y = renderer.height / 2;
+        tile.x = 0;
+        tile.y = 0;
         tile.rotation = Math.PI / 4;
 
-        renderer.render(stage);
+        startingTile = tile;
+
+        renderer.render(camera);
+    }
+
+    function startGameLoop() {
+        gameloop();
+    }
+
+    function gameloop() {
+        requestAnimationFrame(gameloop);
+
+        var state = tileState;
+
+        state();
+
+        renderer.render(camera);
+    }
+
+    function tileState() {
+        var tile = startingTile;
+        tile.rotation += 0.01;
+        tile.scale.x = tile.scale.y = 6 + 2 * Math.sin(tile.rotation);
     }
 
     function prepareStage() {
         try {
             renderer = ADR(options.size.width, options.size.height, options.renderer);
+            renderer.backgroundColor = options.theme.backgroundColor;
+
             document.body.appendChild(renderer.view);
 
+            camera = new Container();
             stage = new Container();
-            renderer.backgroundColor = options.theme.backgroundColor;
-            renderer.render(stage);
+
+            camera.addChild(stage);
+            updateCamera();
         } catch (ex) {
             return Promise.reject(ex);
         }
@@ -88,12 +116,32 @@ const Viewer = (function() {
         return Promise.resolve();
     }
 
+    function updateCamera() {
+        camera.stageOffset = {
+            x: renderer.width / 2,
+            y: renderer.height / 2
+        };
+
+        camera.x = camera.stageOffset.x;
+        camera.y = camera.stageOffset.y;
+
+        camera.scale.x = camera.scale.y = renderer.width > renderer.height ? 1 : 0.5;
+    }
+
+    function registerResize() {
+        if(typeof window !== null) {
+            window.onresize = resize;
+        }
+        resize();
+    }
+
     function resize() {
         renderer.view.style.position = 'absolute';
         renderer.view.style.display = 'block';
         renderer.autoResize = true;
         renderer.resize(window.innerWidth, window.innerHeight);
-        renderer.render(stage);
+        updateCamera();
+        renderer.render(camera);
     }
 
     function removeSplash() {
