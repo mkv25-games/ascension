@@ -8,8 +8,10 @@ const Viewer = (function() {
     const Container = PIXI.Container;
     const ADR = PIXI.autoDetectRenderer;
     const Graphics = PIXI.Graphics;
+    const Text = PIXI.Text;
 
-    var renderer, stage, camera, splash;
+    var renderer, ui, camera, stage, splash;
+    var cameraInfoText;
     const options = {
         size: {
             width: 512,
@@ -66,7 +68,6 @@ const Viewer = (function() {
         var texture = tileAtlas[imagePath];
         var tile = new Sprite(texture);
 
-
         tile.scale.x = tile.scale.y = 8;
         tile.anchor.x = tile.anchor.y = 0.5;
         tile.x = 0;
@@ -85,10 +86,22 @@ const Viewer = (function() {
         shape.moveTo(-25, -25);
         shape.lineTo(25, 25);
 
+        shape.lineStyle(2, 0x000000, 1);
+        shape.drawPolygon([10, 10, -10, 10, 10, -10, 10, 10]);
+
+        var message = new Text(
+            "Ascend!", {
+                font: "32px sans-serif",
+                fill: "white"
+            }
+        );
+        message.position.set(5, 50);
+        ui.addChild(message);
+
         startingTile = shape;
 
         stage.addChild(startingTile);
-        renderer.render(camera);
+        renderer.render(ui);
     }
 
     function startGameLoop() {
@@ -102,23 +115,24 @@ const Viewer = (function() {
 
         state();
 
-        renderer.render(camera);
+        renderer.render(ui);
     }
 
     function tileState() {
         var tile = startingTile;
+        var target = (Keyboard.Control.isDown) ? camera.userOffset : tile;
 
         if (Keyboard.Left.isDown) {
-            tile.x -= 5;
+            target.x -= 5;
         }
         if (Keyboard.Right.isDown) {
-            tile.x += 5;
+            target.x += 5;
         }
         if (Keyboard.Up.isDown) {
-            tile.y -= 5;
+            target.y -= 5;
         }
         if (Keyboard.Down.isDown) {
-            tile.y += 5;
+            target.y += 5;
         }
 
         if (Keyboard.Any.isUp) {
@@ -130,6 +144,9 @@ const Viewer = (function() {
         }
 
         tile.scale.x = tile.scale.y = 6 + 2 * Math.sin(tile.rotation);
+        if (Keyboard.Control.isDown) {
+            updateCamera(true);
+        }
     }
 
     function prepareStage() {
@@ -139,11 +156,25 @@ const Viewer = (function() {
 
             document.body.appendChild(renderer.view);
 
+            ui = new Container();
             camera = new Container();
             stage = new Container();
 
+            ui.addChild(camera);
             camera.addChild(stage);
             updateCamera();
+
+            cameraInfoText = new Text(
+                'Camera Position', {
+                    font: "16px sans-serif",
+                    fill: "white"
+                }
+            );
+            cameraInfoText.position.set(5, 100);
+
+            ui.addChild(cameraInfoText);
+
+
         } catch (ex) {
             return Promise.reject(ex);
         }
@@ -151,14 +182,24 @@ const Viewer = (function() {
         return Promise.resolve();
     }
 
-    function updateCamera() {
+    function updateCamera(dirty) {
+        camera.dirty = dirty;
+        camera.userOffset = camera.userOffset || {
+            x: 0,
+            y: 0
+        };
         camera.stageOffset = {
             x: renderer.width / 2,
             y: renderer.height / 2
         };
 
-        camera.x = camera.stageOffset.x;
-        camera.y = camera.stageOffset.y;
+        camera.x = Math.round(camera.stageOffset.x + camera.userOffset.x);
+        camera.y = Math.round(camera.stageOffset.y + camera.userOffset.y);
+
+        if (camera.dirty) {
+            cameraInfoText.text = `Camera Position ${camera.x},${camera.y}, Scale: ${camera.scale.x}`;
+            camera.dirty = false;
+        }
 
         camera.scale.x = camera.scale.y = renderer.width > renderer.height ? 1 : 0.5;
     }
@@ -175,8 +216,8 @@ const Viewer = (function() {
         renderer.view.style.display = 'block';
         renderer.autoResize = true;
         renderer.resize(window.innerWidth, window.innerHeight);
-        updateCamera();
-        renderer.render(camera);
+        updateCamera(true);
+        renderer.render(ui);
     }
 
     function removeSplash() {

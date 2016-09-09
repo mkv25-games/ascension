@@ -7,6 +7,7 @@ const Keyboard = (() => {
         Up: 38,
         Right: 39,
         Down: 40,
+        Control: 17,
         Any: true
     };
     var AnyKey;
@@ -18,6 +19,7 @@ const Keyboard = (() => {
         key.isUp = true;
         key.press = undefined;
         key.release = undefined;
+        key.lastEvent = undefined;
         return key;
     }
 
@@ -32,7 +34,11 @@ const Keyboard = (() => {
                     if (key.isUp && key.press) key.press();
                     key.isDown = true;
                     key.isUp = false;
+                    key.lastEvent = event;
                     event.preventDefault();
+                }
+                else {
+                    console.info('No keybinding has been set for', event);
                 }
 
                 if (AnyKey.isUp && AnyKey.press) AnyKey.press();
@@ -47,6 +53,7 @@ const Keyboard = (() => {
                     if (key.isDown && key.release) key.release();
                     key.isDown = false;
                     key.isUp = true;
+                    key.lastEvent = event;
                     event.preventDefault();
                 }
 
