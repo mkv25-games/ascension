@@ -2,6 +2,7 @@ const Viewer = (function() {
 
     var renderer, ui, camera, stage, splash;
     var cameraUi, cameraBorder;
+    var terrain;
     const options = {
         size: {
             width: 512,
@@ -92,23 +93,13 @@ const Viewer = (function() {
         message.position.set(5, 50);
         ui.addChild(message);
 
+        terrain = Terrain.create();
+        stage.addChild(terrain);
+
         startingTile = tile;
 
         stage.addChild(startingTile);
-        renderer.render(ui);
-    }
-
-    function startGameLoop() {
-        gameloop();
-    }
-
-    function gameloop() {
-        requestAnimationFrame(gameloop);
-
-        var state = tileState;
-
-        state();
-
+        terrain.update();
         renderer.render(ui);
     }
 
@@ -141,6 +132,21 @@ const Viewer = (function() {
         if (Keyboard.Control.isDown) {
             updateCamera(true);
         }
+    }
+
+
+    function startGameLoop() {
+        gameloop();
+    }
+
+    function gameloop() {
+        requestAnimationFrame(gameloop);
+
+        var state = tileState;
+
+        state();
+
+        renderer.render(ui);
     }
 
     function prepareStage() {
