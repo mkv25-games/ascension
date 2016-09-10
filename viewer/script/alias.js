@@ -7,3 +7,4 @@ const Container = PIXI.Container;
 const ADR = PIXI.autoDetectRenderer;
 const Graphics = PIXI.Graphics;
 const Text = PIXI.Text;
+const BlurFilter = PIXI.filters.BlurFilter;

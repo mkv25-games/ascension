@@ -79,6 +79,12 @@ const Viewer = (function() {
         shape.lineStyle(2, 0x000000, 1);
         shape.drawPolygon([10, 10, -10, 10, 10, -10, 10, 10]);
 
+        var blurFilter = new BlurFilter();
+        blurFilter.passes = 5;
+        blurFilter.blur = 5;
+
+        shape.filters = [blurFilter];
+
         shape.interactive = true;
         shape.mousedown = shape.touchstart = () => {
             shape.dragged = true;
