@@ -1,7 +1,7 @@
 const Viewer = (function() {
 
     var renderer, ui, camera, stage, splash;
-    var cameraInfoText;
+    var cameraUi, cameraBorder;
     const options = {
         size: {
             width: 512,
@@ -64,42 +64,23 @@ const Viewer = (function() {
         tile.y = 0;
         tile.rotation = Math.PI / 4;
 
-        var shape = new Graphics();
-        shape.lineStyle(4, 0xFF3300, 1);
-        shape.beginFill(0x66CCFF);
-        shape.drawRoundedRect(-32, -32, 64, 64, 10);
-        shape.endFill();
-        shape.beginFill(0xCCFF66);
-        shape.drawCircle(0, 0, 24);
-
-        shape.lineStyle(4, 0xFFFFFF, 1);
-        shape.moveTo(-25, -25);
-        shape.lineTo(25, 25);
-
-        shape.lineStyle(2, 0x000000, 1);
-        shape.drawPolygon([10, 10, -10, 10, 10, -10, 10, 10]);
-
-        var blurFilter = new BlurFilter();
-        blurFilter.passes = 5;
-        blurFilter.blur = 5;
-
-        shape.filters = [blurFilter];
-
-        shape.interactive = true;
-        shape.mousedown = shape.touchstart = () => {
-            shape.dragged = true;
+        tile.interactive = true;
+        tile.mousedown = tile.touchstart = () => {
+            tile.dragged = true;
+            tile.interactive = true;
             stage.interactive = true;
             stage.mousemove = stage.touchmove = (event) => {
                 const global = event.data.global;
-                shape.x = (global.x - camera.x) / camera.scale.x;
-                shape.y = (global.y - camera.y) / camera.scale.y;
+                tile.x = (global.x - camera.x) / camera.scale.x;
+                tile.y = (global.y - camera.y) / camera.scale.y;
             };
         };
 
-        shape.mouseup = shape.touchend = shape.mouseupoutside = shape.touchendoutside = () => {
+        tile.mouseup = tile.touchend = tile.mouseupoutside = tile.touchendoutside = () => {
             stage.interactive = false;
-            shape.dragged = false;
-            delete shape.mousemove;
+            tile.dragged = false;
+            delete stage.touchmove;
+            delete stage.mousemove;
         };
 
         var message = new Text(
@@ -111,7 +92,7 @@ const Viewer = (function() {
         message.position.set(5, 50);
         ui.addChild(message);
 
-        startingTile = shape;
+        startingTile = tile;
 
         stage.addChild(startingTile);
         renderer.render(ui);
@@ -177,17 +158,10 @@ const Viewer = (function() {
             camera.addChild(stage);
             updateCamera();
 
-            cameraInfoText = new Text(
-                'Camera Position', {
-                    font: "16px sans-serif",
-                    fill: "white"
-                }
-            );
-            cameraInfoText.position.set(5, 100);
-
-            ui.addChild(cameraInfoText);
-
-
+            cameraUi = CameraUI.createUi();
+            cameraBorder = CameraUI.createBorder();
+            ui.addChild(cameraUi);
+            camera.addChild(cameraBorder);
         } catch (ex) {
             return Promise.reject(ex);
         }
@@ -205,13 +179,24 @@ const Viewer = (function() {
             x: renderer.width / 2,
             y: renderer.height / 2
         };
+        camera.viewArea = camera.viewArea || {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0
+        };
 
         camera.x = Math.round(camera.stageOffset.x + camera.userOffset.x);
         camera.y = Math.round(camera.stageOffset.y + camera.userOffset.y);
         camera.scale.x = camera.scale.y = renderer.width > renderer.height ? 1 : 0.5;
+        camera.viewArea.x = (-camera.x / camera.scale.x);
+        camera.viewArea.y = (-camera.y / camera.scale.y);
+        camera.viewArea.width = renderer.width / camera.scale.x;
+        camera.viewArea.height = renderer.height / camera.scale.y;
 
         if (camera.dirty) {
-            cameraInfoText.text = `Camera Position ${camera.x},${camera.y}, Scale: ${camera.scale.x}`;
+            cameraUi.update(camera);
+            cameraBorder.update(camera);
             camera.dirty = false;
         }
     }
