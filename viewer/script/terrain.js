@@ -2,24 +2,36 @@ const Terrain = (() => {
 
     var tileRecyler;
 
+    const tileInfo = {
+        width: 48,
+        height: 48
+    };
+
     function update(container, camera) {
         tileRecyler.recycleAll();
 
-        var cols = 8;
-        var rows = 5;
+        var toX = camera.viewArea.x / tileInfo.width;
+        var toY = camera.viewArea.y / tileInfo.height;
+
+        var cols = Math.ceil(camera.viewArea.width / tileInfo.width) + 1;
+        var rows = Math.ceil(camera.viewArea.height / tileInfo.height) + 1;
 
         var imagePaths = ['area-WWWW.png', 'area-FFFF.png', 'area-GGGG.png', 'area-SSSS.png', 'area-MMMM.png'];
         var tileAtlas = Resources['images/textures/tiles.json'].textures;
         var texture = tileAtlas[imagePath];
 
-        var tile, imagePath;
+        var tile, imagePath, x, y;
         for (var j = 0; j < rows; j++) {
+            y = Math.floor(toY + j);
             for (var i = 0; i < cols; i++) {
+                x = Math.floor(toX + i);
                 tile = tileRecyler.get();
-                imagePath = imagePaths[(i * j) % imagePaths.length];
+                imagePath = imagePaths[Math.abs(x + y - x * y) % imagePaths.length];
                 tile.texture = tileAtlas[imagePath];
-                tile.x = i * tile.width;
-                tile.y = j * tile.width;
+                tile.x = x * tileInfo.width;
+                tile.y = y * tileInfo.height;
+                tile.anchor.x = 0;
+                tile.anchor.y = 0;
                 container.addChild(tile);
             }
         }
