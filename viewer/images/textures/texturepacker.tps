@@ -141,7 +141,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>tiles.json</filename>
+                <filename>everything.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -160,7 +160,7 @@
         <key>autoAliasEnabled</key>
         <false/>
         <key>trimSpriteNames</key>
-        <false/>
+        <true/>
         <key>prependSmartFolderName</key>
         <false/>
         <key>globalSpriteSettings</key>
@@ -184,7 +184,7 @@
             <key>defaultPivotPoint</key>
             <point_f>0.5,0.5</point_f>
             <key>writePivotPoints</key>
-            <false/>
+            <true/>
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
@@ -197,10 +197,27 @@
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
             </struct>
+            <key type="filename">../avatars/scientist/scientist-01.png</key>
+            <key type="filename">../avatars/scientist/scientist-02.png</key>
+            <key type="filename">../avatars/scientist/scientist-03.png</key>
+            <key type="filename">../avatars/scientist/scientist-04.png</key>
+            <key type="filename">../avatars/scientist/scientist-05.png</key>
+            <key type="filename">../avatars/scientist/scientist-06.png</key>
+            <key type="filename">../avatars/scientist/scientist-07.png</key>
+            <key type="filename">../avatars/scientist/scientist-08.png</key>
+            <key type="filename">../avatars/scientist/scientist-09.png</key>
+            <key type="filename">../avatars/scientist/scientist-10.png</key>
+            <key type="filename">../avatars/scientist/scientist-11.png</key>
+            <key type="filename">../avatars/scientist/scientist-12.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.78125</point_f>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
             <filename>../areas</filename>
+            <filename>../avatars/scientist</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

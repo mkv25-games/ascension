@@ -3,25 +3,6 @@ const Viewer = (function() {
     var renderer, ui, camera, stage, splash;
     var cameraUi, cameraBorder;
     var terrain;
-    const options = {
-        size: {
-            width: 512,
-            height: 512,
-        },
-        theme: {
-            backgroundColor: 0x061639
-        },
-        renderer: {
-            antialias: false,
-            transparent: false,
-            resolution: 1
-        },
-        images: {
-            startingTiles: [
-                'images/textures/tiles.json'
-            ]
-        }
-    };
 
     function start() {
         return prepareStage()
@@ -46,7 +27,7 @@ const Viewer = (function() {
     function loadStartingTiles() {
         return new Promise((accept, reject) => {
             Loader
-                .add(options.images.startingTiles)
+                .add(Settings.images.everything)
                 .load(accept);
         });
     }
@@ -54,8 +35,8 @@ const Viewer = (function() {
     var startingTile;
 
     function displayStartingTile() {
-        var imagePath = 'area-WWWW.png';
-        var tileAtlas = Resources['images/textures/tiles.json'].textures;
+        var imagePath = 'area-WWWW';
+        var tileAtlas = Resources[Settings.images.everything].textures;
         var texture = tileAtlas[imagePath];
         var tile = new Sprite(texture);
 
@@ -153,8 +134,8 @@ const Viewer = (function() {
 
     function prepareStage() {
         try {
-            renderer = ADR(options.size.width, options.size.height, options.renderer);
-            renderer.backgroundColor = options.theme.backgroundColor;
+            renderer = ADR(Settings.size.width, Settings.size.height, Settings.renderer);
+            renderer.backgroundColor = Settings.theme.backgroundColor;
 
             document.body.appendChild(renderer.view);
 

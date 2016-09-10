@@ -16,8 +16,8 @@ const Terrain = (() => {
         var cols = Math.ceil(camera.viewArea.width / tileInfo.width) + 1;
         var rows = Math.ceil(camera.viewArea.height / tileInfo.height) + 1;
 
-        var imagePaths = ['area-WWWW.png', 'area-FFFF.png', 'area-GGGG.png', 'area-SSSS.png', 'area-MMMM.png'];
-        var tileAtlas = Resources['images/textures/tiles.json'].textures;
+        var imagePaths = ['area-WWWW', 'area-FFFF', 'area-GGGG', 'area-SSSS', 'area-MMMM'];
+        var tileAtlas = Resources[Settings.images.everything].textures;
         var texture = tileAtlas[imagePath];
 
         var tile, imagePath, x, y;
