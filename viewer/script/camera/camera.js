@@ -24,9 +24,9 @@ const Camera = (() => {
             x: 0,
             y: 0
         };
-        camera.stageOffset = {
-            x: camera.renderer.width / 2,
-            y: camera.renderer.height / 2
+        camera.stageOffset = camera.stageOffset || {
+            x: 0,
+            y: 0
         };
         camera.viewArea = camera.viewArea || {
             x: 0,
@@ -34,6 +34,9 @@ const Camera = (() => {
             width: 0,
             height: 0
         };
+
+        camera.stageOffset.x = camera.renderer.width / 2;
+        camera.stageOffset.y = camera.renderer.height / 2;
 
         camera.x = Math.round(camera.stageOffset.x + camera.userOffset.x);
         camera.y = Math.round(camera.stageOffset.y + camera.userOffset.y);
