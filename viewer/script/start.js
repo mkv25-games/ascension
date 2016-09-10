@@ -99,25 +99,26 @@ const Viewer = (function() {
         startingTile = tile;
 
         stage.addChild(startingTile);
-        terrain.update();
+        terrain.update(camera);
         renderer.render(ui);
     }
 
     function tileState() {
         var tile = startingTile;
         var target = (Keyboard.Control.isDown) ? camera.userOffset : tile;
+        var speed = (Keyboard.Shift.isDown) ? 50 : 5;
 
         if (Keyboard.Left.isDown) {
-            target.x -= 5;
+            target.x -= speed;
         }
         if (Keyboard.Right.isDown) {
-            target.x += 5;
+            target.x += speed;
         }
         if (Keyboard.Up.isDown) {
-            target.y -= 5;
+            target.y -= speed;
         }
         if (Keyboard.Down.isDown) {
-            target.y += 5;
+            target.y += speed;
         }
 
         if (Keyboard.Any.isUp && !tile.dragged) {
@@ -128,10 +129,11 @@ const Viewer = (function() {
             tile.rotation -= 0.02;
         }
 
-        tile.scale.x = tile.scale.y = 6 + 2 * Math.sin(tile.rotation);
+        tile.scale.x = tile.scale.y = 2; // * Math.sin(tile.rotation);
         if (Keyboard.Control.isDown) {
             updateCamera(true);
         }
+        terrain.update(camera);
     }
 
 
@@ -194,7 +196,7 @@ const Viewer = (function() {
 
         camera.x = Math.round(camera.stageOffset.x + camera.userOffset.x);
         camera.y = Math.round(camera.stageOffset.y + camera.userOffset.y);
-        camera.scale.x = camera.scale.y = renderer.width > renderer.height ? 1 : 0.5;
+        camera.scale.x = camera.scale.y = renderer.width > renderer.height ? 2 : 1;
         camera.viewArea.x = (-camera.x / camera.scale.x);
         camera.viewArea.y = (-camera.y / camera.scale.y);
         camera.viewArea.width = renderer.width / camera.scale.x;
