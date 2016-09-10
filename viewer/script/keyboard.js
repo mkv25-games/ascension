@@ -7,6 +7,7 @@ const Keyboard = (() => {
         Up: 38,
         Right: 39,
         Down: 40,
+        Shift: 16,
         Control: 17,
         Any: true
     };
