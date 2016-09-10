@@ -11,15 +11,18 @@ const Avatar = (() => {
         stopWest: ['10']
     };
 
-    function update(avatar, gametime) {
+    function update(avatar) {
+        const gametime = Time.counter;
         avatar.spriteRecycler.recycleAll();
-
         avatar.layers.forEach((layerId) => {
             const layer = avatar.spriteRecycler.get();
-            const frame = (gametime / 20) % avatar.animation.length;
+            const frame = Math.floor((gametime / 10) % avatar.animation.length);
             const textureId = `${layerId}-${avatar.animation[frame]}`;
             layer.texture = Resources[Settings.images.everything].textures[textureId];
+            layer.anchor.x = layer.anchor.y = 0.5;
+            layer.interactive = true;
             avatar.addChild(layer);
+            avatar.lastLayerCount++;
         });
     }
 
@@ -27,19 +30,21 @@ const Avatar = (() => {
         layers = layers || ['scientist'];
         var avatar = new Container();
 
-        var tileAtlas = Resources[Settings.images.everything].textures;
-        var texture = tileAtlas[imagePath];
+        avatar.layers = layers;
+        avatar.animation = animMap.walkSouth;
+        avatar.interactive = true;
 
         avatar.spriteRecycler = Recycler.create(() => {
             return new Sprite();
         }, (instance) => {
-            container.removeChild(instance);
-            instance.texture = null;
+            avatar.removeChild(instance);
         });
 
-        avatar.update = (gametime) => {
-            update(avatar, gametime);
+        avatar.update = () => {
+            update(avatar);
         };
+
+        avatar.update();
 
         return avatar;
     }

@@ -8,3 +8,7 @@ const ADR = PIXI.autoDetectRenderer;
 const Graphics = PIXI.Graphics;
 const Text = PIXI.Text;
 const BlurFilter = PIXI.filters.BlurFilter;
+const BaseTexture = PIXI.BaseTexture;
+
+// Prevent anti-alias on upscaling
+PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
