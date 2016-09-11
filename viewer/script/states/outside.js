@@ -17,6 +17,9 @@ const OutsideState = (() => {
         avatar = Avatar.create();
         stage.addChild(avatar);
 
+        touchControls = TouchControls.create();
+        avatar.addChild(touchControls);
+
         terrain.update(camera);
         renderer.render(ui);
 
