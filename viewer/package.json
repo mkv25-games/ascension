@@ -4,7 +4,10 @@
   "description": "A viewer for the ascension world",
   "main": "start.js",
   "scripts": {
-    "test": "http-server -p 9000"
+    "test": "http-server -p 9000",
+    "start": "grunt",
+    "dev": "grunt",
+    "upload:all": "node ./scripts/upload-all.js"
   },
   "keywords": [
     "ascension",
