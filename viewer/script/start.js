@@ -32,7 +32,7 @@ const Viewer = (function() {
     }
 
     function loadInitialState() {
-        state = OutsideState.create(renderer, camera, ui, camera.stage);
+        state = OutsideState.create(renderer, ui, camera);
     }
 
     function startGameLoop() {

@@ -1,7 +1,8 @@
 const OutsideState = (() => {
     var avatar, terrain;
 
-    function create(renderer, camera, ui, stage) {
+    function create(renderer, ui, camera) {
+        const stage = camera.stage;
         var message = new Text(
             "Ascend!", {
                 font: "32px sans-serif",
