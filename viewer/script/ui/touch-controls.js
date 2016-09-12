@@ -3,12 +3,12 @@ TouchControls = (() => {
         const controls = new Container();
 
         const circle = createCircle();
-        const triangle = createTriangle();
+        const pointer = createPointer();
 
-        registerTouchEvents(controls, circle, triangle);
+        registerTouchEvents(controls, circle, pointer);
 
         controls.addChild(circle);
-        controls.addChild(triangle);
+        controls.addChild(pointer);
 
         return controls;
     }
@@ -22,26 +22,29 @@ TouchControls = (() => {
         return circle;
     }
 
-    function createTriangle() {
-        const triangle = new Graphics();
-        triangle.endFill(0xFFFFFF, 1.0);
-        triangle.drawPolygon([-10, 10, 10, 10, 0, 0]);
-        triangle.endFill();
-        return triangle;
+    function createPointer() {
+        const pointer = new Graphics();
+        pointer.beginFill(0xFFFFFF, 0.8);
+        pointer.drawPolygon([-5, 0, 0, -10, 15, 0, 0, 10]);
+        pointer.endFill();
+        pointer.x = 100;
+        pointer.scale.x = pointer.scale.y = 1.5;
+        return pointer;
     }
 
-    function registerTouchEvents(container, circle, triangle) {
+    function registerTouchEvents(container, circle, pointer) {
         var timeout = 0;
+        container.alpha = 0;
         container.interactive = true;
         container.mousedown = container.touchstart = (event) => {
             console.log('Controls mouse down');
-            Tween.animate(circle, 1.0, {alpha: 1.0});
+            Tween.animate(container, 1.0, {alpha: 1.0});
 
             clearTimeout(timeout);
             container.mouseup = container.mouseupoutside = container.touchend = container.touchendoutside = (event) => {
                 console.log('Controls mouse up');
                 timeout = setTimeout(() => {
-                    Tween.animate(circle, 0.5, {alpha: 0.1});
+                    Tween.animate(container, 0.5, {alpha: 0.1});
                 }, 5000);
             }
         };
