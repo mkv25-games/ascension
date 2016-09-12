@@ -23,15 +23,8 @@ const Avatar = (() => {
         '00': 'South'
     };
 
-    function tristate($) {
-        return $ < 0 ? '-' : $ > 0 ? '+' : '0';
-    }
-
     function update(avatar) {
         const gametime = Time.counter;
-
-
-
 
         if (Math.abs(avatar.vx) + Math.abs(avatar.vy) < 0.1) {
             avatar.animation = animMap['stop' + avatar.direction];
@@ -53,7 +46,7 @@ const Avatar = (() => {
             layer.texture = Resources[Settings.images.everything].textures[textureId];
             layer.anchor.x = layer.anchor.y = 0.5;
             layer.interactive = true;
-            avatar.addChild(layer);
+            avatar.addChildAt(layer, 0);
             avatar.lastLayerCount++;
         });
 
