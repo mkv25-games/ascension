@@ -25,15 +25,16 @@
     setTimeout(() => {
         Viewer.start()
             .catch((ex) => {
-                ['Unable to make a pixi.js canvas', ex, ex.stack].forEach((line) => {
+                var errors = document.getElementById('errors');
+                [].concat('Caught exception:', ex.stack || ex).forEach((line) => {
                     var el = document.createElement('pre');
                     el.textContent = line;
-                    document.body.appendChild(el);
+                    errors.appendChild(el);
                 });
-                throw ex;
             });
         }, 500);
     </script>
+    <errors id="errors"></errors>
 </body>
 
 </html>
