@@ -1,7 +1,6 @@
 const Viewer = (function() {
 
-    var renderer, ui, camera, splash;
-    var cameraUi, cameraBorder;
+    var renderer, ui, camera;
     var state;
 
     function start() {
@@ -87,7 +86,7 @@ const Viewer = (function() {
     }
 
     function removeSplash() {
-        splash = document.getElementById('splash');
+        const splash = document.getElementById('splash');
         splash.className = 'hidden';
         setTimeout(() => {
             splash.parentNode.removeChild(splash);
