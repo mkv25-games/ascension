@@ -24,7 +24,7 @@ module.exports = function(grunt) {
                 options: {
                     stripBanners: true,
                     separator: '\n',
-                    banner: '/*! Minified <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %>*/\n ',
+                    banner: '/*! Minified <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %>*/\n',
                     process: function(src, filepath) {
                         var banner = '/*! Source: ' + filepath + ' */\n';
                         var spaceless = src.replace(/\s\s+/g, ' ') + '\n';
