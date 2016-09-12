@@ -26,6 +26,7 @@
         Viewer.start()
             .catch((ex) => {
                 var errors = document.getElementById('errors');
+                errors.className = 'visible';
                 [].concat('Caught exception:', ex.stack || ex).forEach((line) => {
                     var el = document.createElement('pre');
                     el.textContent = line;
@@ -34,7 +35,7 @@
             });
         }, 500);
     </script>
-    <errors id="errors"></errors>
+    <errors id="errors" class="hidden"></errors>
 </body>
 
 </html>

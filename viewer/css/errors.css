@@ -1,6 +1,5 @@
 errors {
     position: absolute;
-    display: flex;
     justify-content: flex-end;
     align-items: flex-start;
     flex-flow: column wrap;
@@ -9,6 +8,9 @@ errors {
     z-index: 80;
     text-align: center;
 }
+
+errors.hidden { display: none; }
+errors.visible { display: flex; }
 
 errors > pre {
     font-family: monospace;
