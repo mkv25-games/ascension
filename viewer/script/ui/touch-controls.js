@@ -65,7 +65,7 @@ TouchControls = (() => {
             container.mousemove = container.touchmove = (event) => {
                 const position = event.data.getLocalPosition(container);
                 const theta = Math.atan2(position.y, position.x);
-                const railed = Math.ceil(theta / (Math.PI / 4)) * (Math.PI / 4);
+                const railed = Math.round(theta / (Math.PI / 4)) * (Math.PI / 4);
 
                 // Position pointer
                 pointer.rotation = railed;
