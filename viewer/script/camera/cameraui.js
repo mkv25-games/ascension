@@ -21,8 +21,10 @@ const CameraUI = (() => {
     }
 
     function update(textbox, camera) {
-        textbox.text = `Camera Position: ${camera.x},${camera.y}, Scale: ${camera.scale.x}` + '\n' +
-            `View Area: ${camera.viewArea.x},${camera.viewArea.y} Width: ${camera.viewArea.width}, Height: ${camera.viewArea.height}`;
+        const NL = '\n';
+        textbox.text = `Camera Position: ${camera.x},${camera.y}, Scale: ${camera.scale.x}` + NL +
+            `View Area: ${camera.viewArea.x},${camera.viewArea.y} Width: ${camera.viewArea.width}, Height: ${camera.viewArea.height}` + NL +
+            `Build Time:  ${BuildTime}, Package Version: ${PackageVersion}`;
     }
 
     return {

@@ -15,7 +15,8 @@ module.exports = function(grunt) {
                         var spaceless = strictless.replace(/\s\s+/g, ' ') + '\n';
                         var banner = '/*! Source: ' + filepath + '*/\n';
                         return banner + spaceless;
-                    }
+                    },
+                    footer: "\nconst BuildTime = '<%= grunt.template.today('yyyy-mm-dd h:MM:ss') %>';\nconst PackageVersion = '<%= pkg.version %>';"
                 },
                 src: ['script/**/*.js'],
                 dest: 'build/<%= pkg.name %>.min.js'
