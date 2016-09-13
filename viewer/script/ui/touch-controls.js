@@ -101,17 +101,19 @@ TouchControls = (() => {
                 // Lock running slightly to prevent border-line flicker
                 if(controls.running) {
                     controls.running = distance > 80;
+                    pointer.distance = 100;
                 }
                 else {
                     controls.running = distance > 100;
+                    pointer.distance = 80;
                 }
 
                 // Position pointer
                 pointer.rotation = railed;
                 pointer.dx = Math.cos(railed);
                 pointer.dy = Math.sin(railed);
-                pointer.x = distance * pointer.dx;
-                pointer.y = distance * pointer.dy;
+                pointer.x = pointer.distance * pointer.dx;
+                pointer.y = pointer.distance * pointer.dy;
 
                 // Interface to outside world
                 controls.touchVx = tristateValue(Math.round(pointer.dx));
