@@ -1,5 +1,5 @@
 const WorldModel = (() => {
-    
+
     // TODO: Load and save state via server / cookies / sommat
 
     function save(model) {
@@ -18,8 +18,10 @@ const WorldModel = (() => {
                 position: {
                     x: 0,
                     y: 0,
-                    direction: 'S',
-                    speed: 'stop'
+                    vx: 0,
+                    vy: 0,
+                    running: false,
+                    direction: 'North'
                 },
                 clothing: [
                     'scientist'

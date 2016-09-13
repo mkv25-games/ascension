@@ -22,7 +22,7 @@ const OutsideState = (() => {
         avatar = Avatar.create();
         stage.addChild(avatar);
 
-        touchControls = TouchControls.create();
+        touchControls = TouchControls.create(model);
         avatar.addChild(touchControls);
 
         terrain.update(camera);
@@ -34,37 +34,11 @@ const OutsideState = (() => {
     }
 
     function update(camera, model) {
-        updateAvatar(model);
+        touchControls.update(model);
+        avatar.update(model);
         updateCamera(camera, avatar);
         terrain.update(camera);
     }
-
-    function updateAvatar(model) {
-        var vx = 0, vy = 0;
-        if (!Keyboard.Control.isDown) {
-            if (Keyboard.Left.isDown) {
-                vx -= 1;
-            }
-            if (Keyboard.Right.isDown) {
-                vx += 1;
-            }
-            if (Keyboard.Up.isDown) {
-                vy -= 1;
-            }
-            if (Keyboard.Down.isDown) {
-                vy += 1;
-            }
-        }
-
-        avatar.x = model.data.player.position.x;
-        avatar.y = model.data.player.position.y;
-
-        avatar.update(vx, vy, Keyboard.Shift.isDown);
-
-        model.data.player.position.x = avatar.x;
-        model.data.player.position.y = avatar.y;
-    }
-
     function updateCamera(camera, avatar) {
         const speed = (Keyboard.Shift.isDown) ? 50 : 10;
         if (Keyboard.Control.isDown) {

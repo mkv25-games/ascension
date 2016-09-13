@@ -1,14 +1,46 @@
 TouchControls = (() => {
-    function create() {
+
+    function update(controls, model) {
+        controls.vx = 0;
+        controls.vy = 0;
+
+        if (!Keyboard.Control.isDown) {
+            if (Keyboard.Left.isDown) {
+                controls.vx -= 1;
+            }
+            if (Keyboard.Right.isDown) {
+                controls.vx += 1;
+            }
+            if (Keyboard.Up.isDown) {
+                controls.vy -= 1;
+            }
+            if (Keyboard.Down.isDown) {
+                controls.vy += 1;
+            }
+        }
+
+        controls.vx += controls.touchVx || 0;
+        controls.vy += controls.touchVy || 0;
+
+        model.data.player.position.vx = controls.vx;
+        model.data.player.position.vy = controls.vy;
+        model.data.player.position.running = (Keyboard.Shift.isDown || controls.running);
+    }
+
+    function create(model) {
         const controls = new Container();
 
         const circle = createCircle();
         const pointer = createPointer();
 
-        registerTouchEvents(controls, circle, pointer);
+        registerTouchEvents(controls, circle, pointer, model);
 
         controls.addChild(circle);
         controls.addChild(pointer);
+
+        controls.update = () => {
+            return update(controls, model);
+        };
 
         return controls;
     }
@@ -32,28 +64,26 @@ TouchControls = (() => {
         return pointer;
     }
 
-    function registerTouchEvents(container, circle, pointer) {
+    function registerTouchEvents(controls, circle, pointer, model) {
         var timeout = 0;
-        container.alpha = 0;
-        container.interactive = true;
-        container.moveActive = false;
-        container.mousedown = container.touchstart = (event) => {
+        controls.alpha = 0;
+        controls.interactive = true;
+        controls.moveActive = false;
+        controls.mousedown = controls.touchstart = (event) => {
             // Show controls
-            Tween.animate(container, 1.0, {alpha: 1.0});
-
-            // Set logical action
-            container.moveAvatar = true;
+            Tween.animate(controls, 1.0, {alpha: 1.0});
 
             // Sort out delayed hide
             clearTimeout(timeout);
-            container.mouseup = container.mouseupoutside = container.touchend = container.touchendoutside = (event) => {
+            controls.mouseup = controls.mouseupoutside = controls.touchend = controls.touchendoutside = (event) => {
                 timeout = setTimeout(() => {
-                    Tween.animate(container, 0.5, {alpha: 0.1});
+                    Tween.animate(controls, 0.5, {alpha: 0.1});
                 }, 5000);
 
                 // Clean up mouse movement
-                container.mousemove = container.touchmove = null;
-                container.moveAvatar = false;
+                controls.mousemove = controls.touchmove = null;
+                controls.touchVx = 0;
+                controls.touchVy = 0;
 
                 // Hide pointer
                 Tween.animate(pointer, 0.5, {alpha: 0.0});
@@ -62,17 +92,30 @@ TouchControls = (() => {
 
             // Handle mouse movement
             var lastRailed;
-            container.mousemove = container.touchmove = (event) => {
-                const position = event.data.getLocalPosition(container);
+            controls.mousemove = controls.touchmove = (event) => {
+                const position = event.data.getLocalPosition(controls);
+                const distance = Math.hypot(position.x, position.y);
                 const theta = Math.atan2(position.y, position.x);
                 const railed = Math.round(theta / (Math.PI / 4)) * (Math.PI / 4);
 
+                // Lock running slightly to prevent border-line flicker
+                if(controls.running) {
+                    controls.running = distance > 80;
+                }
+                else {
+                    controls.running = distance > 100;
+                }
+
                 // Position pointer
                 pointer.rotation = railed;
-                pointer.x = 100 * Math.cos(railed);
-                pointer.y = 100 * Math.sin(railed);
-                container.tristateX = tristate(pointer.x);
-                container.tristateY = tristate(pointer.y);
+                pointer.dx = Math.cos(railed);
+                pointer.dy = Math.sin(railed);
+                pointer.x = distance * pointer.dx;
+                pointer.y = distance * pointer.dy;
+
+                // Interface to outside world
+                controls.touchVx = tristateValue(Math.round(pointer.dx));
+                controls.touchVy = tristateValue(Math.round(pointer.dy));
 
                 // Reset and show pointer
                 if(lastRailed !== railed) {

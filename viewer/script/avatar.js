@@ -23,40 +23,80 @@ const Avatar = (() => {
         '00': 'South'
     };
 
-    function move(avatar, vx, vy, running) {
-        avatar.tristate = tristate(vx) + tristate(vy);
-        const moving = (vx || vy);
+    const validDirections = ['North', 'East', 'South', 'West'].reduce((result, direction) => {
+        return direction;
+    }, {});
+
+    function loadFrom(avatar, model) {
+        // force properties into existence
+        model.position = model.position || {};
+        model.clothing = model.clothing || [];
+
+        // basic interface to outside world
+        avatar.x = model.position.x || 0;
+        avatar.y = model.position.y || 0;
+        avatar.vx = model.position.vx || 0;
+        avatar.vy = model.position.vy || 0;
+        avatar.running = model.position.running || false;
+        avatar.direction = model.position.direction;
+
+        // awkard copy protection
+        while(avatar.layers.length > 0) {
+            avatar.layers.pop();
+        }
+        model.clothing.forEach((item) => {
+            avatar.layers.push(item);
+        });
+    }
+
+    function saveTo(avatar, model) {
+        // responsible for keeping these values set
+        // maybe use some kind of binder
+        model.position.x = avatar.x;
+        model.position.y = avatar.y;
+        model.position.vx = avatar.vx;
+        model.position.vy = avatar.vy;
+        model.position.running = avatar.running;
+        model.position.direction = avatar.direction;
+    }
+
+    function move(avatar, model) {
+        avatar.tristate = tristate(avatar.vx) + tristate(avatar.vy);
+        const moving = (avatar.vx || avatar.vy);
         if(moving) {
-            avatar.john = (running) ? 2.2: 1.0;
+            avatar.speed = (avatar.running) ? 2.2: 1.0;
             // limit speed to both directions
-            avatar.theta = Math.atan2(vy, vx);
-            avatar.vx = avatar.john * Math.cos(avatar.theta);
-            avatar.vy = avatar.john * Math.sin(avatar.theta);
+            avatar.theta = Math.atan2(avatar.vy, avatar.vx);
+            avatar.vx = avatar.speed * Math.cos(avatar.theta);
+            avatar.vy = avatar.speed * Math.sin(avatar.theta);
             avatar.x = avatar.x + avatar.vx;
             avatar.y = avatar.y + avatar.vy;
         }
         else {
-            avatar.john = 0;
+            avatar.speed = 0;
         }
     }
 
-    function update(avatar, vx, vy, running) {
-        const gametime = Time.counter;
-
-        move(avatar, vx, vy, running);
-
-        if (avatar.john > 0) {
+    function selectAnimationFrame(avatar) {
+        if (avatar.speed > 0) {
             avatar.direction = directionMap[avatar.tristate];
             avatar.animation = animMap['walk' + avatar.direction];
         } else {
             avatar.animation = animMap['stop' + avatar.direction];
         }
-        const frame = Math.floor((gametime / 10) % avatar.animation.length);
+        avatar.animationFrame = Math.floor((Time.counter / 10) % avatar.animation.length);
+    }
+
+    function update(avatar, model) {
+
+        loadFrom(avatar, model.data.player);
+        move(avatar, model);
+        selectAnimationFrame(avatar);
 
         avatar.spriteRecycler.recycleAll();
         avatar.layers.forEach((layerId) => {
             const layer = avatar.spriteRecycler.get();
-            const textureId = `${layerId}-${avatar.animation[frame]}`;
+            const textureId = `${layerId}-${avatar.animation[avatar.animationFrame]}`;
             layer.texture = Resources[Settings.images.everything].textures[textureId];
             layer.anchor.x = layer.anchor.y = 0.5;
             layer.interactive = true;
@@ -64,8 +104,10 @@ const Avatar = (() => {
             avatar.lastLayerCount++;
         });
 
-        avatar.textbox.text = `${avatar.vx.toFixed(2)}, ${avatar.vy.toFixed(2)}, ${avatar.tristate}, ${avatar.john}, ${avatar.direction}`;
+        avatar.textbox.text = `${avatar.vx.toFixed(2)}, ${avatar.vy.toFixed(2)}, ${avatar.tristate}, ${avatar.speed}, ${avatar.direction}`;
         avatar.textbox.position.set(-avatar.textbox.width / 2, -40);
+
+        saveTo(avatar, model.data.player);
     }
 
     function create(layers) {
@@ -77,7 +119,7 @@ const Avatar = (() => {
         avatar.interactive = true;
         avatar.vx = 0;
         avatar.vy = 0;
-        avatar.tristate = '00'
+        avatar.tristate = '00';
         avatar.direction = directionMap[avatar.tristate];
 
         const textbox = new Text(
@@ -100,8 +142,6 @@ const Avatar = (() => {
         avatar.update = (...args) => {
             return update.apply(avatar, [avatar].concat(args));
         };
-
-        avatar.update();
 
         return avatar;
     }
