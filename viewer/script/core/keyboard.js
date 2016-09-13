@@ -8,7 +8,7 @@ const Keyboard = (() => {
         Right: 39,
         Down: 40,
         Shift: 16,
-        Control: 17,
+        Control: [17, 91],
         Any: true
     };
     var AnyKey;
@@ -37,8 +37,7 @@ const Keyboard = (() => {
                     key.isUp = false;
                     key.lastEvent = event;
                     event.preventDefault();
-                }
-                else {
+                } else {
                     console.info('No keybinding has been set for', event);
                 }
 
@@ -71,7 +70,13 @@ const Keyboard = (() => {
         Object.keys(KeyMap).forEach((keyName) => {
             const keyCode = KeyMap[keyName];
             Keys[keyName] = createKey(keyCode);
-            KeyIndex[keyCode] = Keys[keyName];
+            if (keyCode.forEach) {
+                keyCode.forEach((code) => {
+                    KeyIndex[code] = Keys[keyName];
+                });
+            } else {
+                KeyIndex[keyCode] = Keys[keyName];
+            }
         });
         AnyKey = Keys.Any;
 
