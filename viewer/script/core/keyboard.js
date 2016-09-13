@@ -3,10 +3,10 @@ const Keyboard = (() => {
     const Keys = {};
     const KeyIndex = {};
     const KeyMap = {
-        Left: 37,
-        Up: 38,
-        Right: 39,
-        Down: 40,
+        Left: [37, 65],
+        Up: [38, 87],
+        Right: [39, 68],
+        Down: [40, 83],
         Shift: 16,
         Control: [17, 91],
         Any: true
