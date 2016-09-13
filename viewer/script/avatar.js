@@ -23,19 +23,33 @@ const Avatar = (() => {
         '00': 'South'
     };
 
-    function update(avatar) {
+    function move(avatar, vx, vy, running) {
+        avatar.tristate = tristate(vx) + tristate(vy);
+        const moving = (vx || vy);
+        if(moving) {
+            avatar.john = (running) ? 2.2: 1.0;
+            // limit speed to both directions
+            avatar.theta = Math.atan2(vy, vx);
+            avatar.vx = avatar.john * Math.cos(avatar.theta);
+            avatar.vy = avatar.john * Math.sin(avatar.theta);
+            avatar.x = avatar.x + avatar.vx;
+            avatar.y = avatar.y + avatar.vy;
+        }
+        else {
+            avatar.john = 0;
+        }
+    }
+
+    function update(avatar, vx, vy, running) {
         const gametime = Time.counter;
 
-        if (Math.abs(avatar.vx) + Math.abs(avatar.vy) < 0.1) {
-            avatar.animation = animMap['stop' + avatar.direction];
-        } else {
-            avatar.x += avatar.vx;
-            avatar.y += avatar.vy;
-            avatar.vx *= 0.9;
-            avatar.vy *= 0.9;
-            avatar.tristate = tristate(Math.round(avatar.vx * 10)) + tristate(Math.round(avatar.vy * 10));
+        move(avatar, vx, vy, running);
+
+        if (avatar.john > 0) {
             avatar.direction = directionMap[avatar.tristate];
             avatar.animation = animMap['walk' + avatar.direction];
+        } else {
+            avatar.animation = animMap['stop' + avatar.direction];
         }
         const frame = Math.floor((gametime / 10) % avatar.animation.length);
 
@@ -50,7 +64,7 @@ const Avatar = (() => {
             avatar.lastLayerCount++;
         });
 
-        avatar.textbox.text = `${avatar.vx.toFixed(2)}, ${avatar.vy.toFixed(2)}, ${avatar.tristate}, ${avatar.direction}`;
+        avatar.textbox.text = `${avatar.vx.toFixed(2)}, ${avatar.vy.toFixed(2)}, ${avatar.tristate}, ${avatar.john}, ${avatar.direction}`;
         avatar.textbox.position.set(-avatar.textbox.width / 2, -40);
     }
 
@@ -63,7 +77,7 @@ const Avatar = (() => {
         avatar.interactive = true;
         avatar.vx = 0;
         avatar.vy = 0;
-        avatar.tristate = tristate(Math.round(avatar.vx * 10)) + tristate(Math.round(avatar.vy * 10));
+        avatar.tristate = '00'
         avatar.direction = directionMap[avatar.tristate];
 
         const textbox = new Text(
@@ -83,8 +97,8 @@ const Avatar = (() => {
             avatar.removeChild(instance);
         });
 
-        avatar.update = () => {
-            update(avatar);
+        avatar.update = (...args) => {
+            return update.apply(avatar, [avatar].concat(args));
         };
 
         avatar.update();

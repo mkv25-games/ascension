@@ -2,6 +2,7 @@ const Viewer = (function() {
 
     var renderer, ui, camera;
     var state;
+    var model;
 
     function start() {
         return prepareStage()
@@ -9,6 +10,7 @@ const Viewer = (function() {
             .then(registerLoader)
             .then(loadTextures)
             .then(removeSplash)
+            .then(createWorldModel)
             .then(loadInitialState)
             .then(startGameLoop)
     }
@@ -31,8 +33,12 @@ const Viewer = (function() {
         });
     }
 
+    function createWorldModel() {
+        model = WorldModel.create();
+    }
+
     function loadInitialState() {
-        state = OutsideState.create(renderer, ui, camera);
+        state = OutsideState.create(renderer, ui, camera, model);
     }
 
     function startGameLoop() {
@@ -40,11 +46,15 @@ const Viewer = (function() {
     }
 
     function gameloop() {
-        requestAnimationFrame(gameloop);
-
-        Time.update();
-
-        state();
+        try {
+            Time.update();
+            state();
+            requestAnimationFrame(gameloop);
+        }
+        catch(ex) {
+            // but go no further
+            throw ex;
+        }
 
         renderer.render(ui);
     }

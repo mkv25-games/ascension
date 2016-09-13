@@ -1,7 +1,11 @@
 const OutsideState = (() => {
     var avatar, terrain;
 
-    function create(renderer, ui, camera) {
+    const dxMap = {
+
+    };
+
+    function create(renderer, ui, camera, model) {
         const stage = camera.stage;
         var message = new Text(
             "Ascend!", {
@@ -25,61 +29,56 @@ const OutsideState = (() => {
         renderer.render(ui);
 
         return () => {
-            update(camera);
-            avatar.update();
+            update(camera, model);
         };
     }
 
-    function update(camera) {
-        updateAvatar();
+    function update(camera, model) {
+        updateAvatar(model);
         updateCamera(camera, avatar);
         terrain.update(camera);
     }
 
-    function updateAvatar() {
+    function updateAvatar(model) {
+        var vx = 0, vy = 0;
         if (!Keyboard.Control.isDown) {
-            const velocity = (Keyboard.Shift.isDown) ? 0.8 : 0.5;
-            avatar.moving = false;
-
             if (Keyboard.Left.isDown) {
-                avatar.vx = -velocity;
-                avatar.moving = true;
+                vx -= 1;
             }
             if (Keyboard.Right.isDown) {
-                avatar.vx = velocity;
-                avatar.moving = true;
+                vx += 1;
             }
             if (Keyboard.Up.isDown) {
-                avatar.vy = -velocity;
-                avatar.moving = true;
+                vy -= 1;
             }
             if (Keyboard.Down.isDown) {
-                avatar.vy = velocity;
-                avatar.moving = true;
+                vy += 1;
             }
         }
 
-        avatar.update();
+        avatar.x = model.data.player.position.x;
+        avatar.y = model.data.player.position.y;
+
+        avatar.update(vx, vy, Keyboard.Shift.isDown);
+
+        model.data.player.position.x = avatar.x;
+        model.data.player.position.y = avatar.y;
     }
 
     function updateCamera(camera, avatar) {
+        const speed = (Keyboard.Shift.isDown) ? 50 : 10;
         if (Keyboard.Control.isDown) {
-            const speed = (Keyboard.Shift.isDown) ? 50 : 5;
             if (Keyboard.Left.isDown) {
                 camera.userOffset.x += speed;
-                avatar.moving = true;
             }
             if (Keyboard.Right.isDown) {
                 camera.userOffset.x -= speed;
-                avatar.moving = true;
             }
             if (Keyboard.Up.isDown) {
                 camera.userOffset.y += speed;
-                avatar.moving = true;
             }
             if (Keyboard.Down.isDown) {
                 camera.userOffset.y -= speed;
-                avatar.moving = true;
             }
         }
         else {
