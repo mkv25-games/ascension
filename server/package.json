@@ -1,0 +1,20 @@
+{
+  "name": "ascension-server",
+  "version": "1.0.0",
+  "description": "Ascension Game Server",
+  "main": "start.js",
+  "scripts": {
+      "start": "node start.js",
+      "monitor": "nodemon start.js",
+      "deploy": "gcloud app deploy"
+    },
+  "keywords": [
+    "ascension",
+    "server"
+  ],
+  "author": "John Beech",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
