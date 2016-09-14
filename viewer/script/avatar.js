@@ -64,7 +64,7 @@ const Avatar = (() => {
         avatar.tristate = tristate(avatar.vx) + tristate(avatar.vy);
         const moving = (avatar.vx || avatar.vy);
         if(moving) {
-            avatar.speed = (avatar.running) ? 4 : 2.2;
+            avatar.speed = (avatar.running) ? 2.5 : 1.2;
 
             // limit speed to both directions
             avatar.theta = Math.atan2(avatar.vy, avatar.vx);
