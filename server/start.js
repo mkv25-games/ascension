@@ -1,12 +1,16 @@
 'use strict';
 
-var express = require('express');
-
-var app = express();
+const express = require('express');
+const endpoints = require('./lib/endpoints');
+const app = express();
 
 app.get('/', function (req, res) {
   res.status(200).send('Ascend!');
 });
+
+app.get('/world/generate/', [endpoints.generateWorld]);
+app.get('/world/generate/:width/:height/', [endpoints.generateWorld]);
+app.get('/world/generate/:width/:height/:seed', [endpoints.generateWorld]);
 
 // Start the server
 var server = app.listen(process.env.PORT || '45615', function () {
