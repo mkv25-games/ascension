@@ -36,18 +36,30 @@ const Terrain = (() => {
 
         const tileAtlas = Resources[Settings.images.everything].textures;
 
-        var tile, tileType, imagePath, x, y;
+        var tile, tileType, imagePath, x, y, arx, ary;
+        var areaKey, areaModel, areaTiles;
         for (var j = 0; j < rows; j++) {
+            // Calculate a world y coordinate
             y = Math.floor(toY + j);
             for (var i = 0; i < cols; i++) {
+                // Calculate a world x coordinate
                 x = Math.floor(toX + i);
 
-                var areaKey = Math.floor(x / areaSize.width) + ',' + Math.floor(y / areaSize.height);
-                var areaModel = areas[areaKey];
-                var areaTiles = tileCache[world.id + areaKey] || updateTileCache(areaModel, world.id + areaKey);
+                // Select correct area for this tile
+                areaKey = Math.floor(x / areaSize.width) + ',' + Math.floor(y / areaSize.height);
+                areaModel = areas[areaKey];
+                areaTiles = tileCache[world.id + areaKey] || updateTileCache(areaModel, world.id + areaKey);
 
+                // Calculate relative position within area
+                arx = (x + areaSize.width) % areaSize.width;
+                ary = (y + areaSize.height) % areaSize.height;
+
+                // Lookup the tile type from the area
+                tileType = (areaTiles[ary] && areaTiles[ary][arx]) || 'M';
+
+                // Grab a recycled tile and render it
                 tile = tileRecyler.get();
-                imagePath = tileMap[(areaTiles[y % areaSize.height] && areaTiles[y % areaSize.height][x % areaSize.width]) || 'M'];
+                imagePath = tileMap[tileType];
                 tile.texture = tileAtlas[imagePath];
                 tile.x = x * tileInfo.width;
                 tile.y = y * tileInfo.height;
@@ -62,6 +74,7 @@ const Terrain = (() => {
         if(areaModel) {
             const tiles = decodeTiles(areaModel.tiles, areaModel.dimensions.width, areaModel.dimensions.height);
             tileCache[cacheKey] = tiles;
+            console.log('Cached area', cacheKey);
             return tiles;
         }
         return false;

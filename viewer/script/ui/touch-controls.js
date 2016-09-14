@@ -84,6 +84,7 @@ TouchControls = (() => {
                 controls.mousemove = controls.touchmove = null;
                 controls.touchVx = 0;
                 controls.touchVy = 0;
+                controls.running = false;
 
                 // Hide pointer
                 Tween.animate(pointer, 0.5, {alpha: 0.0});
@@ -105,7 +106,7 @@ TouchControls = (() => {
                 }
                 else {
                     controls.running = distance > 100;
-                    pointer.distance = 80;
+                    pointer.distance = 50;
                 }
 
                 // Position pointer
