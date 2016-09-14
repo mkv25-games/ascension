@@ -1,4 +1,5 @@
 const worldGenerator = require('./world-generator');
+const areaLayouts = require('../data/area-layouts.json');
 
 const maxWorldSize = 50;
 const defaultWorldSize = 5;
@@ -16,6 +17,32 @@ const generateWorld = (req, res) => {
     res.jsonp(world);
 };
 
+const compass = ['NW', 'NE', 'SW', 'SE'];
+
+const generateArea = (req, res) => {
+    const areaCode = req.params.areaCode || 'GGGG';
+    const compassMap = areaCode.split('').reduce((map, item, index) => {
+        const direction = compass[index];
+        map[direction] = item;
+        return map;
+    }, {});
+
+    var tiles = areaLayouts.layouts[areaCode] || '';
+    Object.keys(compassMap).forEach((direction) => {
+        tiles = tiles.replace(new RegExp(direction, 'g'), compassMap[direction]);
+    });
+
+    const dimensions = areaLayouts.dimensions;
+    const area = {
+        tiles,
+        dimensions,
+        items: []
+    };
+
+    res.jsonp(area);
+};
+
 module.exports = {
-    generateWorld
+    generateWorld,
+    generateArea
 };

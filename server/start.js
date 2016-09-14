@@ -12,6 +12,8 @@ app.get('/world/generate/', [endpoints.generateWorld]);
 app.get('/world/generate/:width/:height/', [endpoints.generateWorld]);
 app.get('/world/generate/:width/:height/:seed', [endpoints.generateWorld]);
 
+app.get('/area/generate/:areaCode', [endpoints.generateArea]);
+
 // Start the server
 var server = app.listen(process.env.PORT || '45615', function () {
   console.log('App listening on port %s', server.address().port);

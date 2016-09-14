@@ -1,4 +1,3 @@
-const layouts = require('../data/area-layouts.json');
 const noise = require('./perlin-noise');
 const areasTypes = 'GFWSM'.split('');
 
