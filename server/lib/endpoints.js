@@ -1,7 +1,7 @@
 const worldGenerator = require('./world-generator');
 const areaLayouts = require('../data/area-layouts.json');
 
-const maxWorldSize = 50;
+const maxWorldSize = 100;
 const defaultWorldSize = 5;
 
 const bound = (value, min, max) => {
