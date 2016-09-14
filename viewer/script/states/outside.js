@@ -16,7 +16,7 @@ const OutsideState = (() => {
         message.position.set(5, 50);
         ui.addChild(message);
 
-        terrain = Terrain.create();
+        terrain = Terrain.create(model);
         stage.addChild(terrain);
 
         avatar = Avatar.create();

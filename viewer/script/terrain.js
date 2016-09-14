@@ -2,31 +2,52 @@ const Terrain = (() => {
 
     var tileRecyler;
 
+    const areaSize = {
+        width: 48,
+        height: 48
+    };
+
     const tileInfo = {
         width: 48,
         height: 48
     };
 
-    function update(container, camera) {
+    const tileMap = {
+        'W': 'area-WWWW',
+        'F': 'area-FFFF',
+        'G': 'area-GGGG',
+        'S': 'area-SSSS',
+        'M': 'area-MMMM'
+    };
+
+    const tileCache = {};
+
+    function update(container, camera, model) {
         tileRecyler.recycleAll();
 
-        var toX = camera.viewArea.x / tileInfo.width;
-        var toY = camera.viewArea.y / tileInfo.height;
+        const world = model.data.world;
+        const areas = world.areas;
 
-        var cols = Math.ceil(camera.viewArea.width / tileInfo.width) + 1;
-        var rows = Math.ceil(camera.viewArea.height / tileInfo.height) + 1;
+        const toX = camera.viewArea.x / tileInfo.width;
+        const toY = camera.viewArea.y / tileInfo.height;
 
-        var imagePaths = ['area-WWWW', 'area-FFFF', 'area-GGGG', 'area-SSSS', 'area-MMMM'];
-        var tileAtlas = Resources[Settings.images.everything].textures;
-        var texture = tileAtlas[imagePath];
+        const cols = Math.ceil(camera.viewArea.width / tileInfo.width) + 1;
+        const rows = Math.ceil(camera.viewArea.height / tileInfo.height) + 1;
 
-        var tile, imagePath, x, y;
+        const tileAtlas = Resources[Settings.images.everything].textures;
+
+        var tile, tileType, imagePath, x, y;
         for (var j = 0; j < rows; j++) {
             y = Math.floor(toY + j);
             for (var i = 0; i < cols; i++) {
                 x = Math.floor(toX + i);
+
+                var areaKey = Math.floor(x / areaSize.width) + ',' + Math.floor(y / areaSize.height);
+                var areaModel = areas[areaKey];
+                var areaTiles = tileCache[world.id + areaKey] || updateTileCache(areaModel, world.id + areaKey);
+
                 tile = tileRecyler.get();
-                imagePath = imagePaths[Math.abs(x + y - x * y) % imagePaths.length];
+                imagePath = tileMap[(areaTiles[y % areaSize.height] && areaTiles[y % areaSize.height][x % areaSize.width]) || 'M'];
                 tile.texture = tileAtlas[imagePath];
                 tile.x = x * tileInfo.width;
                 tile.y = y * tileInfo.height;
@@ -37,11 +58,57 @@ const Terrain = (() => {
         }
     }
 
-    function create() {
+    function updateTileCache(areaModel, cacheKey) {
+        if(areaModel) {
+            const tiles = decodeTiles(areaModel.tiles, areaModel.dimensions.width, areaModel.dimensions.height);
+            tileCache[cacheKey] = tiles;
+            return tiles;
+        }
+        return false;
+    }
+
+    function decodeTiles(tileData, width, height) {
+        var areaTiles = [];
+        var n = 0;
+        var symbol, length;
+        var row = [];
+        var instructions = tileData.split(':');
+        instructions.forEach(function (instruction) {
+            length = parseInt(instruction) || 0;
+            if (length) {
+                for (var n = 0; n < length; n++) {
+                    row.push(symbol);
+                    if (row.length === width) {
+                        areaTiles.push(row);
+                        row = [];
+                    }
+                }
+                symbol = false;
+                length = 0;
+            } else if (symbol) {
+                row.push(symbol);
+                if (row.length === width) {
+                    areaTiles.push(row);
+                    row = [];
+                }
+                symbol = instruction;
+            } else {
+                symbol = instruction;
+            }
+        });
+
+        if (areaTiles.length !== height) {
+            console.error("Did not decode expected number of rows.", "Actual", areaTiles.length, "Expected", height);
+        }
+
+        return areaTiles;
+    }
+
+    function create(model) {
         const container = new Container();
 
         container.update = (camera) => {
-            update(container, camera);
+            update(container, camera, model);
         };
 
         tileRecyler = Recycler.create(() => {
