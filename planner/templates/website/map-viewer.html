@@ -48,6 +48,11 @@
             outline: 1px solid #555;
             outline-offset: -1px;
         }
+
+        textarea {
+            width: 600px;
+            height: 400px;
+        }
     </style>
     <link href="css/tiles.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
@@ -62,10 +67,6 @@
     <navigation></navigation>
 
     <h1>{{title}}</h1>
-
-    <div class="options bordered inline">
-        <button id="interpolate-basic">Basic Interpolation</button>
-    </div>
 
     <div class="options bordered inline">
         <button id="mini-view">Mini View</button>
@@ -85,15 +86,20 @@
         <input type="number" id="map-width" value="0" min="1" max="1000" size="4" />
         <label>Height</label>
         <input type="number" id="map-height" value="0" min="1" max="1000" size="4" />
-        <button id="load-random-map">Random Map</button>
-        <button id="load-sample-map">Sample Map</button>
+        <button id="load-random-areas">Random Map</button>
+        <button id="load-sample-areas">Sample Map</button>
     </div>
 
     <div id="map-viewer" class="map viewer inline bordered outline-areas normal show-terrain"></div>
 
+    <div class="options bordered inline">
+        <p><button id="import-world-json">Import World JSON</button></p>
+        <textarea id="json-text-input"></textarea>
+    </div>
+
     <script>
-        var $mapViewer;
-        var $mapCells;
+        var $areasViewer;
+        var $areasCells;
 
         var dimensions = {
             width: parseInt("{{dimensions.width}}"),
@@ -101,40 +107,40 @@
         };
 
         var tilesTypes = 'GFWSM'.split('');
+        var areas;
         var sampleMap = mapData;
-        var interpolationMethod = basicInterpolation;
 
         function setup() {
-            mapData = createMap(dimensions.width, dimensions.height);
-            createMapCells(basicInterpolation);
-            setupInterpolationButtons();
+            areas = createMap(dimensions.width, dimensions.height);
+            createMapCells();
             setupViewButtons();
             setupTerrainButtons();
             setupMapLoadButtons();
+            setupImportButtons();
         }
 
-        function createMap(columns, rows, interpolationMethod) {
-            var map = [];
+        function createMap(columns, rows) {
+            var areas = [];
 
             // choose edging tile
             var edgeTile = {
-                symbol: pickRandomTile()
+                baseType: pickRandomTile()
             };
 
             // first pass
             for (var j = 0; j < rows; j++) {
-                map[j] = map[j] || [];
+                areas[j] = areas[j] || [];
                 for (var i = 0; i < columns; i++) {
-                    map[j][i] = map[j][i] || {
-                        symbol: pickRandomTile(i, j, edgeTile.symbol),
+                    areas[j][i] = areas[j][i] || {
+                        baseType: pickRandomTile(i, j, edgeTile.baseType),
                         x: i,
                         y: j
                     }
                 }
             }
 
-            map.findTile = function(tile, xOffset, yOffset) {
-                var row = map[tile.y + yOffset];
+            areas.findTile = function(tile, xOffset, yOffset) {
+                var row = areas[tile.y + yOffset];
                 if (row) {
                     return row[tile.x + xOffset] || edgeTile;
                 } else {
@@ -142,24 +148,26 @@
                 }
             }
 
-            return map;
+            interpolateAreas(areas);
+
+            return areas;
         }
 
-        function interpolateMap(map, interpolationMethod) {
-            map.forEach(function(row) {
+        function interpolateAreas(areas) {
+            areas.forEach(function(row) {
                 row.forEach(function(tile) {
-                    tile.compass = interpolationMethod(tile, map.findTile);
+                    tile.compass = interpolateTiles(tile, areas.findTile);
                 });
             });
         }
 
         function collapse(tiles) {
             return tiles.map(function(tile) {
-                return tile.symbol;
+                return tile.baseType;
             }).join('');
         }
 
-        function basicInterpolation(tile, f) {
+        function interpolateTiles(tile, f) {
             return collapse([f(tile, 0, 0), f(tile, 1, 0), f(tile, 0, 1), f(tile, 1, 1)]);
         }
 
@@ -171,23 +179,21 @@
             return tilesTypes[r];
         }
 
-        function createMapCells(interpolationMethod) {
-            $mapViewer = $('#map-viewer');
-            $mapViewer.html('');
+        function createMapCells() {
+            $areasViewer = $('#map-viewer');
+            $areasViewer.html('');
 
-            interpolateMap(mapData, interpolationMethod);
-
-            $mapCells = [];
-            mapData.forEach(function(row) {
+            $areasCells = [];
+            areas.forEach(function(row) {
                 $row = $('<row></row>');
                 row.forEach(function(tile) {
-                    $cell = $('<cell class="tile tile-' + tile.symbol + ' primary"></cell>');
-                    //$cell.append('<p>' + tile.symbol + ' : ' + tile.x + ', ' + tile.y + '</p>')
+                    $cell = $('<cell class="tile tile-' + tile.baseType + ' primary"></cell>');
+                    //$cell.append('<p>' + tile.baseType + ' : ' + tile.x + ', ' + tile.y + '</p>')
                     $cell.append('<terrain>' + tile.compass + '</terrain>');
                     $row.append($cell);
-                    $mapCells.push($cell);
+                    $areasCells.push($cell);
                 });
-                $mapViewer.append($row);
+                $areasViewer.append($row);
             });
 
             $('terrain').each(function() {
@@ -196,11 +202,9 @@
                 $terrain.css("background-image", "url('areas/area-" + compass.join('') + ".png')");
                 $terrain.html('<label>' + compass[0] + ' ' + compass[1] + '<br/>' + compass[2] + ' ' + compass[3] + '</label>')
             });
-        }
 
-        function setupInterpolationButtons() {
-            $('button#interpolate-basic').on('click', function() {
-                createMapCells(basicInterpolation);
+            $('json-text-input').val({
+                areas: areas
             });
         }
 
@@ -224,42 +228,55 @@
         }
 
         function setupTerrainButtons() {
-            var $mapViewer = $('#map-viewer');
+            var $areasViewer = $('#map-viewer');
 
             $('button#show-terrain').on('click', function() {
-                $mapViewer.addClass('show-terrain').removeClass('hide-terrain');
+                $areasViewer.addClass('show-terrain').removeClass('hide-terrain');
             });
 
             $('button#hide-terrain').on('click', function() {
-                $mapViewer.addClass('hide-terrain').removeClass('show-terrain');
+                $areasViewer.addClass('hide-terrain').removeClass('show-terrain');
             });
 
             $('button#show-outlines').on('click', function() {
-                $mapViewer.addClass('outline-areas');
+                $areasViewer.addClass('outline-areas');
             });
 
             $('button#hide-outlines').on('click', function() {
-                $mapViewer.removeClass('outline-areas');
+                $areasViewer.removeClass('outline-areas');
             });
         }
 
         function setupMapLoadButtons() {
-            $('button#load-random-map').on('click', function() {
+            $('button#load-random-areas').on('click', function() {
 
                 dimensions.width = $('input#map-width').val();
                 dimensions.height = $('input#map-height').val();
 
-                mapData = createMap(dimensions.width, dimensions.height);
-                createMapCells(interpolationMethod);
+                areas = createMap(dimensions.width, dimensions.height);
+                createMapCells();
             });
 
-            $('button#load-sample-map').on('click', function() {
-                mapData = sampleMap;
-                createMapCells(interpolationMethod);
+            $('button#load-sample-areas').on('click', function() {
+                areas = sampleMap;
+                createMapCells();
             });
 
             $('input#map-width').val(dimensions.width);
             $('input#map-height').val(dimensions.width);
+        }
+
+        function setupImportButtons() {
+            $('button#import-world-json').on('click', function() {
+                var input = $('textarea#json-text-input').val();
+                try {
+                    areas = JSON.parse(input).areas;
+                    createMapCells();
+                }
+                catch(ex) {
+                    console.log('Unable to parse input data', ex, ex.stack);
+                }
+            });
         }
 
         $(setup);
