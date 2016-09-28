@@ -5,7 +5,7 @@
   "main": "start.js",
   "scripts": {
     "test": "http-server -p 9000",
-    "start": "grunt",
+    "start": "npm test & grunt",
     "dev": "grunt",
     "upload:all": "node ./scripts/upload-all.js"
   },
