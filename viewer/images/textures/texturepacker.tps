@@ -106,7 +106,7 @@
             <key>sizeConstraints</key>
             <enum type="AlgorithmSettings::SizeConstraints">AnySize</enum>
             <key>forceSquared</key>
-            <false/>
+            <true/>
             <key>maxRects</key>
             <struct type="AlgorithmMaxRectsSettings">
                 <key>heuristic</key>
@@ -188,15 +188,6 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../areas/area-FFFF.png</key>
-            <key type="filename">../areas/area-GGGG.png</key>
-            <key type="filename">../areas/area-MMMM.png</key>
-            <key type="filename">../areas/area-SSSS.png</key>
-            <key type="filename">../areas/area-WWWW.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-            </struct>
             <key type="filename">../avatars/scientist/scientist-01.png</key>
             <key type="filename">../avatars/scientist/scientist-02.png</key>
             <key type="filename">../avatars/scientist/scientist-03.png</key>
@@ -213,11 +204,30 @@
                 <key>pivotPoint</key>
                 <point_f>0.5,0.78125</point_f>
             </struct>
+            <key type="filename">../terrain/forest/F-00.png</key>
+            <key type="filename">../terrain/grass/G-00.png</key>
+            <key type="filename">../terrain/mountain/M-00.png</key>
+            <key type="filename">../terrain/sand/S-00.png</key>
+            <key type="filename">../terrain/water/W-00.png</key>
+            <key type="filename">../terrain/water/W-01.png</key>
+            <key type="filename">../terrain/water/W-02.png</key>
+            <key type="filename">../terrain/water/W-03.png</key>
+            <key type="filename">../terrain/water/W-04.png</key>
+            <key type="filename">../terrain/water/W-05.png</key>
+            <key type="filename">../terrain/water/W-06.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>../areas</filename>
             <filename>../avatars/scientist</filename>
+            <filename>../terrain/forest</filename>
+            <filename>../terrain/grass</filename>
+            <filename>../terrain/mountain</filename>
+            <filename>../terrain/sand</filename>
+            <filename>../terrain/water</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
