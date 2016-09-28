@@ -8,13 +8,28 @@
         "$ref": "/data/areaLayouts.json"
     }
 }, {
-    "asset": "website/lib/tiles.js",
-    "template": "/website/lib/tiles.js",
+    "asset": "website/lib/tile-combinations.js",
+    "template": "/website/lib/json.js",
     "renderer": {
         "type": "text"
     },
     "data": {
-        "$ref": "/data/tileTypes.json"
+        "var": "tileCombinations",
+        "data": {
+            "$ref": "/data/tileCombinations.json"
+        }
+    }
+}, {
+    "asset": "website/lib/tiles.js",
+    "template": "/website/lib/json.js",
+    "renderer": {
+        "type": "text"
+    },
+    "data": {
+        "var": "tiles",
+        "data": {
+            "$ref": "/data/tileTypes.json#/tiles"
+        }
     }
 }, {
     "asset": "website/lib/map-data.js",
@@ -45,8 +60,8 @@
             "href": "map-viewer.html",
             "text": "Map Viewer"
         }, {
-            "href": "tile-editor.html",
-            "text": "Tile Editor"
+            "href": "tile-planner.html",
+            "text": "Tile Planner"
         }, {
             "href": "tiles.html",
             "text": "Tiles"

@@ -61,16 +61,12 @@
         }
     }
 }, {
-    "asset": "website/tile-editor.html",
-    "template": "/website/tile-editor.html",
+    "asset": "website/tile-planner.html",
+    "template": "/website/tile-planner.html",
     "renderer": {
         "type": "text"
     },
     "data": {
-        "title": "Ascension - Tile Editor",
-        "dimensions": {
-            "width": 48,
-            "height": 48
-        }
+        "title": "Ascension - Tile Planner"
     }
 }]

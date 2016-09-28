@@ -1,1 +1,0 @@
-var tiles = {{json tiles}};

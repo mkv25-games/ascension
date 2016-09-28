@@ -5,10 +5,12 @@
   "main": "main.js",
   "scripts": {
     "start": "node main.js",
+    "test": "npm run generate:website & http-server build/website",
     "decode:area": "node scripts/decode-area.js",
     "encode:area": "node scripts/encode-area.js",
     "generate:area-combinations": "node scripts/generate-area-combinations.js",
     "generate:area-instructions": "node scripts/generate-area-instructions.js",
+    "generate:tile-combinations": "node scripts/generate-tile-combinations.js",
     "generate:missing-areas": "node scripts/generate-missing-areas.js",
     "generate:website": "hag generate > generate.log",
     "import:area": "node scripts/import-area.js",

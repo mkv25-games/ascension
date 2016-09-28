@@ -1,0 +1,85 @@
+<html>
+
+<head>
+    <title>{{title}}</title>
+    <style>
+        html,
+        body {
+            background: #EEE;
+            color: #333;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+        div.tile.combination {
+            width: 72px;
+            display: inline-block;
+            margin: 5px;
+        }
+        c {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-size: 8px;
+        }
+        c.c-0 {
+            background: #e7d16e;
+        }
+        c.c-1 {
+            background: #8e9e07;
+        }
+        c.c-X {
+            background: #e7d16e;
+        }
+    </style>
+    <link href="css/tiles.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+
+    <link href="css/navigation.css" rel="stylesheet" />
+    <script src="lib/navigation.js"></script>
+
+    <script src="lib/tile-combinations.js"></script>
+</head>
+
+<body>
+    <navigation></navigation>
+
+    <h1>{{title}}</h1>
+
+    <div class="tile planner bordered inline">
+        <div id="tile-planner"></div>
+    </div>
+
+    <script>
+        function setup() {
+            listTileCombinations();
+        }
+
+        function listTileCombinations() {
+            var planner = document.getElementById("tile-planner");
+            tileCombinations.combinations.forEach((combination) => {
+                var el = document.createElement('div');
+                var values = combination.split('');
+                values.splice(4, 0, 'X');
+                console.log('Inserted X', values);
+                values.forEach((value) => {
+                    var valEl = document.createElement('c');
+                    valEl.innerHTML = value;
+                    valEl.className = `c-${value}`;
+                    el.appendChild(valEl);
+                });
+
+                el.className = "tile combination";
+                planner.appendChild(el);
+            });
+        }
+
+        $(setup);
+    </script>
+</body>
+
+</html>
