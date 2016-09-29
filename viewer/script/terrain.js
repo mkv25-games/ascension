@@ -8,11 +8,29 @@ const Terrain = (() => {
     };
 
     const tileInfo = {
-        width: 48,
-        height: 48
+        width: 64,
+        height: 64
     };
 
+    tileInfo.halfWidth = tileInfo.width / 2;
+    tileInfo.halfHeight = tileInfo.height / 2;
+
     const tileCache = {};
+
+    function tileTextureFor(type, index) {
+        return Resources[Settings.images.everything].textures[`${type}-${index}`];
+    }
+
+    function interpolate(areaTiles, xo, yo, arx, ary) {
+        var a = areaTiles[ary] && areaTiles[ary][arx] || 'M';
+        var b = areaTiles[ary + yo] && areaTiles[ary + yo][arx] || a;
+        var c = areaTiles[ary] && areaTiles[ary][arx + xo] || a;
+        var d = areaTiles[ary + yo] && areaTiles[ary + yo][arx + xo] || a;
+        if(b === c && c === d) {
+            return b;
+        }
+        return a;
+    }
 
     function update(container, camera, model) {
         tileRecyler.recycleAll();
@@ -26,9 +44,8 @@ const Terrain = (() => {
         const cols = Math.ceil(camera.viewArea.width / tileInfo.width) + 1;
         const rows = Math.ceil(camera.viewArea.height / tileInfo.height) + 1;
 
-        const tileAtlas = Resources[Settings.images.everything].textures;
-
         var tile, tileType, imagePath, x, y, arx, ary;
+        var nw, ne, sw, se;
         var areaKey, areaModel, areaTiles;
         var error = [];
         for (var j = 0; j < rows; j++) {
@@ -52,38 +69,52 @@ const Terrain = (() => {
 
                 // Grab a recycled tile and render it
                 tile = tileRecyler.get();
-                imagePath = 'scientist-' + zp((Math.round(Math.abs(x * y + x / y || 1) ) % 12) + 1);
-                imagePath = `${tileType}-00`;
-                tile.texture = tileAtlas[imagePath];
+                nw = tileRecyler.get();
+                ne = tileRecyler.get();
+                sw = tileRecyler.get();
+                se = tileRecyler.get();
+
                 tile.x = x * tileInfo.width;
                 tile.y = y * tileInfo.height;
                 tile.anchor.x = 0;
                 tile.anchor.y = 0;
 
+                tile.texture = tileTextureFor(tileType, '00');
+                nw.texture = tileTextureFor(interpolate(areaTiles, -1, -1, arx, ary), '00');
+                ne.texture = tileTextureFor(interpolate(areaTiles, 1, -1, arx, ary), '00');
+                sw.texture = tileTextureFor(interpolate(areaTiles, -1, 1, arx, ary), '00');
+                se.texture = tileTextureFor(interpolate(areaTiles, 1, 1, arx, ary), '00');
+
+                ne.x = tileInfo.halfWidth;
+                se.x = tileInfo.halfWidth;
+                sw.y = tileInfo.halfHeight;
+                se.y = tileInfo.halfHeight;
+
                 // Awkward missing texture capture
-                if(tile.texture) {
+                try {
+                    tile.addChild(nw, ne, sw, se);
                     container.addChild(tile);
                 }
-                else {
+                catch(ex) {
                     console.log('Unable to find texture', imagePath, tileAtlas);
                     throw 'Unable to find texture, tile: ' + imagePath;
                 }
             }
         }
-        if(error.length > 0) {
+        if (error.length > 0) {
             throw error;
         }
     }
 
     function zp(num) {
-        if(num < 10) {
+        if (num < 10) {
             return '0' + num;
         }
         return num;
     }
 
     function updateTileCache(areaModel, cacheKey) {
-        if(areaModel) {
+        if (areaModel) {
             const tiles = decodeTiles(areaModel.tiles, areaModel.dimensions.width, areaModel.dimensions.height);
             tileCache[cacheKey] = tiles;
             console.log('Cached area', cacheKey);

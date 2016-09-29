@@ -209,12 +209,6 @@
             <key type="filename">../terrain/mountain/M-00.png</key>
             <key type="filename">../terrain/sand/S-00.png</key>
             <key type="filename">../terrain/water/W-00.png</key>
-            <key type="filename">../terrain/water/W-01.png</key>
-            <key type="filename">../terrain/water/W-02.png</key>
-            <key type="filename">../terrain/water/W-03.png</key>
-            <key type="filename">../terrain/water/W-04.png</key>
-            <key type="filename">../terrain/water/W-05.png</key>
-            <key type="filename">../terrain/water/W-06.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
