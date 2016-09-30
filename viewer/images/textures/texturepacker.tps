@@ -170,7 +170,7 @@
             <key>scaleMode</key>
             <enum type="ScaleMode">Smooth</enum>
             <key>extrude</key>
-            <uint>0</uint>
+            <uint>1</uint>
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMargin</key>
@@ -208,6 +208,22 @@
             <key type="filename">../terrain/grass/G-00.png</key>
             <key type="filename">../terrain/mountain/M-00.png</key>
             <key type="filename">../terrain/sand/S-00.png</key>
+            <key type="filename">../terrain/template/T-00.png</key>
+            <key type="filename">../terrain/template/T-01.png</key>
+            <key type="filename">../terrain/template/T-02.png</key>
+            <key type="filename">../terrain/template/T-03.png</key>
+            <key type="filename">../terrain/template/T-04.png</key>
+            <key type="filename">../terrain/template/T-05.png</key>
+            <key type="filename">../terrain/template/T-06.png</key>
+            <key type="filename">../terrain/template/T-07.png</key>
+            <key type="filename">../terrain/template/T-08.png</key>
+            <key type="filename">../terrain/template/T-09.png</key>
+            <key type="filename">../terrain/template/T-10.png</key>
+            <key type="filename">../terrain/template/T-11.png</key>
+            <key type="filename">../terrain/template/T-12.png</key>
+            <key type="filename">../terrain/template/T-13.png</key>
+            <key type="filename">../terrain/template/T-14.png</key>
+            <key type="filename">../terrain/template/T-15.png</key>
             <key type="filename">../terrain/water/W-00.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -222,6 +238,7 @@
             <filename>../terrain/mountain</filename>
             <filename>../terrain/sand</filename>
             <filename>../terrain/water</filename>
+            <filename>../terrain/template</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
