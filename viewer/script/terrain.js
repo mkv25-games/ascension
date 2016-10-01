@@ -21,7 +21,9 @@ const Terrain = (() => {
         return Resources[Settings.images.everything].textures[`${type}-${index}`];
     }
 
-    function interpolate(areaTiles, xo, yo, arx, ary) {
+    function interpolateType(areaTiles, xo, yo, arx, ary) {
+        return areaTiles[ary] && areaTiles[ary][arx] || 'M';
+        /*
         var a = areaTiles[ary] && areaTiles[ary][arx] || 'M';
         var b = areaTiles[ary + yo] && areaTiles[ary + yo][arx] || a;
         var c = areaTiles[ary] && areaTiles[ary][arx + xo] || a;
@@ -30,6 +32,63 @@ const Terrain = (() => {
             return b;
         }
         return a;
+        */
+    }
+
+    function interpolateNWIndex(areaTiles, arx, ary) {
+        // b3 b2
+        // b1 b0
+        var b0 = areaTiles[ary] && areaTiles[ary][arx] || 'M';
+        var b1 = ((areaTiles[ary] && areaTiles[ary][arx - 1] || b0) === b0);
+        var b2 = ((areaTiles[ary - 1] && areaTiles[ary - 1][arx] || b0) === b0);
+        var b3 = ((areaTiles[ary - 1] && areaTiles[ary - 1][arx - 1] || b0) === b0);
+        b0 = !!b0;
+
+        var bi = (b0 << 3 | b1 << 2 | b2 << 1 | b3);
+
+        return (bi < 10) ? '0' + bi : '' + bi;
+    }
+
+    function interpolateNEIndex(areaTiles, arx, ary) {
+        // b3 b2
+        // b1 b0
+        var b1 = areaTiles[ary] && areaTiles[ary][arx] || 'M';
+        var b0 = ((areaTiles[ary] && areaTiles[ary][arx + 1] || b1) === b1);
+        var b2 = ((areaTiles[ary - 1] && areaTiles[ary - 1][arx + 1] || b1) === b1);
+        var b3 = ((areaTiles[ary - 1] && areaTiles[ary - 1][arx] || b1) === b1);
+        b1 = !!b1;
+
+        var bi = (b0 << 3 | b1 << 2 | b2 << 1 | b3);
+
+        return (bi < 10) ? '0' + bi : '' + bi;
+    }
+
+    function interpolateSWIndex(areaTiles, arx, ary) {
+        // b3 b2
+        // b1 b0
+        var b2 = areaTiles[ary] && areaTiles[ary][arx] || 'M';
+        var b0 = ((areaTiles[ary + 1] && areaTiles[ary + 1][arx] || b2) === b2);
+        var b1 = ((areaTiles[ary + 1] && areaTiles[ary + 1][arx - 1] || b2) === b2);
+        var b3 = ((areaTiles[ary] && areaTiles[ary][arx - 1] || b2) === b2);
+        b2 = !!b2;
+
+        var bi = (b0 << 3 | b1 << 2 | b2 << 1 | b3);
+
+        return (bi < 10) ? '0' + bi : '' + bi;
+    }
+
+    function interpolateSEIndex(areaTiles, arx, ary) {
+        // b3 b2
+        // b1 b0
+        var b3 = areaTiles[ary] && areaTiles[ary][arx] || 'M';
+        var b0 = ((areaTiles[ary + 1] && areaTiles[ary + 1][arx + 1] || b3) === b3);
+        var b1 = ((areaTiles[ary + 1] && areaTiles[ary + 1][arx] || b3) === b3);
+        var b2 = ((areaTiles[ary] && areaTiles[ary][arx + 1] || b3) === b3);
+        b3 = !!b3;
+
+        var bi = (b0 << 3 | b1 << 2 | b2 << 1 | b3);
+
+        return (bi < 10) ? '0' + bi : '' + bi;
     }
 
     function update(terrainContainer, camera, model) {
@@ -81,10 +140,10 @@ const Terrain = (() => {
                 tile.y = y * tileInfo.height;
 
                 if (model.ui.interpolationEnabled) {
-                    nw.texture = tileTextureFor(interpolate(areaTiles, -1, -1, arx, ary), '00');
-                    ne.texture = tileTextureFor(interpolate(areaTiles, 1, -1, arx, ary), '00');
-                    sw.texture = tileTextureFor(interpolate(areaTiles, -1, 1, arx, ary), '00');
-                    se.texture = tileTextureFor(interpolate(areaTiles, 1, 1, arx, ary), '00');
+                    nw.texture = tileTextureFor(interpolateType(areaTiles, -1, -1, arx, ary), interpolateNWIndex(areaTiles, arx, ary));
+                    ne.texture = tileTextureFor(interpolateType(areaTiles, 1, -1, arx, ary), interpolateNEIndex(areaTiles, arx, ary));
+                    sw.texture = tileTextureFor(interpolateType(areaTiles, -1, 1, arx, ary), interpolateSWIndex(areaTiles, arx, ary));
+                    se.texture = tileTextureFor(interpolateType(areaTiles, 1, 1, arx, ary), interpolateSEIndex(areaTiles, arx, ary));
                 } else {
                     nw.texture = tileTextureFor(tileType, '15');
                     ne.texture = nw.texture;
