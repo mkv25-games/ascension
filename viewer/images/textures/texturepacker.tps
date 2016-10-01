@@ -74,7 +74,7 @@
         <key>jpgQuality</key>
         <uint>80</uint>
         <key>pngOptimizationLevel</key>
-        <uint>0</uint>
+        <uint>1</uint>
         <key>webpQualityLevel</key>
         <uint>101</uint>
         <key>textureSubPath</key>
@@ -82,7 +82,7 @@
         <key>textureFormat</key>
         <enum type="SettingsBase::TextureFormat">png</enum>
         <key>borderPadding</key>
-        <uint>0</uint>
+        <uint>1</uint>
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
@@ -205,9 +205,69 @@
                 <point_f>0.5,0.78125</point_f>
             </struct>
             <key type="filename">../terrain/forest/F-00.png</key>
+            <key type="filename">../terrain/forest/F-01.png</key>
+            <key type="filename">../terrain/forest/F-02.png</key>
+            <key type="filename">../terrain/forest/F-03.png</key>
+            <key type="filename">../terrain/forest/F-04.png</key>
+            <key type="filename">../terrain/forest/F-05.png</key>
+            <key type="filename">../terrain/forest/F-06.png</key>
+            <key type="filename">../terrain/forest/F-07.png</key>
+            <key type="filename">../terrain/forest/F-08.png</key>
+            <key type="filename">../terrain/forest/F-09.png</key>
+            <key type="filename">../terrain/forest/F-10.png</key>
+            <key type="filename">../terrain/forest/F-11.png</key>
+            <key type="filename">../terrain/forest/F-12.png</key>
+            <key type="filename">../terrain/forest/F-13.png</key>
+            <key type="filename">../terrain/forest/F-14.png</key>
+            <key type="filename">../terrain/forest/F-15.png</key>
             <key type="filename">../terrain/grass/G-00.png</key>
+            <key type="filename">../terrain/grass/G-01.png</key>
+            <key type="filename">../terrain/grass/G-02.png</key>
+            <key type="filename">../terrain/grass/G-03.png</key>
+            <key type="filename">../terrain/grass/G-04.png</key>
+            <key type="filename">../terrain/grass/G-05.png</key>
+            <key type="filename">../terrain/grass/G-06.png</key>
+            <key type="filename">../terrain/grass/G-07.png</key>
+            <key type="filename">../terrain/grass/G-08.png</key>
+            <key type="filename">../terrain/grass/G-09.png</key>
+            <key type="filename">../terrain/grass/G-10.png</key>
+            <key type="filename">../terrain/grass/G-11.png</key>
+            <key type="filename">../terrain/grass/G-12.png</key>
+            <key type="filename">../terrain/grass/G-13.png</key>
+            <key type="filename">../terrain/grass/G-14.png</key>
+            <key type="filename">../terrain/grass/G-15.png</key>
             <key type="filename">../terrain/mountain/M-00.png</key>
+            <key type="filename">../terrain/mountain/M-01.png</key>
+            <key type="filename">../terrain/mountain/M-02.png</key>
+            <key type="filename">../terrain/mountain/M-03.png</key>
+            <key type="filename">../terrain/mountain/M-04.png</key>
+            <key type="filename">../terrain/mountain/M-05.png</key>
+            <key type="filename">../terrain/mountain/M-06.png</key>
+            <key type="filename">../terrain/mountain/M-07.png</key>
+            <key type="filename">../terrain/mountain/M-08.png</key>
+            <key type="filename">../terrain/mountain/M-09.png</key>
+            <key type="filename">../terrain/mountain/M-10.png</key>
+            <key type="filename">../terrain/mountain/M-11.png</key>
+            <key type="filename">../terrain/mountain/M-12.png</key>
+            <key type="filename">../terrain/mountain/M-13.png</key>
+            <key type="filename">../terrain/mountain/M-14.png</key>
+            <key type="filename">../terrain/mountain/M-15.png</key>
             <key type="filename">../terrain/sand/S-00.png</key>
+            <key type="filename">../terrain/sand/S-01.png</key>
+            <key type="filename">../terrain/sand/S-02.png</key>
+            <key type="filename">../terrain/sand/S-03.png</key>
+            <key type="filename">../terrain/sand/S-04.png</key>
+            <key type="filename">../terrain/sand/S-05.png</key>
+            <key type="filename">../terrain/sand/S-06.png</key>
+            <key type="filename">../terrain/sand/S-07.png</key>
+            <key type="filename">../terrain/sand/S-08.png</key>
+            <key type="filename">../terrain/sand/S-09.png</key>
+            <key type="filename">../terrain/sand/S-10.png</key>
+            <key type="filename">../terrain/sand/S-11.png</key>
+            <key type="filename">../terrain/sand/S-12.png</key>
+            <key type="filename">../terrain/sand/S-13.png</key>
+            <key type="filename">../terrain/sand/S-14.png</key>
+            <key type="filename">../terrain/sand/S-15.png</key>
             <key type="filename">../terrain/template/T-00.png</key>
             <key type="filename">../terrain/template/T-01.png</key>
             <key type="filename">../terrain/template/T-02.png</key>
@@ -225,6 +285,21 @@
             <key type="filename">../terrain/template/T-14.png</key>
             <key type="filename">../terrain/template/T-15.png</key>
             <key type="filename">../terrain/water/W-00.png</key>
+            <key type="filename">../terrain/water/W-01.png</key>
+            <key type="filename">../terrain/water/W-02.png</key>
+            <key type="filename">../terrain/water/W-03.png</key>
+            <key type="filename">../terrain/water/W-04.png</key>
+            <key type="filename">../terrain/water/W-05.png</key>
+            <key type="filename">../terrain/water/W-06.png</key>
+            <key type="filename">../terrain/water/W-07.png</key>
+            <key type="filename">../terrain/water/W-08.png</key>
+            <key type="filename">../terrain/water/W-09.png</key>
+            <key type="filename">../terrain/water/W-10.png</key>
+            <key type="filename">../terrain/water/W-11.png</key>
+            <key type="filename">../terrain/water/W-12.png</key>
+            <key type="filename">../terrain/water/W-13.png</key>
+            <key type="filename">../terrain/water/W-14.png</key>
+            <key type="filename">../terrain/water/W-15.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
