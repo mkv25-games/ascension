@@ -86,14 +86,18 @@ const Terrain = (() => {
                     sw.texture = tileTextureFor(interpolate(areaTiles, -1, 1, arx, ary), '00');
                     se.texture = tileTextureFor(interpolate(areaTiles, 1, 1, arx, ary), '00');
                 } else {
-                    nw.texture = tile.texture;
-                    ne.texture = tile.texture;
-                    sw.texture = tile.texture;
-                    se.texture = tile.texture;
+                    nw.texture = tileTextureFor(tileType, '15');
+                    ne.texture = nw.texture;
+                    sw.texture = nw.texture;
+                    se.texture = nw.texture;
                 }
                 ne.x = tileInfo.halfWidth;
-                se.x = tileInfo.halfWidth;
+                ne.y = 0;
+                nw.x = 0;
+                nw.y = 0;
+                sw.x = 0;
                 sw.y = tileInfo.halfHeight;
+                se.x = tileInfo.halfWidth;
                 se.y = tileInfo.halfHeight;
 
                 // Awkward missing texture capture
