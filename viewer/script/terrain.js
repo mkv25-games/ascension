@@ -8,8 +8,8 @@ const Terrain = (() => {
     };
 
     const tileInfo = {
-        width: 64,
-        height: 64
+        width: 32,
+        height: 32
     };
 
     tileInfo.halfWidth = tileInfo.width / 2;
@@ -21,70 +21,18 @@ const Terrain = (() => {
         return Resources[Settings.images.everything].textures[`${type}-${index}`];
     }
 
-    function interpolateType(areaTiles, xo, yo, arx, ary) {
-        return areaTiles[ary] && areaTiles[ary][arx] || 'M';
-        /*
-        var a = areaTiles[ary] && areaTiles[ary][arx] || 'M';
-        var b = areaTiles[ary + yo] && areaTiles[ary + yo][arx] || a;
-        var c = areaTiles[ary] && areaTiles[ary][arx + xo] || a;
-        var d = areaTiles[ary + yo] && areaTiles[ary + yo][arx + xo] || a;
-        if (b === c && c === d) {
-            return b;
-        }
-        return a;
-        */
+    function tileTypeFor(areaTiles, arx, ary) {
+         return areaTiles[ary] && areaTiles[ary][arx] || 'M'
     }
 
-    function interpolateNWIndex(areaTiles, arx, ary) {
+    function tileIndexFor(areaTiles, arx, ary) {
         // b3 b2
         // b1 b0
-        var b0 = areaTiles[ary] && areaTiles[ary][arx] || 'M';
-        var b1 = ((areaTiles[ary] && areaTiles[ary][arx - 1] || b0) === b0);
-        var b2 = ((areaTiles[ary - 1] && areaTiles[ary - 1][arx] || b0) === b0);
-        var b3 = ((areaTiles[ary - 1] && areaTiles[ary - 1][arx - 1] || b0) === b0);
+        var b0 = tileTypeFor(areaTiles, arx, ary);
+        var b1 = tileTypeFor(areaTiles, arx - 1, ary) === b0;
+        var b2 = tileTypeFor(areaTiles, arx, ary - 1) === b0;
+        var b3 = tileTypeFor(areaTiles, arx - 1, ary - 1) === b0;
         b0 = !!b0;
-
-        var bi = (b0 << 3 | b1 << 2 | b2 << 1 | b3);
-
-        return (bi < 10) ? '0' + bi : '' + bi;
-    }
-
-    function interpolateNEIndex(areaTiles, arx, ary) {
-        // b3 b2
-        // b1 b0
-        var b1 = areaTiles[ary] && areaTiles[ary][arx] || 'M';
-        var b0 = ((areaTiles[ary] && areaTiles[ary][arx + 1] || b1) === b1);
-        var b2 = ((areaTiles[ary - 1] && areaTiles[ary - 1][arx + 1] || b1) === b1);
-        var b3 = ((areaTiles[ary - 1] && areaTiles[ary - 1][arx] || b1) === b1);
-        b1 = !!b1;
-
-        var bi = (b0 << 3 | b1 << 2 | b2 << 1 | b3);
-
-        return (bi < 10) ? '0' + bi : '' + bi;
-    }
-
-    function interpolateSWIndex(areaTiles, arx, ary) {
-        // b3 b2
-        // b1 b0
-        var b2 = areaTiles[ary] && areaTiles[ary][arx] || 'M';
-        var b0 = ((areaTiles[ary + 1] && areaTiles[ary + 1][arx] || b2) === b2);
-        var b1 = ((areaTiles[ary + 1] && areaTiles[ary + 1][arx - 1] || b2) === b2);
-        var b3 = ((areaTiles[ary] && areaTiles[ary][arx - 1] || b2) === b2);
-        b2 = !!b2;
-
-        var bi = (b0 << 3 | b1 << 2 | b2 << 1 | b3);
-
-        return (bi < 10) ? '0' + bi : '' + bi;
-    }
-
-    function interpolateSEIndex(areaTiles, arx, ary) {
-        // b3 b2
-        // b1 b0
-        var b3 = areaTiles[ary] && areaTiles[ary][arx] || 'M';
-        var b0 = ((areaTiles[ary + 1] && areaTiles[ary + 1][arx + 1] || b3) === b3);
-        var b1 = ((areaTiles[ary + 1] && areaTiles[ary + 1][arx] || b3) === b3);
-        var b2 = ((areaTiles[ary] && areaTiles[ary][arx + 1] || b3) === b3);
-        b3 = !!b3;
 
         var bi = (b0 << 3 | b1 << 2 | b2 << 1 | b3);
 
@@ -105,9 +53,9 @@ const Terrain = (() => {
         const cols = Math.ceil(camera.viewArea.width / tileInfo.width) + 1;
         const rows = Math.ceil(camera.viewArea.height / tileInfo.height) + 1;
 
-        var tile, tileType, imagePath, x, y, arx, ary;
+        var tile, imagePath, x, y, arx, ary;
+        var baseTile, surfaceTile;
         var grid;
-        var nw, ne, sw, se;
         var areaKey, areaModel, areaTiles;
         var error = [];
         for (var j = 0; j < rows; j++) {
@@ -131,37 +79,22 @@ const Terrain = (() => {
 
                 // Grab a recycled tile and render it
                 tile = tileRecyler.get();
-                nw = subTileRecyler.get();
-                ne = subTileRecyler.get();
-                sw = subTileRecyler.get();
-                se = subTileRecyler.get();
-
+                baseTile = subTileRecyler.get();
+                surfaceTile = subTileRecyler.get();
+                if(model.ui.interpolationEnabled) {
+                    baseTile.texture = tileTextureFor(tileTypeFor(areaTiles, arx, ary), '00');
+                    surfaceTile.texture = tileTextureFor(tileTypeFor(areaTiles, arx, ary), tileIndexFor(areaTiles, arx, ary));
+                }
+                else {
+                    baseTile.texture = tileTextureFor(tileTypeFor(areaTiles, arx, ary), '00');
+                    surfaceTile.texture = baseTile.texture;
+                }
                 tile.x = x * tileInfo.width;
                 tile.y = y * tileInfo.height;
 
-                if (model.ui.interpolationEnabled) {
-                    nw.texture = tileTextureFor(interpolateType(areaTiles, -1, -1, arx, ary), interpolateNWIndex(areaTiles, arx, ary));
-                    ne.texture = tileTextureFor(interpolateType(areaTiles, 1, -1, arx, ary), interpolateNEIndex(areaTiles, arx, ary));
-                    sw.texture = tileTextureFor(interpolateType(areaTiles, -1, 1, arx, ary), interpolateSWIndex(areaTiles, arx, ary));
-                    se.texture = tileTextureFor(interpolateType(areaTiles, 1, 1, arx, ary), interpolateSEIndex(areaTiles, arx, ary));
-                } else {
-                    nw.texture = tileTextureFor(tileType, '15');
-                    ne.texture = nw.texture;
-                    sw.texture = nw.texture;
-                    se.texture = nw.texture;
-                }
-                ne.x = tileInfo.halfWidth;
-                ne.y = 0;
-                nw.x = 0;
-                nw.y = 0;
-                sw.x = 0;
-                sw.y = tileInfo.halfHeight;
-                se.x = tileInfo.halfWidth;
-                se.y = tileInfo.halfHeight;
-
                 // Awkward missing texture capture
                 try {
-                    tile.addChild(nw, ne, sw, se);
+                    tile.addChild(baseTile, surfaceTile);
                     if(model.ui.gridVisible) {
                         grid = gridRecycler.get();
                         tile.addChild(grid);
