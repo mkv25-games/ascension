@@ -1,6 +1,6 @@
 const Terrain = (() => {
 
-    var tileRecyler, gridRecycler;
+    var tileRecyler, subTileRecyler, gridRecycler;
 
     const areaSize = {
         width: 48,
@@ -32,8 +32,9 @@ const Terrain = (() => {
         return a;
     }
 
-    function update(container, camera, model) {
+    function update(terrainContainer, camera, model) {
         tileRecyler.recycleAll();
+        subTileRecyler.recycleAll();
         gridRecycler.recycleAll();
 
         const world = model.data.world;
@@ -71,17 +72,14 @@ const Terrain = (() => {
 
                 // Grab a recycled tile and render it
                 tile = tileRecyler.get();
-                nw = tileRecyler.get();
-                ne = tileRecyler.get();
-                sw = tileRecyler.get();
-                se = tileRecyler.get();
+                nw = subTileRecyler.get();
+                ne = subTileRecyler.get();
+                sw = subTileRecyler.get();
+                se = subTileRecyler.get();
 
                 tile.x = x * tileInfo.width;
                 tile.y = y * tileInfo.height;
-                tile.anchor.x = 0;
-                tile.anchor.y = 0;
 
-                tile.texture = tileTextureFor(tileType, '00');
                 if (model.ui.interpolationEnabled) {
                     nw.texture = tileTextureFor(interpolate(areaTiles, -1, -1, arx, ary), '00');
                     ne.texture = tileTextureFor(interpolate(areaTiles, 1, -1, arx, ary), '00');
@@ -105,7 +103,7 @@ const Terrain = (() => {
                         grid = gridRecycler.get();
                         tile.addChild(grid);
                     }
-                    container.addChild(tile);
+                    terrainContainer.addChild(tile);
                 } catch (ex) {
                     console.log('Unable to find texture', imagePath, tileAtlas);
                     throw 'Unable to find texture, tile: ' + imagePath;
@@ -172,20 +170,34 @@ const Terrain = (() => {
     }
 
     function create(model) {
-        const container = new Container();
+        const terrainContainer = new Container();
 
-        container.update = (camera) => {
-            update(container, camera, model);
+        terrainContainer.update = (camera) => {
+            update(terrainContainer, camera, model);
         };
 
         tileRecyler = Recycler.create(() => {
-            return new Sprite();
+            return new Container();
         }, (instance) => {
-            container.removeChild(instance);
+            terrainContainer.removeChild(instance);
+            /* Commented out for optimization
             instance.x = 0;
             instance.y = 0;
             instance.scale.x = instance.scale.y = 1;
             instance.texture = null;
+            */
+        });
+
+        subTileRecyler = Recycler.create(() => {
+            return new Sprite();
+        }, (instance) => {
+            terrainContainer.removeChild(instance);
+            /* Commented out for optimization
+            instance.x = 0;
+            instance.y = 0;
+            instance.scale.x = instance.scale.y = 1;
+            instance.texture = null;
+            */
         });
 
         gridRecycler = Recycler.create(() => {
@@ -195,12 +207,14 @@ const Terrain = (() => {
             return g;
         }, (g) => {
             if(g.parent) g.parent.removeChild(g);
+            /* Commented out for optimization
             g.x = 0;
             g.y = 0;
             g.scale.x = g.scale.y = 1;
+            */
         });
 
-        return container;
+        return terrainContainer;
     }
 
     return {
