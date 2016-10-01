@@ -80,11 +80,18 @@ const Terrain = (() => {
                 tile.anchor.y = 0;
 
                 tile.texture = tileTextureFor(tileType, '00');
-                nw.texture = tileTextureFor(interpolate(areaTiles, -1, -1, arx, ary), '00');
-                ne.texture = tileTextureFor(interpolate(areaTiles, 1, -1, arx, ary), '00');
-                sw.texture = tileTextureFor(interpolate(areaTiles, -1, 1, arx, ary), '00');
-                se.texture = tileTextureFor(interpolate(areaTiles, 1, 1, arx, ary), '00');
-
+                if(model.ui.interpolationEnabled) {
+                    nw.texture = tileTextureFor(interpolate(areaTiles, -1, -1, arx, ary), '00');
+                    ne.texture = tileTextureFor(interpolate(areaTiles, 1, -1, arx, ary), '00');
+                    sw.texture = tileTextureFor(interpolate(areaTiles, -1, 1, arx, ary), '00');
+                    se.texture = tileTextureFor(interpolate(areaTiles, 1, 1, arx, ary), '00');
+                }
+                else {
+                    nw.texture = tile.texture;
+                    ne.texture = tile.texture;
+                    sw.texture = tile.texture;
+                    se.texture = tile.texture;
+                }
                 ne.x = tileInfo.halfWidth;
                 se.x = tileInfo.halfWidth;
                 sw.y = tileInfo.halfHeight;

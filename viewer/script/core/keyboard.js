@@ -7,8 +7,10 @@ const Keyboard = (() => {
         Up: [38, 87],
         Right: [39, 68],
         Down: [40, 83],
-        Shift: 16,
+        Shift: [16],
         Control: [17, 91],
+        GridToggle: [71],
+        InterpolateToggle: [73],
         Any: true
     };
     var AnyKey;

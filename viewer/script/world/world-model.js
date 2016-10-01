@@ -80,6 +80,10 @@ const WorldModel = (() => {
             }
         };
 
+        model.ui = {
+            interpolationEnabled: true
+        };
+
         model.save = () => {
             save(model);
         };

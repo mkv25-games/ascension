@@ -42,6 +42,14 @@ TouchControls = (() => {
             return update(controls, model);
         };
 
+        Keyboard.GridToggle.press = () => {
+            model.ui.gridVisible = !model.ui.gridVisible;
+        };
+
+        Keyboard.InterpolateToggle.press = () => {
+            model.ui.interpolationEnabled = !model.ui.interpolationEnabled;
+        };
+
         return controls;
     }
 
