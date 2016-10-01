@@ -1,6 +1,6 @@
 const Terrain = (() => {
 
-    var tileRecyler;
+    var tileRecyler, gridRecycler;
 
     const areaSize = {
         width: 48,
@@ -26,7 +26,7 @@ const Terrain = (() => {
         var b = areaTiles[ary + yo] && areaTiles[ary + yo][arx] || a;
         var c = areaTiles[ary] && areaTiles[ary][arx + xo] || a;
         var d = areaTiles[ary + yo] && areaTiles[ary + yo][arx + xo] || a;
-        if(b === c && c === d) {
+        if (b === c && c === d) {
             return b;
         }
         return a;
@@ -34,6 +34,7 @@ const Terrain = (() => {
 
     function update(container, camera, model) {
         tileRecyler.recycleAll();
+        gridRecycler.recycleAll();
 
         const world = model.data.world;
         const areas = world.areas;
@@ -45,6 +46,7 @@ const Terrain = (() => {
         const rows = Math.ceil(camera.viewArea.height / tileInfo.height) + 1;
 
         var tile, tileType, imagePath, x, y, arx, ary;
+        var grid;
         var nw, ne, sw, se;
         var areaKey, areaModel, areaTiles;
         var error = [];
@@ -80,13 +82,12 @@ const Terrain = (() => {
                 tile.anchor.y = 0;
 
                 tile.texture = tileTextureFor(tileType, '00');
-                if(model.ui.interpolationEnabled) {
+                if (model.ui.interpolationEnabled) {
                     nw.texture = tileTextureFor(interpolate(areaTiles, -1, -1, arx, ary), '00');
                     ne.texture = tileTextureFor(interpolate(areaTiles, 1, -1, arx, ary), '00');
                     sw.texture = tileTextureFor(interpolate(areaTiles, -1, 1, arx, ary), '00');
                     se.texture = tileTextureFor(interpolate(areaTiles, 1, 1, arx, ary), '00');
-                }
-                else {
+                } else {
                     nw.texture = tile.texture;
                     ne.texture = tile.texture;
                     sw.texture = tile.texture;
@@ -100,9 +101,12 @@ const Terrain = (() => {
                 // Awkward missing texture capture
                 try {
                     tile.addChild(nw, ne, sw, se);
+                    if(model.ui.gridVisible) {
+                        grid = gridRecycler.get();
+                        tile.addChild(grid);
+                    }
                     container.addChild(tile);
-                }
-                catch(ex) {
+                } catch (ex) {
                     console.log('Unable to find texture', imagePath, tileAtlas);
                     throw 'Unable to find texture, tile: ' + imagePath;
                 }
@@ -182,6 +186,18 @@ const Terrain = (() => {
             instance.y = 0;
             instance.scale.x = instance.scale.y = 1;
             instance.texture = null;
+        });
+
+        gridRecycler = Recycler.create(() => {
+            var g = new Graphics();
+            g.lineStyle(1, 0x777777, 0.7);
+            g.drawRect(0, 0, tileInfo.width, tileInfo.height);
+            return g;
+        }, (g) => {
+            if(g.parent) g.parent.removeChild(g);
+            g.x = 0;
+            g.y = 0;
+            g.scale.x = g.scale.y = 1;
         });
 
         return container;
