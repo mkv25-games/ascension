@@ -21,20 +21,36 @@ const Terrain = (() => {
         return Resources[Settings.images.everything].textures[`${type}-${index}`];
     }
 
-    function tileTypeFor(areaTiles, arx, ary) {
-         return areaTiles[ary] && areaTiles[ary][arx] || 'M'
+    function surfaceTileTypeFor(areaTiles, arx, ary) {
+        // b3 b2
+        // b1 b0
+        var b0 = baseTileTypeFor(areaTiles, arx, ary);
+        var b1 = baseTileTypeFor(areaTiles, arx - 1, ary) === b0;
+        var b2 = baseTileTypeFor(areaTiles, arx, ary - 1) === b0;
+        var b3 = baseTileTypeFor(areaTiles, arx - 1, ary - 1) === b0;
+        b0 = !!b0;
+
+        var bi = 15 - (b0 << 3 | b1 << 2 | b2 << 1 | b3);
+        var xo = (b1 && !b2) ? 0 : -1;
+        var yo = (b2 && !b1) ? 0 : -1;
+
+        return areaTiles[ary + yo] && areaTiles[ary + yo][arx + xo] || baseTileTypeFor(areaTiles, arx, ary);
+    }
+
+    function baseTileTypeFor(areaTiles, arx, ary) {
+        return areaTiles[ary] && areaTiles[ary][arx] || 'M'
     }
 
     function tileIndexFor(areaTiles, arx, ary) {
         // b3 b2
         // b1 b0
-        var b0 = tileTypeFor(areaTiles, arx, ary);
-        var b1 = tileTypeFor(areaTiles, arx - 1, ary) === b0;
-        var b2 = tileTypeFor(areaTiles, arx, ary - 1) === b0;
-        var b3 = tileTypeFor(areaTiles, arx - 1, ary - 1) === b0;
+        var b0 = baseTileTypeFor(areaTiles, arx, ary);
+        var b1 = baseTileTypeFor(areaTiles, arx - 1, ary) === b0;
+        var b2 = baseTileTypeFor(areaTiles, arx, ary - 1) === b0;
+        var b3 = baseTileTypeFor(areaTiles, arx - 1, ary - 1) === b0;
         b0 = !!b0;
 
-        var bi = (b0 << 3 | b1 << 2 | b2 << 1 | b3);
+        var bi = 15 - (b0 << 3 | b1 << 2 | b2 << 1 | b3);
 
         return (bi < 10) ? '0' + bi : '' + bi;
     }
@@ -81,12 +97,11 @@ const Terrain = (() => {
                 tile = tileRecyler.get();
                 baseTile = subTileRecyler.get();
                 surfaceTile = subTileRecyler.get();
-                if(model.ui.interpolationEnabled) {
-                    baseTile.texture = tileTextureFor(tileTypeFor(areaTiles, arx, ary), '00');
-                    surfaceTile.texture = tileTextureFor(tileTypeFor(areaTiles, arx, ary), tileIndexFor(areaTiles, arx, ary));
-                }
-                else {
-                    baseTile.texture = tileTextureFor(tileTypeFor(areaTiles, arx, ary), '00');
+                if (model.ui.interpolationEnabled) {
+                    baseTile.texture = tileTextureFor(baseTileTypeFor(areaTiles, arx, ary), '00');
+                    surfaceTile.texture = tileTextureFor(surfaceTileTypeFor(areaTiles, arx, ary), tileIndexFor(areaTiles, arx, ary));
+                } else {
+                    baseTile.texture = tileTextureFor(baseTileTypeFor(areaTiles, arx, ary), '00');
                     surfaceTile.texture = baseTile.texture;
                 }
                 tile.x = x * tileInfo.width;
@@ -95,7 +110,7 @@ const Terrain = (() => {
                 // Awkward missing texture capture
                 try {
                     tile.addChild(baseTile, surfaceTile);
-                    if(model.ui.gridVisible) {
+                    if (model.ui.gridVisible) {
                         grid = gridRecycler.get();
                         tile.addChild(grid);
                     }
@@ -202,7 +217,7 @@ const Terrain = (() => {
             g.drawRect(0, 0, tileInfo.width, tileInfo.height);
             return g;
         }, (g) => {
-            if(g.parent) g.parent.removeChild(g);
+            if (g.parent) g.parent.removeChild(g);
             /* Commented out for optimization
             g.x = 0;
             g.y = 0;
