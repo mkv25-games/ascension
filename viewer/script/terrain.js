@@ -31,7 +31,7 @@ const Terrain = (() => {
         b0 = !!b0;
 
         var bi = 15 - (b0 << 3 | b1 << 2 | b2 << 1 | b3);
-        var xo = (b1 && !b2) ? 0 : -1;
+        var xo = ((b1 && !b2) || (b3 && !b1 && !b2)) ? 0 : -1;
         var yo = (b2 && !b1) ? 0 : -1;
 
         return areaTiles[ary + yo] && areaTiles[ary + yo][arx + xo] || baseTileTypeFor(areaTiles, arx, ary);
