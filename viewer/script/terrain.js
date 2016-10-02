@@ -25,29 +25,29 @@ const Terrain = (() => {
         // b3 b2
         // b1 b0
         var b0 = baseTileTypeFor(areaTiles, arx, ary);
-        var b1 = baseTileTypeFor(areaTiles, arx - 1, ary) === b0;
-        var b2 = baseTileTypeFor(areaTiles, arx, ary - 1) === b0;
-        var b3 = baseTileTypeFor(areaTiles, arx - 1, ary - 1) === b0;
+        var b1 = baseTileTypeFor(areaTiles, arx - 1, ary, b0) === b0;
+        var b2 = baseTileTypeFor(areaTiles, arx, ary - 1, b0) === b0;
+        var b3 = baseTileTypeFor(areaTiles, arx - 1, ary - 1, b0) === b0;
         b0 = !!b0;
 
         var bi = 15 - (b0 << 3 | b1 << 2 | b2 << 1 | b3);
-        var xo = ((b1 && !b2) || (b3 && !b1 && !b2)) ? 0 : -1;
-        var yo = (b2 && !b1) ? 0 : -1;
+        var xo = (b1 && !b2) ? 0 : -1;
+        var yo = (b2 && !b1) || (b3 && !b1 && !b2) ? 0 : -1;
 
         return areaTiles[ary + yo] && areaTiles[ary + yo][arx + xo] || baseTileTypeFor(areaTiles, arx, ary);
     }
 
-    function baseTileTypeFor(areaTiles, arx, ary) {
-        return areaTiles[ary] && areaTiles[ary][arx] || 'M'
+    function baseTileTypeFor(areaTiles, arx, ary, defaultValue) {
+        return areaTiles[ary] && areaTiles[ary][arx] || defaultValue || 'M';
     }
 
     function tileIndexFor(areaTiles, arx, ary) {
         // b3 b2
         // b1 b0
         var b0 = baseTileTypeFor(areaTiles, arx, ary);
-        var b1 = baseTileTypeFor(areaTiles, arx - 1, ary) === b0;
-        var b2 = baseTileTypeFor(areaTiles, arx, ary - 1) === b0;
-        var b3 = baseTileTypeFor(areaTiles, arx - 1, ary - 1) === b0;
+        var b1 = baseTileTypeFor(areaTiles, arx - 1, ary, b0) === b0;
+        var b2 = baseTileTypeFor(areaTiles, arx, ary - 1, b0) === b0;
+        var b3 = baseTileTypeFor(areaTiles, arx - 1, ary - 1, b0) === b0;
         b0 = !!b0;
 
         var bi = 15 - (b0 << 3 | b1 << 2 | b2 << 1 | b3);
