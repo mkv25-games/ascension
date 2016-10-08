@@ -47,7 +47,7 @@ TouchControls = (() => {
         };
 
         Keyboard.InterpolateToggle.press = () => {
-            model.ui.interpolationEnabled = !model.ui.interpolationEnabled;
+            model.ui.interpolationMode = (model.ui.interpolationMode + 1) % Object.keys(WorldModel.InterpolationModes).length;
         };
 
         return controls;

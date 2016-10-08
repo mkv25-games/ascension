@@ -55,7 +55,7 @@ const Terrain = (() => {
         // b3 b2
         // b1 b0
         var b0 = true;
-        var b1 = interpolate(areaTiles, arx - 1, ary, type)  === type;
+        var b1 = interpolate(areaTiles, arx - 1, ary, type) === type;
         var b2 = interpolate(areaTiles, arx, ary - 1, type) === type;
         var b3 = interpolate(areaTiles, arx - 1, ary - 1, type) === type;
 
@@ -155,23 +155,32 @@ const Terrain = (() => {
                 ary = (y + areaSize.height) % areaSize.height;
                 ark = ary * areaSize.width + arx;
 
-                // Grab a recycled tile and render it
-                tile = tileRecyler.get();
-                baseTile = subTileRecyler.get();
-                surfaceTile = subTileRecyler.get();
-                if (model.ui.interpolationEnabled) {
+                // Decide what to render
+                if (model.ui.interpolationMode === WorldModel.InterpolationModes.ON) {
+                    baseTile = subTileRecyler.get();
+                    surfaceTile = subTileRecyler.get();
                     baseTile.texture = localAreaModel.baseTileTextureCache[ark] || updateBaseTextureFor(localAreaModel, arx, ary, ark);
                     surfaceTile.texture = localAreaModel.surfaceTileTextureCache[ark] || updateSurfaceTextureFor(localAreaModel, arx, ary, ark);
-                } else {
+                } else if (model.ui.interpolationMode === WorldModel.InterpolationModes.BASE_ONLY) {
+                    baseTile = subTileRecyler.get();
+                    baseTile.texture = localAreaModel.baseTileTextureCache[ark] || updateBaseTextureFor(localAreaModel, arx, ary, ark);
+                } else if (model.ui.interpolationMode === WorldModel.InterpolationModes.SURFACE_ONLY) {
+                    surfaceTile = subTileRecyler.get();
+                    surfaceTile.texture = localAreaModel.surfaceTileTextureCache[ark] || updateSurfaceTextureFor(localAreaModel, arx, ary, ark);
+                }  else {
+                    baseTile = subTileRecyler.get();
                     baseTile.texture = localAreaModel.groundTileTextureCache[ark] || updateGroundTextureFor(localAreaModel, arx, ary, ark);
-                    surfaceTile.texture = baseTile.texture;
                 }
+
+                // Grab a recycled tile
+                tile = tileRecyler.get();
                 tile.x = x * tileInfo.width;
                 tile.y = y * tileInfo.height;
 
                 // Awkward missing texture capture
                 try {
-                    tile.addChild(baseTile, surfaceTile);
+                    if(baseTile && baseTile.texture) tile.addChild(baseTile);
+                    if(surfaceTile && surfaceTile.texture) tile.addChild(surfaceTile);
                     if (model.ui.gridVisible) {
                         grid = gridRecycler.get();
                         tile.addChild(grid);
@@ -213,8 +222,7 @@ const Terrain = (() => {
         if (areaModel) {
             model.groundTiles = decodeTiles(areaModel.tiles, areaModel.dimensions.width, areaModel.dimensions.height);
             console.log('Cached decoded area', cacheKey);
-        }
-        else {
+        } else {
             model.groundTiles = [];
             console.log('Cached empty area', cacheKey);
         }
@@ -262,6 +270,7 @@ const Terrain = (() => {
 
     function create(model) {
         const terrainContainer = new Container();
+        const recycleContainer = new Container();
 
         terrainContainer.update = (camera) => {
             update(terrainContainer, camera, model);
@@ -270,7 +279,7 @@ const Terrain = (() => {
         tileRecyler = Recycler.create(() => {
             return new Container();
         }, (instance) => {
-            terrainContainer.removeChild(instance);
+            recycleContainer.addChild(instance);
             /* Commented out for optimization
             instance.x = 0;
             instance.y = 0;
@@ -282,7 +291,7 @@ const Terrain = (() => {
         subTileRecyler = Recycler.create(() => {
             return new Sprite();
         }, (instance) => {
-            terrainContainer.removeChild(instance);
+            recycleContainer.addChild(instance);
             /* Commented out for optimization
             instance.x = 0;
             instance.y = 0;

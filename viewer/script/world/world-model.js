@@ -81,7 +81,7 @@ const WorldModel = (() => {
         };
 
         model.ui = {
-            interpolationEnabled: true
+            interpolationMode: InterpolationModes.ON
         };
 
         model.save = () => {
@@ -95,7 +95,15 @@ const WorldModel = (() => {
         return model;
     }
 
+    const InterpolationModes = {
+        OFF: 0,
+        ON: 1,
+        BASE_ONLY: 2,
+        SURFACE_ONLY: 3
+    };
+
     return {
-        create
+        create,
+        InterpolationModes
     };
 })();
