@@ -7,7 +7,9 @@
     "test": "http-server -p 9000",
     "start": "npm test & grunt",
     "dev": "grunt",
-    "upload:all": "node ./scripts/upload-all.js"
+    "upload:all": "node ./scripts/upload-all.js",
+    "terrain:split": "node ./scripts/split-terrain-images.js --silent",
+    "terrain:merge": "node ./scripts/merge-terrain-images.js --silent"
   },
   "keywords": [
     "ascension",
@@ -19,6 +21,7 @@
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-watch": "^1.0.0"
+    "grunt-contrib-watch": "^1.0.0",
+    "promise-path": "^1.2.3"
   }
 }
