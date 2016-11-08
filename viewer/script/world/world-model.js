@@ -16,8 +16,8 @@ const WorldModel = (() => {
             player: {
                 name: 'Avatar',
                 position: {
-                    x: 0,
-                    y: 0,
+                    x: 500,
+                    y: 500,
                     vx: 0,
                     vy: 0,
                     running: false,
