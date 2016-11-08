@@ -644,8 +644,8 @@ Object.keys(AreaLayouts.layouts).forEach((areaCode) => {
     var SW = areaCode.charAt(2);
     var SE = areaCode.charAt(3);
 
-    console.log('Rewriting', areaCode, NW, NW, SW, SE);
-    console.log('  Before', areaString);
+    // console.log('Rewriting', areaCode, NW, NW, SW, SE);
+    // console.log('  Before', areaString);
 
     var areaString = AreaLayouts.layouts[areaCode];
 
@@ -653,8 +653,8 @@ Object.keys(AreaLayouts.layouts).forEach((areaCode) => {
     areaString = areaString.replace(/NE/g, NE);
     areaString = areaString.replace(/SW/g, SW);
     areaString = areaString.replace(/SE/g, SE);
-    
-    console.log('  After', areaString);
+
+    // console.log('  After', areaString);
 
     AreaLayouts.layouts[areaCode] = areaString;
 });
