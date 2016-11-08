@@ -80,7 +80,7 @@ const WorldModel = (() => {
             }
         };
 
-        model.data.world.areas = WorldGenerator.create(4, 4, 500);
+        model.data.world.areas = WorldGenerator.create(100, 100, 500);
 
         model.ui = {
             interpolationMode: InterpolationModes.ON
