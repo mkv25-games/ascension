@@ -11,6 +11,8 @@ const Keyboard = (() => {
         Control: [17, 91],
         GridToggle: [71],
         InterpolateToggle: [73],
+        ZoomOut: [109],
+        ZoomIn: [107],
         Any: true
     };
     var AnyKey;

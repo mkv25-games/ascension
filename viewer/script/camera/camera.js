@@ -3,6 +3,7 @@ const Camera = (() => {
     function create(renderer) {
         var camera = new Container();
         camera.renderer = renderer;
+        camera.zoomLevel = 1;
 
         camera.update = (resized) => {
             update(camera, resized);
@@ -14,6 +15,16 @@ const Camera = (() => {
 
         camera.addChild(camera.stage);
         camera.addChild(camera.visualBorder);
+
+        Keyboard.ZoomIn.press = () => {
+            camera.zoomLevel++;
+            camera.zoomLevel = Math.min(3, camera.zoomLevel);
+        };
+
+        Keyboard.ZoomOut.press = () => {
+            camera.zoomLevel--;
+            camera.zoomLevel = Math.max(1, camera.zoomLevel);
+        };
 
         return camera;
     }
@@ -40,7 +51,8 @@ const Camera = (() => {
 
         camera.x = Math.round(camera.stageOffset.x + camera.userOffset.x);
         camera.y = Math.round(camera.stageOffset.y + camera.userOffset.y);
-        camera.scale.x = camera.scale.y = camera.renderer.width > camera.renderer.height ? 2 : 1;
+        // camera.scale.x = camera.scale.y = camera.renderer.width > camera.renderer.height ? 2 : 1;
+        camera.scale.x = camera.scale.y = Math.pow(2, camera.zoomLevel);
         camera.viewArea.x = (-camera.x / camera.scale.x);
         camera.viewArea.y = (-camera.y / camera.scale.y);
         camera.viewArea.width = camera.renderer.width / camera.scale.x;
