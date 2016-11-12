@@ -18,7 +18,7 @@ const Terrain = (() => {
     const localAreaCache = {};
 
     function tileLookup(areaTiles, arx, ary, defaultValue) {
-        return areaTiles[ary] && areaTiles[ary][arx] || defaultValue || 'M';
+        return areaTiles[ary] && areaTiles[ary][arx] || defaultValue || 'S';
     }
 
     function flatTileLookup(areaTiles, arx, ary, defaultValue) {
@@ -126,8 +126,8 @@ const Terrain = (() => {
 
         const world = model.data.world;
 
-        const toX = camera.viewArea.x / tileInfo.width;
-        const toY = camera.viewArea.y / tileInfo.height;
+        const toX = Math.floor(camera.viewArea.x / tileInfo.width);
+        const toY = Math.floor(camera.viewArea.y / tileInfo.height);
 
         const cols = Math.ceil(camera.viewArea.width / tileInfo.width) + 1;
         const rows = Math.ceil(camera.viewArea.height / tileInfo.height) + 1;
@@ -139,23 +139,24 @@ const Terrain = (() => {
         var error = [];
         for (var j = 0; j < rows; j++) {
             // Calculate a world y coordinate
-            y = Math.floor(toY + j);
+            y = toY + j;
             for (var i = 0; i < cols; i++) {
                 // Calculate a world x coordinate
-                x = Math.floor(toX + i);
+                x = toX + i;
 
                 // Select correct area for this tile
                 wax = Math.floor(x / areaSize.width);
                 way = Math.floor(y / areaSize.height);
-                areaKey = wax + ',' + way;
-                worldAreaModel = world.areas[areaKey] || lookupWorldArea(world, wax, way, areaKey);
-                localAreaModel = localAreaCache[world.id + areaKey] || createLocalAreaModel(worldAreaModel, world.id + areaKey, localAreaCache);
-                areaTiles = localAreaModel.interpolatedTiles;
 
                 // Calculate relative position within area
-                arx = (x + areaSize.width) % areaSize.width;
-                ary = (y + areaSize.height) % areaSize.height;
+                arx = (areaSize.width + (x % areaSize.width)) % areaSize.width;
+                ary = (areaSize.height + (y % areaSize.height)) % areaSize.height;
                 ark = ary * areaSize.width + arx;
+
+                areaKey = wax + ',' + way;
+                worldAreaModel = world.areas[areaKey] || lookupWorldArea(world, wax, way, areaKey);
+                localAreaModel = localAreaCache[world.id + areaKey] || (() => { var r = createLocalAreaModel(worldAreaModel, world.id + areaKey, localAreaCache); console.log(areaKey, x, y, r, 'ARK', ark); return r;})();
+                areaTiles = localAreaModel.interpolatedTiles;
 
                 // Decide what to render
                 if (model.ui.interpolationMode === WorldModel.InterpolationModes.ON) {
@@ -229,7 +230,7 @@ const Terrain = (() => {
 
         if (areaModel) {
             model.groundTiles = decodeTiles(areaModel.tiles, areaModel.dimensions.width, areaModel.dimensions.height);
-            console.log('Cached decoded area', cacheKey);
+            // console.log('Cached decoded area', cacheKey, model.groundTiles);
         } else {
             model.groundTiles = [];
             console.log('Cached empty area', cacheKey);

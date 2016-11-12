@@ -39,8 +39,9 @@ const OutsideState = (() => {
         updateCamera(camera, avatar);
         terrain.update(camera);
     }
+
     function updateCamera(camera, avatar) {
-        const speed = (Keyboard.Shift.isDown) ? 50 : 10;
+        const speed = (Keyboard.Shift.isDown) ? 200 : 50;
         if (Keyboard.Control.isDown) {
             if (Keyboard.Left.isDown) {
                 camera.userOffset.x += speed;
