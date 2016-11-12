@@ -9,7 +9,8 @@
     "dev": "grunt",
     "upload:all": "node ./scripts/upload-all.js",
     "terrain:split": "node ./scripts/split-terrain-images.js --silent",
-    "terrain:merge": "node ./scripts/merge-terrain-images.js --silent"
+    "terrain:merge": "node ./scripts/merge-terrain-images.js --silent",
+    "publish": "node ./scripts/upload-all.js",
   },
   "keywords": [
     "ascension",
