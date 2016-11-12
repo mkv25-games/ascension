@@ -16,8 +16,8 @@ const WorldModel = (() => {
             player: {
                 name: 'Avatar',
                 position: {
-                    x: 500,
-                    y: 500,
+                    x: 50,
+                    y: 50,
                     vx: 0,
                     vy: 0,
                     running: false,
@@ -28,13 +28,14 @@ const WorldModel = (() => {
                 ]
             },
             world: {
-                name: 'The Void',
-                id: 'test',
+                name: 'Boundless',
+                id: 'boundless',
                 size: {
                     width: Infinity,
                     height: Infinity
                 },
                 type: 'procedural',
+                seed: 500,
                 areas: {
                     '0,0': {
                         x: 0,
@@ -45,42 +46,13 @@ const WorldModel = (() => {
                             height: 48
                         },
                         items: []
-                    },
-                    '-1,0': {
-                        x: -1,
-                        y: 0,
-                        tiles: AreaLayouts.layouts.SSMG,
-                        dimensions: {
-                            width: 48,
-                            height: 48
-                        },
-                        items: []
-                    },
-                    '-1,-1': {
-                        x: -1,
-                        y: -1,
-                        tiles: AreaLayouts.layouts.GFSS,
-                        dimensions: {
-                            width: 48,
-                            height: 48
-                        },
-                        items: []
-                    },
-                    '0,-1': {
-                        x: 0,
-                        y: -1,
-                        tiles: AreaLayouts.layouts.MFSF,
-                        dimensions: {
-                            width: 48,
-                            height: 48
-                        },
-                        items: []
                     }
                 }
             }
         };
 
-        model.data.world.areas = WorldGenerator.create(100, 100, 500);
+        model.data.world.areas = {};
+        model.data.world.areas['0,0'] = WorldGenerator.select(0, 0, model.data.world.seed);
 
         model.ui = {
             interpolationMode: InterpolationModes.ON

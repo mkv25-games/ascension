@@ -132,7 +132,7 @@ const Terrain = (() => {
         const cols = Math.ceil(camera.viewArea.width / tileInfo.width) + 1;
         const rows = Math.ceil(camera.viewArea.height / tileInfo.height) + 1;
 
-        var x, y, arx, ary, ark;
+        var x, y, arx, ary, ark, wax, way;
         var tile, baseTile, surfaceTile;
         var grid;
         var areaKey, worldAreaModel, localAreaModel, areaTiles;
@@ -145,8 +145,10 @@ const Terrain = (() => {
                 x = Math.floor(toX + i);
 
                 // Select correct area for this tile
-                areaKey = Math.floor(x / areaSize.width) + ',' + Math.floor(y / areaSize.height);
-                worldAreaModel = world.areas[areaKey];
+                wax = Math.floor(x / areaSize.width);
+                way = Math.floor(y / areaSize.height);
+                areaKey = wax + ',' + way;
+                worldAreaModel = world.areas[areaKey] || lookupWorldArea(world, wax, way, areaKey);
                 localAreaModel = localAreaCache[world.id + areaKey] || createLocalAreaModel(worldAreaModel, world.id + areaKey, localAreaCache);
                 areaTiles = localAreaModel.interpolatedTiles;
 
@@ -203,6 +205,12 @@ const Terrain = (() => {
         if (error.length > 0) {
             throw error;
         }
+    }
+
+    function lookupWorldArea(world, areaX, areaY, areaKey) {
+        world.areas[areaKey] = WorldGenerator.select(areaX, areaY, world.seed);
+
+        return world.areas[areaKey];
     }
 
     function zp(num) {

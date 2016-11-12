@@ -3,6 +3,62 @@ const WorldGenerator = (() => {
     const noise = PerlinNoise;
     const areaHeightMap = 'WSGFM'.split('');
 
+    function select(x, y, seed) {
+        // seed the map noise
+        noise.seed(seed || 500);
+
+        var waterHeight = noise.simplex2(seed, seed) * 5;
+        var waterHeightMap = [];
+        for (var i = 0; i < waterHeight; i++) {
+            waterHeightMap.push('W');
+        }
+        var worldHeightMap = [].concat(waterHeightMap, areaHeightMap);
+
+        // choose edging area
+        var edgeArea = {
+            baseType: pickArea(0, 0, worldHeightMap)
+        };
+
+        var areas = [];
+
+        areas.findArea = function (area, xOffset, yOffset) {
+            var row = areas[area.y + yOffset] || areas[area.y];
+            if (row) {
+                return row[area.x + xOffset] || row[area.x] || edgeArea;
+            } else {
+                return edgeArea;
+            }
+        };
+
+        // Create mini world
+        for (var j = 0; j < 2; j++) {
+            areas[j] = areas[j] || [];
+            for (var i = 0; i < 2; i++) {
+                areas[j][i] = areas[j][i] || {
+                    baseType: pickArea(x + i, y + j, worldHeightMap),
+                    x: i,
+                    y: j
+                }
+            }
+        }
+
+        var compass = interpolateArea(areas[0][0], areas.findArea);
+
+        console.log('Selected area', compass, x, y);
+
+        return {
+            x,
+            y,
+            compass,
+            tiles: AreaLayouts.layouts[compass],
+            dimensions: {
+                width: 48,
+                height: 48
+            },
+            items: []
+        };
+    }
+
     function create(columns, rows, seed) {
         var areas = [];
 
@@ -20,7 +76,7 @@ const WorldGenerator = (() => {
 
         // choose edging area
         var edgeArea = {
-            baseType: pickArea(0, 0, null, worldHeightMap)
+            baseType: pickArea(0, 0, worldHeightMap)
         };
 
         // first pass
@@ -28,14 +84,12 @@ const WorldGenerator = (() => {
             areas[j] = areas[j] || [];
             for (var i = 0; i < columns; i++) {
                 areas[j][i] = areas[j][i] || {
-                    baseType: pickArea(i, j, edgeArea.baseType, worldHeightMap),
+                    baseType: pickArea(i, j, worldHeightMap),
                     x: i,
                     y: j
                 }
             }
         }
-
-        console.log('Perlin range:', min, max);
 
         areas.findArea = function (area, xOffset, yOffset) {
             var row = areas[area.y + yOffset] || areas[area.y];
@@ -80,10 +134,7 @@ const WorldGenerator = (() => {
         return Math.floor(Math.random() * areaHeightMap.length);
     }
 
-    var min = false;
-    var max = false;
-
-    function pickArea(x, y, defaultSymbol, heightMap) {
+    function pickArea(x, y, heightMap) {
         var scale = (noise.simplex2(x, y));
         var continentalHeight = (noise.simplex2(x / 10, y / 10) + 1) / 2;
         var microHeight = (noise.simplex2(x, y) + 1) / 2;
@@ -91,9 +142,6 @@ const WorldGenerator = (() => {
         var height = continentalHeight + (microHeight / 2);
 
         var index = Math.floor(height * heightMap.length) % heightMap.length;
-
-        min = (min) ? Math.min(height, min) : height;
-        max = (max) ? Math.max(height, max) : height;
 
         return heightMap[index];
     }
@@ -120,6 +168,7 @@ const WorldGenerator = (() => {
     }
 
     return {
-        create
+        create,
+        select
     };
 })();
