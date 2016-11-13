@@ -71,10 +71,10 @@ const Terrain = (() => {
         var yo = (ary % 2) ? 1 : -1;
         // nw ne
         // sw se
-        var a = tileLookup(areaTiles, garx, gary, defaultType);
-        var b = tileLookup(areaTiles, garx, gary + yo, a);
-        var c = tileLookup(areaTiles, garx + xo, gary, a);
-        var d = tileLookup(areaTiles, garx + xo, gary + yo, a);
+        var a = tileLookup(areaTiles, garx, gary);
+        var b = tileLookup(areaTiles, garx, gary + yo);
+        var c = tileLookup(areaTiles, garx + xo, gary);
+        var d = tileLookup(areaTiles, garx + xo, gary + yo);
 
         if (b === c && c === d) {
             return b;
@@ -82,9 +82,10 @@ const Terrain = (() => {
         return a;
     }
 
-    function updateBaseTextureFor(localAreaModel, arx, ary, ark) {
-        ark = ark || ary * areaSize.width + arx;
+    function updateBaseTextureFor(world, wax, way, arx, ary) {
+        var ark = ary * areaSize.width + arx;
 
+        var localAreaModel = lookupLocalAreaModel(world, wax, way);
         var type = interpolate(localAreaModel.groundTiles, arx, ary);
         var index = '00';
 
@@ -93,9 +94,10 @@ const Terrain = (() => {
         return texture;
     }
 
-    function updateSurfaceTextureFor(localAreaModel, arx, ary, ark) {
-        ark = ark || ary * areaSize.width + arx;
+    function updateSurfaceTextureFor(world, wax, way, arx, ary) {
+        var ark = ary * areaSize.width + arx;
 
+        var localAreaModel = lookupLocalAreaModel(world, wax, way);
         var type = edgeDetectTileType(localAreaModel.groundTiles, arx, ary, ark);
         var index = edgeDetectTileIndex(localAreaModel.groundTiles, arx, ary, ark);
 
@@ -105,9 +107,12 @@ const Terrain = (() => {
         return texture;
     }
 
-    function updateGroundTextureFor(localAreaModel, arx, ary, ark) {
-        ark = ark || ary * areaSize.width + arx;
+    function updateGroundTextureFor(world, wax, way, arx, ary) {
+        var ark = ary * areaSize.width + arx;
 
+        var localAreaModel = lookupLocalAreaModel(world, wax, way);
+
+        // Ground area tiles are twice the size of normal area tiles
         var garx = Math.floor(arx / 2);
         var gary = Math.floor(ary / 2);
 
@@ -117,6 +122,15 @@ const Terrain = (() => {
         var texture = tileTextureFor(type, index);
         localAreaModel.groundTileTextureCache[ark] = texture;
         return texture;
+    }
+
+    function lookupLocalAreaModel(world, wax, way) {
+        var areaKey = wax + ',' + way;
+        var worldAreaModel = world.areas[areaKey] || lookupWorldArea(world, wax, way, areaKey);
+        var localAreaModel = localAreaCache[world.id + areaKey] || createLocalAreaModel(worldAreaModel, world.id + areaKey, localAreaCache);
+        // var areaTiles = localAreaModel.interpolatedTiles;
+
+        return localAreaModel;
     }
 
     function update(terrainContainer, camera, model) {
@@ -153,26 +167,24 @@ const Terrain = (() => {
                 ary = (areaSize.height + (y % areaSize.height)) % areaSize.height;
                 ark = ary * areaSize.width + arx;
 
-                areaKey = wax + ',' + way;
-                worldAreaModel = world.areas[areaKey] || lookupWorldArea(world, wax, way, areaKey);
-                localAreaModel = localAreaCache[world.id + areaKey] || (() => { var r = createLocalAreaModel(worldAreaModel, world.id + areaKey, localAreaCache); console.log(areaKey, x, y, r, 'ARK', ark); return r;})();
-                areaTiles = localAreaModel.interpolatedTiles;
+                // Find local area model
+                localAreaModel = lookupLocalAreaModel(world, wax, way);
 
                 // Decide what to render
                 if (model.ui.interpolationMode === WorldModel.InterpolationModes.ON) {
                     baseTile = subTileRecyler.get();
                     surfaceTile = subTileRecyler.get();
-                    baseTile.texture = localAreaModel.baseTileTextureCache[ark] || updateBaseTextureFor(localAreaModel, arx, ary, ark);
-                    surfaceTile.texture = localAreaModel.surfaceTileTextureCache[ark] || updateSurfaceTextureFor(localAreaModel, arx, ary, ark);
+                    baseTile.texture = localAreaModel.baseTileTextureCache[ark] || updateBaseTextureFor(world, wax, way, arx, ary);
+                    surfaceTile.texture = localAreaModel.surfaceTileTextureCache[ark] || updateSurfaceTextureFor(world, wax, way, arx, ary);
                 } else if (model.ui.interpolationMode === WorldModel.InterpolationModes.BASE_ONLY) {
                     baseTile = subTileRecyler.get();
-                    baseTile.texture = localAreaModel.baseTileTextureCache[ark] || updateBaseTextureFor(localAreaModel, arx, ary, ark);
+                    baseTile.texture = localAreaModel.baseTileTextureCache[ark] || updateBaseTextureFor(world, wax, way, arx, ary);
                 } else if (model.ui.interpolationMode === WorldModel.InterpolationModes.SURFACE_ONLY) {
                     surfaceTile = subTileRecyler.get();
-                    surfaceTile.texture = localAreaModel.surfaceTileTextureCache[ark] || updateSurfaceTextureFor(localAreaModel, arx, ary, ark);
+                    surfaceTile.texture = localAreaModel.surfaceTileTextureCache[ark] || updateSurfaceTextureFor(world, wax, way, arx, ary);
                 }  else {
                     baseTile = subTileRecyler.get();
-                    baseTile.texture = localAreaModel.groundTileTextureCache[ark] || updateGroundTextureFor(localAreaModel, arx, ary, ark);
+                    baseTile.texture = localAreaModel.groundTileTextureCache[ark] || updateGroundTextureFor(world, wax, way, arx, ary);
                 }
 
                 // Grab a recycled tile
