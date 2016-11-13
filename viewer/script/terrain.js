@@ -262,15 +262,18 @@ const Terrain = (() => {
             ary = (areaSize.height + (fy % areaSize.height)) % areaSize.height;
             ark = ary * areaSize.width + arx;
 
+            var garx = Math.floor(arx / 2);
+            var gary = Math.floor(ary / 2);
+
             localAreaModel = lookupLocalAreaModel(world, wax, way);
             camera.highlightedTile = {
                 fx,
                 fy,
-                arx,
-                ary,
+                garx,
+                gary,
                 wax,
                 way,
-                symbol: localAreaModel.groundTileTextureCache[ark]
+                symbol: localAreaModel.groundTiles[gary] && localAreaModel.groundTiles[gary][garx]
             };
 
             highlight.x = Math.floor(fx / 2) * 2 * tileInfo.width;
