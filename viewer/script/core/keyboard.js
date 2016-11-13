@@ -13,7 +13,17 @@ const Keyboard = (() => {
         InterpolateToggle: [73],
         ZoomOut: [109],
         ZoomIn: [107],
-        Any: true
+        Any: true,
+        Inventory1: [49],
+        Inventory2: [50],
+        Inventory3: [51],
+        Inventory4: [52],
+        Inventory5: [53],
+        Inventory6: [54],
+        Inventory7: [55],
+        Inventory8: [56],
+        Inventory9: [57],
+        Inventory0: [48]
     };
     var AnyKey;
 

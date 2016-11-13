@@ -276,6 +276,27 @@ const Terrain = (() => {
                 symbol: localAreaModel.groundTiles[gary] && localAreaModel.groundTiles[gary][garx]
             };
 
+            if (Keyboard.Inventory1.isDown) {
+                localAreaModel.groundTiles[gary][garx] = 'G';
+                clearTilesSurrounding(world, fx, fy);
+            }
+            if (Keyboard.Inventory2.isDown) {
+                localAreaModel.groundTiles[gary][garx] = 'F';
+                clearTilesSurrounding(world, fx, fy);
+            }
+            if (Keyboard.Inventory3.isDown) {
+                localAreaModel.groundTiles[gary][garx] = 'M';
+                clearTilesSurrounding(world, fx, fy);
+            }
+            if (Keyboard.Inventory4.isDown) {
+                localAreaModel.groundTiles[gary][garx] = 'S';
+                clearTilesSurrounding(world, fx, fy);
+            }
+            if (Keyboard.Inventory5.isDown) {
+                localAreaModel.groundTiles[gary][garx] = 'W';
+                clearTilesSurrounding(world, fx, fy);
+            }
+
             highlight.x = Math.floor(fx / 2) * 2 * tileInfo.width;
             highlight.y = Math.floor(fy / 2) * 2 * tileInfo.height;
 
@@ -285,6 +306,46 @@ const Terrain = (() => {
         if (error.length > 0) {
             throw error;
         }
+    }
+
+    function clearTilesSurrounding(world, x, y) {
+        clearGroundAt(world, x - 2, y - 2);
+        clearGroundAt(world, x, y - 2);
+        clearGroundAt(world, x + 2, y - 2);
+
+        clearGroundAt(world, x - 2, y);
+        clearGroundAt(world, x, y);
+        clearGroundAt(world, x + 2, y);
+
+        clearGroundAt(world, x - 2, y + 2);
+        clearGroundAt(world, x, y + 2);
+        clearGroundAt(world, x + 2, y + 2);
+    }
+
+    function clearGroundAt(world, x, y) {
+        x = Math.floor(x / 2) * 2;
+        y = Math.floor(y / 2) * 2;
+
+        clearTextureCacheAt(world, x, y);
+        clearTextureCacheAt(world, x, y + 1);
+        clearTextureCacheAt(world, x + 1, y);
+        clearTextureCacheAt(world, x + 1, y + 1);
+    }
+
+    function clearTextureCacheAt(world, x, y) {
+        // Select correct area for this tile
+        var wax = Math.floor(x / areaSize.width);
+        var way = Math.floor(y / areaSize.height);
+
+        // Calculate relative position within area
+        var arx = (areaSize.width + (x % areaSize.width)) % areaSize.width;
+        var ary = (areaSize.height + (y % areaSize.height)) % areaSize.height;
+        var ark = ary * areaSize.width + arx;
+
+        var localAreaModel = lookupLocalAreaModel(world, wax, way);
+        delete localAreaModel.baseTileTextureCache[ark];
+        delete localAreaModel.surfaceTileTextureCache[ark];
+        delete localAreaModel.groundTileTextureCache[ark];
     }
 
     function lookupWorldArea(world, areaX, areaY, areaKey) {
