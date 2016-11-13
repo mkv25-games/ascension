@@ -1,4 +1,4 @@
-TouchControls = (() => {
+PlayerControls = (() => {
 
     function update(controls, model) {
         controls.vx = 0;

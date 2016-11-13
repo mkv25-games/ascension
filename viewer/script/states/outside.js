@@ -1,5 +1,5 @@
 const OutsideState = (() => {
-    var avatar, terrain;
+    var avatar, terrain, playerControls;
 
     const dxMap = {
 
@@ -22,8 +22,8 @@ const OutsideState = (() => {
         avatar = Avatar.create();
         stage.addChild(avatar);
 
-        touchControls = TouchControls.create(model);
-        avatar.addChild(touchControls);
+        playerControls = PlayerControls.create(model);
+        avatar.addChild(playerControls);
 
         terrain.update(camera);
         renderer.render(ui);
@@ -34,7 +34,7 @@ const OutsideState = (() => {
     }
 
     function update(camera, model) {
-        touchControls.update(model);
+        playerControls.update(model);
         avatar.update(model);
         updateCamera(camera, avatar);
         terrain.update(camera);
