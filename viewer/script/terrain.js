@@ -1,6 +1,6 @@
 const Terrain = (() => {
 
-    var tileRecyler, subTileRecyler, gridRecycler;
+    var tileRecyler, subTileRecyler, gridRecycler, highlightRecycler;
 
     const areaSize = {
         width: 96,
@@ -167,6 +167,7 @@ const Terrain = (() => {
         tileRecyler.recycleAll();
         subTileRecyler.recycleAll();
         gridRecycler.recycleAll();
+        highlightRecycler.recycleAll();
 
         const world = model.data.world;
 
@@ -245,6 +246,39 @@ const Terrain = (() => {
                 }
             }
         }
+
+        if (model.data.player.focus) {
+            var highlight = highlightRecycler.get();
+            var focus = model.data.player.focus;
+            var fx = Math.round(focus.x / tileInfo.width);
+            var fy = Math.round(focus.y / tileInfo.height);
+
+            // Select correct area for this tile
+            wax = Math.floor(fx / areaSize.width);
+            way = Math.floor(fy / areaSize.height);
+
+            // Calculate relative position within area
+            arx = (areaSize.width + (fx % areaSize.width)) % areaSize.width;
+            ary = (areaSize.height + (fy % areaSize.height)) % areaSize.height;
+            ark = ary * areaSize.width + arx;
+
+            localAreaModel = lookupLocalAreaModel(world, wax, way);
+            camera.highlightedTile = {
+                fx,
+                fy,
+                arx,
+                ary,
+                wax,
+                way,
+                symbol: localAreaModel.groundTileTextureCache[ark]
+            };
+
+            highlight.x = Math.floor(fx / 2) * 2 * tileInfo.width;
+            highlight.y = Math.floor(fy / 2) * 2 * tileInfo.height;
+
+            terrainContainer.addChild(highlight);
+        }
+
         if (error.length > 0) {
             throw error;
         }
@@ -355,6 +389,20 @@ const Terrain = (() => {
             var g = new Graphics();
             g.lineStyle(1, 0x777777, 0.7);
             g.drawRect(0, 0, tileInfo.width, tileInfo.height);
+            return g;
+        }, (g) => {
+            if (g.parent) g.parent.removeChild(g);
+            /* Commented out for optimization
+            g.x = 0;
+            g.y = 0;
+            g.scale.x = g.scale.y = 1;
+            */
+        });
+
+        highlightRecycler = Recycler.create(() => {
+            var g = new Graphics();
+            g.lineStyle(3, 0xFFFFFF, 0.4);
+            g.drawRect(0, 0, tileInfo.width * 2, tileInfo.height * 2);
             return g;
         }, (g) => {
             if (g.parent) g.parent.removeChild(g);

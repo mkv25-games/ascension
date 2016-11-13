@@ -5,7 +5,7 @@ const CameraUI = (() => {
 
         var textbox = new Text(
             'Camera Position', {
-                font: "16px sans-serif",
+                font: "18px sans-serif",
                 fill: "white"
             }
         );
@@ -22,9 +22,11 @@ const CameraUI = (() => {
 
     function update(textbox, camera) {
         const NL = '\n';
+        var ht = camera.highlightedTile || {};
         textbox.text = `Camera Position: ${camera.x},${camera.y}, Scale: ${camera.scale.x}` + NL +
-            `View Area: ${camera.viewArea.x},${camera.viewArea.y} Width: ${camera.viewArea.width}, Height: ${camera.viewArea.height}` + NL +
-            `Build Time:  ${BuildTime}, Package Version: ${PackageVersion}`;
+            `View Area: ${Math.round(camera.viewArea.x)},${Math.round(camera.viewArea.y)} Width: ${camera.viewArea.width}, Height: ${camera.viewArea.height}` + NL +
+            `Build Time:  ${BuildTime}, Package Version: ${PackageVersion}` + NL +
+            `Highlighted Tile: ${ht.symbol} : AR ${ht.arx}, ${ht.ary} WA ${ht.wax}, ${ht.way}, FX ${ht.fx}, ${ht.fy}`;
     }
 
     return {

@@ -58,6 +58,9 @@ const Avatar = (() => {
         model.position.vy = avatar.vy;
         model.position.running = avatar.running;
         model.position.direction = avatar.direction;
+
+        model.focus.x = model.position.x;
+        model.focus.y = model.position.y;
     }
 
     function move(avatar, model) {

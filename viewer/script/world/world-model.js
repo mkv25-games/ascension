@@ -25,7 +25,11 @@ const WorldModel = (() => {
                 },
                 clothing: [
                     'scientist'
-                ]
+                ],
+                focus: {
+                    x: 0,
+                    y: 0
+                }
             },
             world: {
                 name: 'Boundless',
