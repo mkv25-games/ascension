@@ -72,8 +72,8 @@ const WorldModel = (() => {
     const InterpolationModes = {
         OFF: 0,
         ON: 1,
-        BASE_ONLY: 2,
-        SURFACE_ONLY: 3
+        SURFACE_ONLY: 2,
+        BASE_ONLY: 3
     };
 
     return {
