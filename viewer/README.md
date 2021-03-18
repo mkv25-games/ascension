@@ -25,4 +25,4 @@ Commands to use while developing:
 
 ## Image Processing
 
-The image assets are packed using [TexturePackerGUI](www.codeandweb.com/texturepacker) - this creates a texture atlas described by a JSON file that PIXI.js can decode.
+The image assets are packed using [TexturePackerGUI](https://www.codeandweb.com/texturepacker) - this creates a texture atlas described by a JSON file that PIXI.js can decode.
