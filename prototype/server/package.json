@@ -4,10 +4,10 @@
   "description": "Ascension Game Server",
   "main": "start.js",
   "scripts": {
-      "start": "node start.js",
-      "monitor": "nodemon start.js",
-      "deploy": "gcloud app deploy"
-    },
+    "start": "node start.js",
+    "monitor": "nodemon start.js",
+    "deploy": "gcloud app deploy"
+  },
   "keywords": [
     "ascension",
     "server"
