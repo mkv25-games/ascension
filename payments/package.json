@@ -1,0 +1,18 @@
+{
+  "name": "ascension-payments",
+  "version": "1.0.0",
+  "description": "Infrastructure and UI related to promoting and selling things",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard --env mocha && npm run test:unit",
+    "test:unit": "mocha --recursive tests/unit/**/*test.js",
+    "lint": "standard --fix --env mocha "
+  },
+  "author": "mkv25-games",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2",
+    "standard": "^16.0.3"
+  }
+}
