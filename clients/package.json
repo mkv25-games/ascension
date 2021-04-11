@@ -8,14 +8,24 @@
     "start": "vuepress dev docs",
     "test": "standard --env mocha && npm run test:unit",
     "test:unit": "mocha --recursive tests/unit/**/*test.js",
-    "lint": "standard --fix --env mocha "
+    "lint": "standard --fix --env mocha ",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "author": "mkv25-games",
   "license": "UNLICENSED",
   "devDependencies": {
+    "@babel/core": "^7.13.15",
+    "@storybook/addon-actions": "^6.2.7",
+    "@storybook/addon-essentials": "^6.2.7",
+    "@storybook/addon-links": "^6.2.7",
+    "@storybook/vue": "^6.2.7",
+    "babel-loader": "^8.2.2",
     "chai": "^4.3.4",
     "mocha": "^8.3.2",
     "standard": "^16.0.3",
+    "vue-loader": "^15.9.6",
     "vuepress": "^1.8.2"
-  }
+  },
+  "dependencies": {}
 }
