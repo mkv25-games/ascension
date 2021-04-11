@@ -25,4 +25,4 @@ jobs:
         TARGET_REPO: mkv25-games/ascension
         TARGET_BRANCH: gh-pages
         BUILD_SCRIPT: cd clients && yarn && yarn build
-        BUILD_DIR: clients/docs/.vuepress/dist/
+        BUILD_DIR: docs/.vuepress/dist/
