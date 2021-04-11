@@ -1,5 +1,5 @@
 {
-  "name": "ascension-clients",
+  "name": "ascension-server",
   "version": "1.0.0",
   "description": "Static HTML/JS applications for stand-alone sections of the Ascension website",
   "main": "index.js",
