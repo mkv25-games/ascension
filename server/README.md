@@ -1,17 +1,10 @@
-# Ascension Clients
+# Ascension Server
 
-Static HTML/JS applications for stand-alone sections of the Ascension website:
+Infrastructure and game code hosted on a shared server:
 
-- Title Screen
-- Login Screen
-- Player Selection
-- Player Editor
-- World Selection
-- World Forge
-- Game Viewer
-- Map Overlays
-
-## Shared Models
-
-- Local Storage
-- Persistence API
+- World Database(s)
+- Game Update Lambda
+- Websocket API
+- Game Action Lambdas
+- Cognito Authorisation
+- User Account Database
