@@ -1,0 +1,23 @@
+name: Build and Deploy Clients
+on: 
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'clients/**'
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: vuepress-deploy
+      uses: jenkey2011/vuepress-deploy@master
+      env:
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        TARGET_REPO: connected-web/boardgames-browser
+        TARGET_BRANCH: gh-pages
+        BUILD_SCRIPT: yarn && yarn build
+        BUILD_DIR: docs/.vuepress/dist/
