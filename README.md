@@ -23,7 +23,12 @@ Static HTML/JS applications for stand-alone sections such as:
 
 ### Payments
 
-Code related to Store Options, Payment Auth, Payment Confirmation, Payment Gateway, and Payment History.
+Code related to promoting and selling things:
+- Store Options
+- Payment Auth
+- Payment Confirmation
+- Payment Gateway
+- Payment History
 
 ### Prototype
 
