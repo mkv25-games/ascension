@@ -1,0 +1,11 @@
+{
+  "name": "clients",
+  "version": "1.0.0",
+  "description": "Static HTML/JS applications for stand-alone sections of the Ascension website",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard"
+  },
+  "author": "mkv25-games",
+  "license": "UNLICENSED"
+}

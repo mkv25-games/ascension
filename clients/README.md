@@ -1,6 +1,6 @@
 # Ascension Clients
 
-Static HTML/JS applications for stand-alone sections:
+Static HTML/JS applications for stand-alone sections of the Ascension website:
 
 - Title Screen
 - Login Screen
