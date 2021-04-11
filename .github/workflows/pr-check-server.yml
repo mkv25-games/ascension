@@ -1,4 +1,4 @@
-name: Check PR for Clients
+name: Check PR for Server
 on: 
   pull_request:
     branches:
