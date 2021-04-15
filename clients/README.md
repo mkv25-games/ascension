@@ -36,21 +36,21 @@ To view the web clients, start vuepress running locally using:
 npm start
 ```
 
-## Storybook
+### Storybook
 
 To develop components, start storybook running locally using:
 ```
 npm run storybook
 ```
 
-## Linting
+### Linting
 
 To lint files in the project, run:
 ```
 npm run lint
 ```
 
-## Testing
+### Testing
 
 To lint and test files, run:
 ```
