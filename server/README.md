@@ -16,7 +16,7 @@ Follow this guide...
 
 ## Development
 
-For set up locally, clone the parent repo, and change into the `clients` folder, then run:
+For set up locally, clone the parent repo, and change into the `server` folder, then run:
 ```
 npm install
 ```
