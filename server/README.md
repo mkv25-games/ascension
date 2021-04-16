@@ -53,7 +53,7 @@ npm run invoke functionName
 
 ## Releasing
 
-Deployments will eventually be triggered automatically by merging to `main/master` using the `deploy-server.yml` workflow.
+Deployments will eventually be triggered automatically by merging to `main` or `master` using the `deploy-server.yml` workflow.
 
 The workflow is:
 - Build and Test
