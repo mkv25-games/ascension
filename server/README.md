@@ -52,4 +52,4 @@ The workflow is:
 - Build and Test
 - Deploy to Production
 
-The plan is to use AWS for hosting; and all server development will be done through CDK scripts to create serverless infrastructure.
+The plan is to use AWS for hosting; and all server development will be done through serverless and CDK scripts to create serverless infrastructure.
