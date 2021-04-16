@@ -48,7 +48,7 @@ Javascript files and helper methods should be tested by adding unit tests to `te
 
 Deployments will eventually be triggered automatically by merging to `main/master` using the `deploy-server.yml` workflow.
 
-The current flow is:
+The workflow is:
 - Build and Test
 - Deploy to Production
 
