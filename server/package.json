@@ -4,15 +4,24 @@
   "description": "Infrastructure and game code hosted on a shared server",
   "main": "index.js",
   "scripts": {
-    "test": "standard --env mocha && npm run test:unit",
+    "test": "standard --env mocha && npm run test:unit && npm run test:serverless",
     "test:unit": "mocha --recursive tests/unit/**/*test.js",
+    "test:serverless": "serverless-bundle test",
     "lint": "standard --fix --env mocha "
   },
   "author": "mkv25-games",
   "license": "UNLICENSED",
   "devDependencies": {
+    "aws-sdk": "^2.888.0",
     "chai": "^4.3.4",
     "mocha": "^8.3.2",
+    "serverless": "^2.35.0",
+    "serverless-bundle": "^4.2.3",
+    "serverless-dotenv-plugin": "^3.9.0",
+    "serverless-offline": "^6.9.0",
     "standard": "^16.0.3"
+  },
+  "dependencies": {
+    "uuid": "^8.3.2"
   }
 }
