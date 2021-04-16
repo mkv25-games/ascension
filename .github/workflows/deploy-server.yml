@@ -1,0 +1,55 @@
+name: Build and Deploy Server
+on: 
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - 'clients/**'
+  
+jobs:
+
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: server
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Use Node JS LTS
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14.x
+
+    - name: Install npm dependencies
+      run: npm install
+
+    - name: Run build steps
+      run: npm build -s
+
+    - name: Run default tests
+      run: npm test -s
+
+  deploy-to-production:
+    name: Deploy to Production
+    if: github.event.ref == 'refs/heads/main' || github.event.ref == 'refs/heads/master'
+    needs: [build-and-test]
+
+    runs-on: ubuntu-latest
+    environment:
+        name: Production
+    defaults:
+      run:
+        shell: bash
+        working-directory: server
+
+    steps:
+      - name: Deploy
+      - run: npm run deploy:production 
+      
+    
