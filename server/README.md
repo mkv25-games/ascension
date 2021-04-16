@@ -44,6 +44,13 @@ npm run lint -s && npm test -s
 
 Javascript files and helper methods should be tested by adding unit tests to `tests/unit`.
 
+### Local Invoke
+
+To involve a local function - which is a test of the build process, use:
+```
+npm run invoke functionName
+```
+
 ## Releasing
 
 Deployments will eventually be triggered automatically by merging to `main/master` using the `deploy-server.yml` workflow.
