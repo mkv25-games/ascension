@@ -46,8 +46,10 @@ Javascript files and helper methods should be tested by adding unit tests to `te
 
 ## Releasing
 
-Deployments will eventually be triggered automatically by merging to `main/master`.
+Deployments will eventually be triggered automatically by merging to `main/master` using the `deploy-server.yml` workflow.
 
-Environments will also be created so that changes can be promoted from dev/qa to production.
+The current flow is:
+- Build and Test
+- Deploy to Production
 
 The plan is to use AWS for hosting; and all server development will be done through CDK scripts to create serverless infrastructure.

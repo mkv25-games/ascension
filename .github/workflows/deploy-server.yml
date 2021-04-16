@@ -5,7 +5,7 @@ on:
       - main
       - master
     paths:
-      - 'clients/**'
+      - 'server/**'
   
 jobs:
 
