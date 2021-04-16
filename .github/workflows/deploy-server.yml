@@ -50,6 +50,6 @@ jobs:
 
     steps:
       - name: Deploy
-      - run: npm run deploy:production 
+        run: npm run deploy:production 
       
     

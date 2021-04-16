@@ -46,7 +46,7 @@ Javascript files and helper methods should be tested by adding unit tests to `te
 
 ## Releasing
 
-Deployments will eventually be triggered automatically by merging to main/master.
+Deployments will eventually be triggered automatically by merging to `main/master`.
 
 Environments will also be created so that changes can be promoted from dev/qa to production.
 
